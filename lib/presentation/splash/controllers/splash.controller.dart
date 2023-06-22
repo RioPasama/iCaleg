@@ -1,11 +1,16 @@
 import 'package:get/get.dart';
+import 'package:icaleg/app/controllers/utils_controller.dart';
+import 'package:icaleg/infrastructure/navigation/routes.dart';
 
 class SplashController extends GetxController {
-  //TODO: Implement SplashController
+  UtilsController utilsController = Get.put(UtilsController());
 
-  final count = 0.obs;
   @override
-  void onInit() {
+  void onInit() async {
+    await utilsController.checkConnection();
+    Future.delayed(const Duration(seconds: 4), () {
+      Get.offAllNamed(Routes.LOGIN);
+    });
     super.onInit();
   }
 
@@ -18,6 +23,4 @@ class SplashController extends GetxController {
   void onClose() {
     super.onClose();
   }
-
-  void increment() => count.value++;
 }
