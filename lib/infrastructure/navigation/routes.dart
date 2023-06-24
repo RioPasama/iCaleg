@@ -3,8 +3,10 @@ class Routes {
     return SPLASH;
   }
 
+  static const FORGET_PASSWORD = '/forget-password';
   static const HOME = '/home';
+  static const LOGIN = '/login';
   static const MAIN = '/main';
   static const SPLASH = '/splash';
-  static const LOGIN = '/login';
+  static const REGISTRY = '/registry';
 }

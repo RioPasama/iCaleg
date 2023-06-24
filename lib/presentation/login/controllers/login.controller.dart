@@ -1,11 +1,22 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:icaleg/app/controllers/text_input_validator_controller.dart';
 
 class LoginController extends GetxController {
-  //TODO: Implement LoginController
+  final TextInputValidatorController textInputValidatorController =
+      Get.put(TextInputValidatorController());
 
-  final count = 0.obs;
+  late TextEditingController emailTextEditingController;
+  late TextEditingController passwordTextEditingController;
+
+  final formKey = GlobalKey<FormState>();
+
+  RxBool showPassowrd = false.obs;
+
   @override
   void onInit() {
+    emailTextEditingController = TextEditingController();
+    passwordTextEditingController = TextEditingController();
     super.onInit();
   }
 
@@ -16,8 +27,8 @@ class LoginController extends GetxController {
 
   @override
   void onClose() {
+    emailTextEditingController.dispose();
+    passwordTextEditingController.dispose();
     super.onClose();
   }
-
-  void increment() => count.value++;
 }

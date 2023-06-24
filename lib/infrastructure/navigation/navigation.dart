@@ -46,5 +46,15 @@ class Nav {
       page: () => const LoginScreen(),
       binding: LoginControllerBinding(),
     ),
+    GetPage(
+      name: Routes.FORGET_PASSWORD,
+      page: () => const ForgetPasswordScreen(),
+      binding: ForgetPasswordControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.REGISTRY,
+      page: () => const RegistryScreen(),
+      binding: RegistryControllerBinding(),
+    ),
   ];
 }

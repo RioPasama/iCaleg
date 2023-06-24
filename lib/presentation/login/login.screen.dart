@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
+import 'package:icaleg/gen/assets.gen.dart';
 import 'package:icaleg/infrastructure/theme/theme_utils.dart';
-
+import 'package:icaleg/presentation/login/views/login_from_view.dart';
 import 'controllers/login.controller.dart';
 
 class LoginScreen extends GetView<LoginController> {
@@ -10,63 +12,48 @@ class LoginScreen extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
-      child: ListView(
+      body: ListView(
         children: [
-          Container(
-            height: 100,
-            margin: const EdgeInsets.fromLTRB(40, 50, 40, 20),
-            color: colorGray,
+          SizedBox(
+            height: Get.height - 30,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  height: 100,
+                  margin: const EdgeInsets.fromLTRB(40, 50, 40, 20),
+                  child: Row(
+                    children: [
+                      Image.asset(Assets.images.logoIcaleg.path),
+                      SvgPicture.asset(Assets.images.logoText)
+                    ],
+                  ),
+                ),
+                LoginFromView(),
+                SizedBox(
+                  child: Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      SvgPicture.asset(
+                        Assets.images.footer1,
+                        width: Get.width,
+                        colorFilter: ColorFilter.mode(
+                            colorPrimary.withOpacity(0.8), BlendMode.srcIn),
+                      ),
+                      SvgPicture.asset(
+                        Assets.images.footer2,
+                        width: Get.width,
+                        colorFilter: ColorFilter.mode(
+                            colorPrimary.withOpacity(0.8), BlendMode.srcIn),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-            margin: const EdgeInsets.symmetric(horizontal: 24),
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(27),
-                boxShadow: [boxShadow]),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(
-                'Selamat Datang!',
-                style: TextStyle(fontSize: 18),
-              ),
-              SizedBox(height: 6),
-              Text('Silahkan masuk terlebih dahulu'),
-              Align(
-                alignment: Alignment.bottomRight,
-                child:
-                    TextButton(onPressed: () {}, child: Text('Lupa Password')),
-              ),
-              SizedBox(
-                  width: Get.width,
-                  child:
-                      ElevatedButton(onPressed: () {}, child: Text('Masuk'))),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: Get.width / 2 - (64),
-                    child: Divider(thickness: 1),
-                  ),
-                  Text(
-                    ' atau ',
-                    style: TextStyle(fontSize: 12),
-                  ),
-                  SizedBox(
-                    width: Get.width / 2 - (64),
-                    child: Divider(thickness: 1),
-                  ),
-                ],
-              ),
-              SizedBox(
-                  width: Get.width,
-                  child:
-                      ElevatedButton(onPressed: () {}, child: Text('Daftar')))
-            ]),
-          )
         ],
       ),
-    ));
+    );
   }
 }
