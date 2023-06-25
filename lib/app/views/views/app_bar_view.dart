@@ -27,14 +27,18 @@ appBarDefault({required String title, bool leadign = false}) {
                           color: colorBackgroundBack,
                           borderRadius: const BorderRadius.horizontal(
                               right: Radius.circular(50))),
-                      child: SvgPicture.asset(Assets.images.backBotton)),
+                      child: SvgPicture.asset(Assets.icons.backBotton)),
                 ),
-                Text(
-                  title.toUpperCase(),
-                  style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
+                SizedBox(
+                  width: Get.width - 66,
+                  child: Text(
+                    title.toUpperCase(),
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 )
               ],
             ),

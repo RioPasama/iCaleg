@@ -10,13 +10,15 @@ ThemeData themeData() {
       isDense: true,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       hintStyle: TextStyle(color: colorTextGray),
+      labelStyle: TextStyle(fontSize: 14, color: Colors.grey.shade600),
+      fillColor: Colors.white70,
       border: OutlineInputBorder(
         borderRadius: borderRadiusTheme,
         borderSide: const BorderSide(),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: borderRadiusTheme,
-        borderSide: const BorderSide(),
+        borderSide: BorderSide(color: colorPrimary),
       ),
     ),
     dialogTheme: DialogTheme(

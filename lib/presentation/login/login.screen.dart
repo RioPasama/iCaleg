@@ -11,6 +11,8 @@ class LoginScreen extends GetView<LoginController> {
   const LoginScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    Get.put(LoginController());
+
     return Scaffold(
       body: ListView(
         children: [

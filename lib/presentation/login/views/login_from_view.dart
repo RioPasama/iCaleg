@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:icaleg/app/views/views/utils_view.dart';
 import 'package:icaleg/infrastructure/navigation/routes.dart';
 import 'package:icaleg/infrastructure/theme/theme_utils.dart';
 import 'package:icaleg/presentation/login/controllers/login.controller.dart';
@@ -33,7 +34,7 @@ class LoginFromView extends GetView {
           key: controller.formKey,
           child: Column(
             children: [
-              _textFromFiled(
+              textFromFiled(
                 controller: controller.emailTextEditingController,
                 labelText: 'E-mail',
                 prefixIcon: Icon(
@@ -45,7 +46,7 @@ class LoginFromView extends GetView {
               ),
               const SizedBox(height: 20),
               Obx(
-                () => _textFromFiled(
+                () => textFromFiled(
                   controller: controller.passwordTextEditingController,
                   textInputAction: TextInputAction.go,
                   obscureText: !controller.showPassowrd.value,
@@ -99,42 +100,9 @@ class LoginFromView extends GetView {
         SizedBox(
             width: Get.width,
             child: OutlinedButton(
-                onPressed: () => Get.toNamed(Routes.REGISTRY),
+                onPressed: () => Get.toNamed(Routes.PRIVACY_POLICY),
                 child: const Text('Daftar')))
       ]),
-    );
-  }
-
-  TextFormField _textFromFiled({
-    required TextEditingController controller,
-    required String labelText,
-    required Icon prefixIcon,
-    TextInputAction textInputAction = TextInputAction.next,
-    bool obscureText = false,
-    Widget? suffixIcon,
-    required Function(String?) validator,
-  }) {
-    return TextFormField(
-      controller: controller,
-      keyboardType: TextInputType.emailAddress,
-      obscureText: obscureText,
-      textInputAction: textInputAction,
-      decoration: InputDecoration(
-        prefixIcon: prefixIcon,
-        suffixIcon: suffixIcon,
-        fillColor: Colors.white70,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(),
-        ),
-        labelText: labelText,
-        labelStyle: TextStyle(fontSize: 14, color: Colors.grey.shade600),
-      ),
-      validator: (value) => validator(value),
     );
   }
 }

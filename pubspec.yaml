@@ -17,6 +17,7 @@ dependencies:
   connectivity_plus: ^4.0.1
   ionicons: ^0.2.2
   flutter_svg: ^2.0.7
+  image_picker: ^0.8.9
 
 dev_dependencies: 
   flutter_gen_runner: ^5.3.1

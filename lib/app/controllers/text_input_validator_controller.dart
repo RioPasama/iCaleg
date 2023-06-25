@@ -17,6 +17,10 @@ class TextInputValidatorController extends GetxController {
     return (val!.length >= 3) ? null : 'Silakan masukkan nama lengkap';
   }
 
+  String? validatorNIK(String? val) {
+    return (val!.length >= 16) ? null : 'NIK kurang lengkap';
+  }
+
   String? validatorNumberPhone(String? val) {
     return (GetUtils.isPhoneNumber(val!))
         ? null
@@ -29,6 +33,10 @@ class TextInputValidatorController extends GetxController {
     }
 
     return (GetUtils.isEmail(val)) ? null : 'Email Anda tidak valid';
+  }
+
+  String? validatorAddress(String? val) {
+    return (val != null) ? null : 'Alamat belum di isi';
   }
 
   String? validatorConfirmationPassword(

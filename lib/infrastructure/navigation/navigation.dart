@@ -56,5 +56,10 @@ class Nav {
       page: () => const RegistryScreen(),
       binding: RegistryControllerBinding(),
     ),
+    GetPage(
+      name: Routes.PRIVACY_POLICY,
+      page: () => const PrivacyPolicyScreen(),
+      binding: PrivacyPolicyControllerBinding(),
+    ),
   ];
 }

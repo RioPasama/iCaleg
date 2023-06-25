@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 TextFormField textFromFiled({
   TextEditingController? controller,
-  Icon? prefixIcon,
+  Widget? prefixIcon,
   String? hintText,
+  String? labelText,
+  int? maxLines = 1,
   TextInputType? keyboardType,
   TextInputAction textInputAction = TextInputAction.next,
   bool obscureText = false,
@@ -15,19 +17,13 @@ TextFormField textFromFiled({
     keyboardType: keyboardType,
     obscureText: obscureText,
     textInputAction: textInputAction,
+    maxLines: maxLines,
+    textCapitalization: TextCapitalization.none,
     decoration: InputDecoration(
       prefixIcon: prefixIcon,
       suffixIcon: suffixIcon,
       hintText: hintText,
-      fillColor: Colors.white70,
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
-        borderSide: const BorderSide(),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
-        borderSide: const BorderSide(),
-      ),
+      labelText: labelText,
     ),
     validator: (value) => (validator != null) ? validator(value) : null,
   );

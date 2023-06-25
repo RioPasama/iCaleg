@@ -9,11 +9,24 @@
 
 import 'package:flutter/widgets.dart';
 
+class $AssetsIconsGen {
+  const $AssetsIconsGen();
+
+  /// File path: assets/icons/Back Botton.svg
+  String get backBotton => 'assets/icons/Back Botton.svg';
+
+  /// File path: assets/icons/Button Photo Indeti.svg
+  String get buttonPhotoIndeti => 'assets/icons/Button Photo Indeti.svg';
+
+  /// File path: assets/icons/Button Photo Preson.svg
+  String get buttonPhotoPreson => 'assets/icons/Button Photo Preson.svg';
+
+  /// List of all assets
+  List<String> get values => [backBotton, buttonPhotoIndeti, buttonPhotoPreson];
+}
+
 class $AssetsImagesGen {
   const $AssetsImagesGen();
-
-  /// File path: assets/images/Back Botton.svg
-  String get backBotton => 'assets/images/Back Botton.svg';
 
   /// File path: assets/images/Footer1.svg
   String get footer1 => 'assets/images/Footer1.svg';
@@ -29,13 +42,13 @@ class $AssetsImagesGen {
       const AssetGenImage('assets/images/logo icaleg.png');
 
   /// List of all assets
-  List<dynamic> get values =>
-      [backBotton, footer1, footer2, logoText, logoIcaleg];
+  List<dynamic> get values => [footer1, footer2, logoText, logoIcaleg];
 }
 
 class Assets {
   Assets._();
 
+  static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
 }
 
