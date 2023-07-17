@@ -10,7 +10,7 @@ TextFormField textFromFiled({
   TextInputAction textInputAction = TextInputAction.next,
   bool obscureText = false,
   Widget? suffixIcon,
-  Function(String?)? validator,
+  String? Function(String?)? validator,
 }) {
   return TextFormField(
     controller: controller,
@@ -25,6 +25,6 @@ TextFormField textFromFiled({
       hintText: hintText,
       labelText: labelText,
     ),
-    validator: (value) => (validator != null) ? validator(value) : null,
+    validator: validator,
   );
 }

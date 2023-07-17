@@ -42,4 +42,47 @@ class MainService {
 
     return result;
   }
+
+  Future<dynamic> postMultipartRequestAPI(
+      {required String url,
+      Map<String, dynamic>? fields,
+      required List<http.MultipartFile> files,
+      http.Client? client}) async {
+    String apiHttp = urlRedirect + url;
+    client ??= http.Client();
+
+    Get.dialog(loadingDefault(), barrierDismissible: false);
+
+    try {
+      var request = http.MultipartRequest('POST', Uri.parse(apiHttp));
+
+      // Menambahkan fields ke dalam permintaan multipart
+      fields?.forEach((key, value) {
+        request.fields[key] = value.toString();
+      });
+
+// Menambahkan files ke dalam permintaan multipart
+      for (http.MultipartFile file in files) {
+        request.files.add(file);
+      }
+
+      // Mengirim permintaan multipart
+      final streamedResponse = await request.send();
+      final response = await http.Response.fromStream(streamedResponse);
+
+      log('Url: ${request.url}\nBody\n$request\n${response.body}');
+
+      final result = jsonDecode(response.body);
+
+      if (!(result['code'] == 200)) {
+        throw '';
+      }
+
+      Get.back();
+      return result;
+    } catch (e) {
+      Get.back();
+      rethrow;
+    }
+  }
 }

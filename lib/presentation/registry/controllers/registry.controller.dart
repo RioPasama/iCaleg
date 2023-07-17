@@ -1,19 +1,49 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icaleg/app/controllers/text_input_validator_controller.dart';
+import 'package:icaleg/app/controllers/utils_controller.dart';
+import 'package:icaleg/app/data/models/address_model.dart';
+import 'package:icaleg/app/data/models/dapil_model.dart';
+import 'package:icaleg/app/data/models/level_model.dart';
+import 'package:icaleg/app/data/models/partai_model.dart';
+import 'package:icaleg/app/data/services/address_service.dart';
+import 'package:icaleg/app/data/services/pemilu_service.dart';
+import 'package:icaleg/app/data/services/user_service.dart';
+import 'package:icaleg/app/views/views/dialog_view.dart';
+import 'package:icaleg/app/views/views/loading_view.dart';
 import 'package:image_picker/image_picker.dart';
 
 class RegistryController extends GetxController {
+  final UtilsController utilsController = Get.put(UtilsController());
+
   final TextInputValidatorController textInputValidatorController =
       Get.put(TextInputValidatorController());
 
   final ImagePicker _picker = ImagePicker();
+  final formkey = GlobalKey<FormState>();
 
   late TextEditingController fullNameTextEditingController;
   late TextEditingController nikTextEditingController;
   late TextEditingController numberPhoneTextEditingController;
   late TextEditingController emailTextEditingController;
   late TextEditingController addressTextEditingController;
+
+  RxList<AddressModel> addressProvince = RxList<AddressModel>();
+  RxList<AddressModel> addressRegency = RxList<AddressModel>();
+  RxList<AddressModel> addressDistrict = RxList<AddressModel>();
+  RxList<AddressModel> addressVillage = RxList<AddressModel>();
+  RxList<DapilModel> dapilModel = RxList<DapilModel>();
+  RxList<PartaiModel> partaiModel = RxList<PartaiModel>();
+  RxList<LevelModel> levelModel = RxList<LevelModel>();
+  Rxn<AddressModel> selectProvince = Rxn<AddressModel>();
+  Rxn<AddressModel> selectRegency = Rxn<AddressModel>();
+  Rxn<AddressModel> selectDistrict = Rxn<AddressModel>();
+  Rxn<AddressModel> selectVillage = Rxn<AddressModel>();
+  Rxn<DapilModel> selectDapil = Rxn<DapilModel>();
+  Rxn<PartaiModel> selectPartai = Rxn<PartaiModel>();
+  Rxn<LevelModel> selectLevel = Rxn<LevelModel>();
 
   RxString? pathPhoto = ''.obs;
   RxString? pathIdenti = ''.obs;
@@ -31,7 +61,8 @@ class RegistryController extends GetxController {
   }
 
   @override
-  void onReady() {
+  void onReady() async {
+    await fetchData();
     super.onReady();
   }
 
@@ -45,17 +76,98 @@ class RegistryController extends GetxController {
     super.onClose();
   }
 
+  Future<List<AddressModel>> fetchAddress(
+      {required String urlPath, String? id}) async {
+    List<AddressModel> result =
+        await AddressService.getAddress(urlPath: urlPath, id: id);
+    return result;
+  }
+
+  Future<void> fetchData() async {
+    Get.dialog(loadingDefault(), barrierDismissible: false);
+    partaiModel.value = await PemiluService.getPartai();
+    dapilModel.value = await PemiluService.getDapil();
+    levelModel.value = await PemiluService.getLevel();
+    addressProvince.value = await fetchAddress(urlPath: 'province');
+    Get.back();
+  }
+
+  Future<void> onChangedDropdownAddress(AddressModel? val,
+      {required String tag}) async {
+    switch (tag) {
+      case 'province':
+        selectProvince.value = val;
+        selectRegency.value = null;
+        selectDistrict.value = null;
+        selectVillage.value = null;
+        addressDistrict.value = [];
+        addressVillage.value = [];
+        addressRegency.value = [];
+        addressRegency.value =
+            await fetchAddress(urlPath: 'regency', id: val?.id);
+        break;
+      case 'regency':
+        selectRegency.value = val;
+        selectDistrict.value = null;
+        selectVillage.value = null;
+        addressVillage.value = [];
+        addressDistrict.value = [];
+        addressDistrict.value =
+            await fetchAddress(urlPath: 'district', id: val?.id);
+        break;
+      case 'district':
+        selectDistrict.value = val;
+        selectVillage.value = null;
+        addressVillage.value = [];
+        addressVillage.value =
+            await fetchAddress(urlPath: 'village', id: val?.id);
+        break;
+      case 'village':
+        selectVillage.value = val;
+      default:
+        Get.dialog(dialogView(
+          title: 'Error wilaya',
+          content: 'Wilaya belum di buat',
+          onTapOke: () => Get.back(),
+        ));
+    }
+  }
+
   Future<void> getPhoto({required ImageSource source}) async {
-    var image = await _picker.pickImage(source: source);
+    var image = await _picker.pickImage(source: source, imageQuality: 0);
     pathPhoto!.value = image!.path;
     photo = image;
     Get.back();
   }
 
   Future<void> getIdenti({required ImageSource source}) async {
-    var image = await _picker.pickImage(source: source);
+    var image = await _picker.pickImage(source: source, imageQuality: 0);
     pathIdenti!.value = image!.path;
     identi = image;
     Get.back();
+  }
+
+  void onTapRegistry() {
+    if (!formkey.currentState!.validate() || photo == null || identi == null) {
+      return;
+    }
+
+    UserService.postRegister(
+      emial: emailTextEditingController.text,
+      password: '',
+      name: fullNameTextEditingController.text,
+      nik: nikTextEditingController.text,
+      phone: numberPhoneTextEditingController.text,
+      fkProvince: selectProvince.value!.id,
+      fkRegency: selectRegency.value!.id,
+      fkDistrict: selectDistrict.value!.id,
+      fkVillage: selectVillage.value!.id,
+      address: addressTextEditingController.text,
+      levelPemilihan: selectLevel.value!.id,
+      fkDapil: selectDapil.value!.id,
+      fkPartai: selectPartai.value!.id,
+      photoIdentity: File(identi!.path),
+      photoKTP: File(photo!.path),
+    );
   }
 }

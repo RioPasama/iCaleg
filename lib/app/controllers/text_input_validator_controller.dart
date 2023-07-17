@@ -35,8 +35,13 @@ class TextInputValidatorController extends GetxController {
     return (GetUtils.isEmail(val)) ? null : 'Email Anda tidak valid';
   }
 
-  String? validatorAddress(String? val) {
-    return (val != null) ? null : 'Alamat belum di isi';
+  String? validatorNotNull(Object? val) {
+    if (val == null) {
+      return 'Isi Data terlebih dahulu';
+    } else if (val is String && (val.isEmpty || val.trim().isEmpty)) {
+      return 'Isi Data terlebih dahulu';
+    }
+    return null;
   }
 
   String? validatorConfirmationPassword(
