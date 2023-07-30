@@ -13,6 +13,7 @@ import 'package:icaleg/app/data/services/pemilu_service.dart';
 import 'package:icaleg/app/data/services/user_service.dart';
 import 'package:icaleg/app/views/views/dialog_view.dart';
 import 'package:icaleg/app/views/views/loading_view.dart';
+import 'package:icaleg/infrastructure/navigation/routes.dart';
 import 'package:image_picker/image_picker.dart';
 
 class RegistryController extends GetxController {
@@ -29,7 +30,18 @@ class RegistryController extends GetxController {
   late TextEditingController numberPhoneTextEditingController;
   late TextEditingController emailTextEditingController;
   late TextEditingController addressTextEditingController;
+  late TextEditingController kataSandiTextEditingController;
+  late TextEditingController konformasiKataSandiTextEditingController;
 
+  RxList<String> gender = ['Laki - Laki', 'Perempuan'].obs;
+  RxList<String> religion = [
+    'Islam',
+    'Kristen Protestan',
+    'Kristen Katolik',
+    'Hindu',
+    'Buddha',
+    'Khonghucu'
+  ].obs;
   RxList<AddressModel> addressProvince = RxList<AddressModel>();
   RxList<AddressModel> addressRegency = RxList<AddressModel>();
   RxList<AddressModel> addressDistrict = RxList<AddressModel>();
@@ -44,11 +56,17 @@ class RegistryController extends GetxController {
   Rxn<DapilModel> selectDapil = Rxn<DapilModel>();
   Rxn<PartaiModel> selectPartai = Rxn<PartaiModel>();
   Rxn<LevelModel> selectLevel = Rxn<LevelModel>();
+  RxString selectReligion = ''.obs;
+  RxString selectGender = ''.obs;
 
   RxString? pathPhoto = ''.obs;
   RxString? pathIdenti = ''.obs;
+
   XFile? photo;
   XFile? identi;
+
+  RxBool obscureKataSandi = true.obs;
+  RxBool obscureKonfirmasiKataSandi = true.obs;
 
   @override
   void onInit() {
@@ -57,6 +75,8 @@ class RegistryController extends GetxController {
     numberPhoneTextEditingController = TextEditingController();
     emailTextEditingController = TextEditingController();
     addressTextEditingController = TextEditingController();
+    kataSandiTextEditingController = TextEditingController();
+    konformasiKataSandiTextEditingController = TextEditingController();
     super.onInit();
   }
 
@@ -73,7 +93,21 @@ class RegistryController extends GetxController {
     numberPhoneTextEditingController.dispose();
     emailTextEditingController.dispose();
     addressTextEditingController.dispose();
+    kataSandiTextEditingController.dispose();
+    konformasiKataSandiTextEditingController.dispose();
     super.onClose();
+  }
+
+  Future<List<DapilModel>> fetchDapil({required LevelModel? levelModel}) async {
+    Get.dialog(loadingDefault(), barrierDismissible: false);
+    selectLevel.value = levelModel;
+    selectDapil.value = null;
+    dapilModel.value = [];
+    List<DapilModel> result =
+        await PemiluService.getDapil(status: levelModel?.status ?? '');
+    dapilModel.value = result;
+    Get.back();
+    return result;
   }
 
   Future<List<AddressModel>> fetchAddress(
@@ -86,7 +120,6 @@ class RegistryController extends GetxController {
   Future<void> fetchData() async {
     Get.dialog(loadingDefault(), barrierDismissible: false);
     partaiModel.value = await PemiluService.getPartai();
-    dapilModel.value = await PemiluService.getDapil();
     levelModel.value = await PemiluService.getLevel();
     addressProvince.value = await fetchAddress(urlPath: 'province');
     Get.back();
@@ -94,6 +127,7 @@ class RegistryController extends GetxController {
 
   Future<void> onChangedDropdownAddress(AddressModel? val,
       {required String tag}) async {
+    Get.dialog(loadingDefault(), barrierDismissible: false);
     switch (tag) {
       case 'province':
         selectProvince.value = val;
@@ -131,30 +165,31 @@ class RegistryController extends GetxController {
           onTapOke: () => Get.back(),
         ));
     }
+    Get.back();
   }
 
   Future<void> getPhoto({required ImageSource source}) async {
     var image = await _picker.pickImage(source: source, imageQuality: 0);
-    pathPhoto!.value = image!.path;
+    pathPhoto!.value = image?.path ?? '';
     photo = image;
     Get.back();
   }
 
   Future<void> getIdenti({required ImageSource source}) async {
     var image = await _picker.pickImage(source: source, imageQuality: 0);
-    pathIdenti!.value = image!.path;
+    pathIdenti!.value = image?.path ?? '';
     identi = image;
     Get.back();
   }
 
-  void onTapRegistry() {
+  Future<void> onTapRegistry() async {
     if (!formkey.currentState!.validate() || photo == null || identi == null) {
       return;
     }
 
-    UserService.postRegister(
+    int code = await UserService.postRegister(
       emial: emailTextEditingController.text,
-      password: '',
+      password: konformasiKataSandiTextEditingController.text,
       name: fullNameTextEditingController.text,
       nik: nikTextEditingController.text,
       phone: numberPhoneTextEditingController.text,
@@ -163,11 +198,19 @@ class RegistryController extends GetxController {
       fkDistrict: selectDistrict.value!.id,
       fkVillage: selectVillage.value!.id,
       address: addressTextEditingController.text,
-      levelPemilihan: selectLevel.value!.id,
+      levelPemilihan: selectLevel.value!.status,
+      userStatus: 1,
+      gender: selectReligion.value,
+      religion: selectGender.value,
       fkDapil: selectDapil.value!.id,
       fkPartai: selectPartai.value!.id,
       photoIdentity: File(identi!.path),
       photoKTP: File(photo!.path),
     );
+
+    if (code == 200) {
+      Get.toNamed(Routes.REGISTRY_VERIFICATION,
+          arguments: emailTextEditingController.text);
+    }
   }
 }

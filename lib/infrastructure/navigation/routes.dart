@@ -7,7 +7,8 @@ class Routes {
   static const HOME = '/home';
   static const LOGIN = '/login';
   static const MAIN = '/main';
+  static const PRIVACY_POLICY = '/privacy-policy';
   static const REGISTRY = '/registry';
   static const SPLASH = '/splash';
-  static const PRIVACY_POLICY = '/privacy-policy';
+  static const REGISTRY_VERIFICATION = '/registry-verification';
 }

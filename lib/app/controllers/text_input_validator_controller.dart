@@ -22,6 +22,11 @@ class TextInputValidatorController extends GetxController {
   }
 
   String? validatorNumberPhone(String? val) {
+    // Periksa apakah nomor telepon dimulai dengan +62
+    if (val!.startsWith('+62')) {
+      return 'Nomor telepon harus dimulai dengan +62';
+    }
+
     return (GetUtils.isPhoneNumber(val!))
         ? null
         : 'Periksa kembali nomor telepon Anda';
@@ -46,7 +51,7 @@ class TextInputValidatorController extends GetxController {
 
   String? validatorConfirmationPassword(
       {String? val, required String passwordTextEditingController}) {
-    return (val == passwordTextEditingController)
+    return (val == passwordTextEditingController && val != null)
         ? null
         : 'Password Anda tidak sama';
   }

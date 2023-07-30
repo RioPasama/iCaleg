@@ -36,6 +36,7 @@ class RegistryScreen extends GetView<RegistryController> {
                   _textLabel(label: 'Nama Lengkap', subLabel: '* Wajib di isi'),
                   textFromFiled(
                     controller: controller.fullNameTextEditingController,
+                    keyboardType: TextInputType.emailAddress,
                     hintText: 'Isi Nama Lengkap',
                     validator: (val) => controller.textInputValidatorController
                         .validatorFullName(val),
@@ -43,6 +44,7 @@ class RegistryScreen extends GetView<RegistryController> {
                   _textLabel(label: 'NIK', subLabel: '* Wajib di isi'),
                   textFromFiled(
                     controller: controller.nikTextEditingController,
+                    keyboardType: TextInputType.datetime,
                     hintText: 'Isi NIK',
                     validator: (val) => controller.textInputValidatorController
                         .validatorNIK(val),
@@ -52,7 +54,7 @@ class RegistryScreen extends GetView<RegistryController> {
                   textFromFiled(
                     controller: controller.numberPhoneTextEditingController,
                     hintText: ' Isi No. Telpon (WA)',
-                    keyboardType: TextInputType.phone,
+                    keyboardType: TextInputType.datetime,
                     prefixIcon: Container(
                         width: 24,
                         decoration: const BoxDecoration(
@@ -63,12 +65,59 @@ class RegistryScreen extends GetView<RegistryController> {
                     validator: (val) => controller.textInputValidatorController
                         .validatorNumberPhone(val),
                   ),
+                  _textLabel(
+                      label: 'Jenis Kelamin', subLabel: '* Wajib di isi'),
+                  _dropdownGender(data: controller.gender),
+                  _textLabel(label: 'Agama', subLabel: '* Wajib di isi'),
+                  _dropdownReligion(data: controller.religion),
                   _textLabel(label: 'Email', subLabel: '* Wajib di isi'),
                   textFromFiled(
                     controller: controller.emailTextEditingController,
                     hintText: 'Isi Email',
+                    keyboardType: TextInputType.emailAddress,
                     validator: (val) => controller.textInputValidatorController
                         .validatorIdentifier(val),
+                  ),
+                  _textLabel(label: 'Kata Sandi', subLabel: '* Wajib di isi'),
+                  Obx(
+                    () => textFromFiled(
+                      controller: controller.kataSandiTextEditingController,
+                      hintText: 'Isi Kata Sandi',
+                      obscureText: controller.obscureKataSandi.value,
+                      suffixIcon: IconButton(
+                          onPressed: () => controller.obscureKataSandi.toggle(),
+                          icon: Icon((controller.obscureKataSandi.value)
+                              ? Ionicons.eye_off_outline
+                              : Ionicons.eye_outline)),
+                      validator: (val) => controller
+                          .textInputValidatorController
+                          .validatorNotNull(
+                              controller.kataSandiTextEditingController.text),
+                    ),
+                  ),
+                  _textLabel(
+                      label: 'Konfirmasi Kata Sandi',
+                      subLabel: '* Wajib di isi'),
+                  Obx(
+                    () => textFromFiled(
+                      controller:
+                          controller.konformasiKataSandiTextEditingController,
+                      hintText: 'Isi Konfirmasi Kata Sandi',
+                      obscureText: controller.obscureKonfirmasiKataSandi.value,
+                      suffixIcon: IconButton(
+                          onPressed: () =>
+                              controller.obscureKonfirmasiKataSandi.toggle(),
+                          icon: Icon(
+                              (controller.obscureKonfirmasiKataSandi.value)
+                                  ? Ionicons.eye_off_outline
+                                  : Ionicons.eye_outline)),
+                      validator: (val) => controller
+                          .textInputValidatorController
+                          .validatorConfirmationPassword(
+                              val: val,
+                              passwordTextEditingController: controller
+                                  .kataSandiTextEditingController.text),
+                    ),
                   ),
                   _textLabel(label: 'Provinsi', subLabel: '* Wajib di isi'),
                   _dropdownAddress(
@@ -82,28 +131,27 @@ class RegistryScreen extends GetView<RegistryController> {
                     select: controller.selectRegency,
                     data: controller.addressRegency,
                   ),
-                  _textLabel(label: 'Kabupaten', subLabel: '* Wajib di isi'),
+                  _textLabel(label: 'Kecamatan', subLabel: '* Wajib di isi'),
                   _dropdownAddress(
                     tag: 'district',
                     select: controller.selectDistrict,
                     data: controller.addressDistrict,
                   ),
-                  _textLabel(label: 'Kecamatan', subLabel: '* Wajib di isi'),
+                  _textLabel(label: 'Kelurahan', subLabel: '* Wajib di isi'),
                   _dropdownAddress(
                     tag: 'village',
                     select: controller.selectVillage,
                     data: controller.addressVillage,
                   ),
-                  _textLabel(label: 'Kelurahan', subLabel: '* Wajib di isi'),
                   _textLabel(
                       label: 'Level Pemilihan', subLabel: '* Wajib di isi'),
                   _dropdownLevel(
-                    select: controller.selectLevel.value,
+                    select: controller.selectLevel,
                     data: controller.levelModel,
                   ),
                   _textLabel(label: 'DAPIL', subLabel: '* Wajib di isi'),
                   _dropdownDapil(
-                    select: controller.selectDapil.value,
+                    select: controller.selectDapil,
                     data: controller.dapilModel,
                   ),
                   _textLabel(
@@ -160,6 +208,50 @@ class RegistryScreen extends GetView<RegistryController> {
     );
   }
 
+  DropdownButtonHideUnderline _dropdownReligion({required List<String> data}) {
+    return DropdownButtonHideUnderline(
+        child: Obx(
+      () => DropdownButtonFormField(
+        borderRadius: borderRadius,
+        items: data
+            .map(
+              (val) => DropdownMenuItem(
+                value: val,
+                child: Text(val),
+              ),
+            )
+            .toList(),
+        onChanged: (String? val) =>
+            controller.selectReligion.value = val.toString(),
+        isExpanded: true,
+        validator: (val) =>
+            controller.textInputValidatorController.validatorNotNull(val),
+      ),
+    ));
+  }
+
+  DropdownButtonHideUnderline _dropdownGender({required List<String> data}) {
+    return DropdownButtonHideUnderline(
+        child: Obx(
+      () => DropdownButtonFormField(
+        borderRadius: borderRadius,
+        items: data
+            .map(
+              (val) => DropdownMenuItem(
+                value: val,
+                child: Text(val),
+              ),
+            )
+            .toList(),
+        onChanged: (String? val) =>
+            controller.selectGender.value = val.toString(),
+        isExpanded: true,
+        validator: (val) =>
+            controller.textInputValidatorController.validatorNotNull(val),
+      ),
+    ));
+  }
+
   DropdownButtonHideUnderline _dropdownAddress(
       {Rxn<AddressModel>? select,
       required RxList<AddressModel> data,
@@ -187,12 +279,12 @@ class RegistryScreen extends GetView<RegistryController> {
   }
 
   DropdownButtonHideUnderline _dropdownDapil(
-      {DapilModel? select, required RxList<DapilModel> data}) {
+      {Rxn<DapilModel>? select, required RxList<DapilModel> data}) {
     return DropdownButtonHideUnderline(
         child: Obx(
       () => DropdownButtonFormField<DapilModel>(
         borderRadius: borderRadius,
-        value: select,
+        value: select?.value,
         items: data
             .map(
               (val) => DropdownMenuItem<DapilModel>(
@@ -201,7 +293,7 @@ class RegistryScreen extends GetView<RegistryController> {
               ),
             )
             .toList(),
-        onChanged: (DapilModel? val) => controller.selectDapil,
+        onChanged: (DapilModel? val) => controller.selectDapil.value = val,
         isExpanded: true,
         validator: (val) =>
             controller.textInputValidatorController.validatorNotNull(val),
@@ -210,12 +302,12 @@ class RegistryScreen extends GetView<RegistryController> {
   }
 
   DropdownButtonHideUnderline _dropdownLevel(
-      {LevelModel? select, required RxList<LevelModel> data}) {
+      {Rxn<LevelModel>? select, required RxList<LevelModel> data}) {
     return DropdownButtonHideUnderline(
         child: Obx(
       () => DropdownButtonFormField<LevelModel>(
         borderRadius: borderRadius,
-        value: select,
+        value: select?.value,
         items: data
             .map(
               (val) => DropdownMenuItem<LevelModel>(
@@ -224,7 +316,7 @@ class RegistryScreen extends GetView<RegistryController> {
               ),
             )
             .toList(),
-        onChanged: (LevelModel? val) => controller.selectDapil,
+        onChanged: (LevelModel? val) => controller.fetchDapil(levelModel: val),
         isExpanded: true,
         validator: (val) =>
             controller.textInputValidatorController.validatorNotNull(val),
@@ -258,7 +350,7 @@ class RegistryScreen extends GetView<RegistryController> {
               ),
             )
             .toList(),
-        onChanged: (PartaiModel? val) => controller.selectDapil,
+        onChanged: (PartaiModel? val) => controller.selectPartai.value = val,
         isExpanded: true,
         validator: (val) =>
             controller.textInputValidatorController.validatorNotNull(val),

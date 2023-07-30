@@ -4,4 +4,5 @@ export 'package:icaleg/infrastructure/navigation/bindings/controllers/login.cont
 export 'package:icaleg/infrastructure/navigation/bindings/controllers/main.controller.binding.dart'; 
 export 'package:icaleg/infrastructure/navigation/bindings/controllers/privacy_policy.controller.binding.dart'; 
 export 'package:icaleg/infrastructure/navigation/bindings/controllers/registry.controller.binding.dart'; 
+export 'package:icaleg/infrastructure/navigation/bindings/controllers/registry_verification.controller.binding.dart'; 
 export 'package:icaleg/infrastructure/navigation/bindings/controllers/splash.controller.binding.dart'; 

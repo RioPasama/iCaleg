@@ -61,5 +61,10 @@ class Nav {
       page: () => const PrivacyPolicyScreen(),
       binding: PrivacyPolicyControllerBinding(),
     ),
+    GetPage(
+      name: Routes.REGISTRY_VERIFICATION,
+      page: () => const RegistryVerificationScreen(),
+      binding: RegistryVerificationControllerBinding(),
+    ),
   ];
 }

@@ -18,8 +18,10 @@ class PemiluService {
         .map((e) => PartaiModel.fromJson(e)));
   }
 
-  static Future<List<DapilModel>> getDapil() async {
-    final result = await MainService().getAPI(url: 'partai/dapil');
+  static Future<List<DapilModel>> getDapil({required String status}) async {
+    Map<String, String> body = {'status': status};
+
+    final result = await MainService().getAPI(url: 'partai/dapil', body: body);
 
     return List<DapilModel>.from(((result != null) ? result['data'] : [])
         .map((e) => DapilModel.fromJson(e)));

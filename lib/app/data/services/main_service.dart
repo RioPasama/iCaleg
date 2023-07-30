@@ -70,7 +70,7 @@ class MainService {
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);
 
-      log('Url: ${request.url}\nBody\n$request\n${response.body}');
+      log('Url: ${request.url}\nBody\n${request.fields}\n${request.files[0]} ${request.files[1]}\n${response.body}');
 
       final result = jsonDecode(response.body);
 
