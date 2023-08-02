@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:icaleg/app/data/services/user_service.dart';
+import 'package:icaleg/infrastructure/navigation/routes.dart';
 
 class RegistryVerificationController extends GetxController {
   late TextEditingController otpTextEditingController;
@@ -60,7 +62,15 @@ class RegistryVerificationController extends GetxController {
     if (otpTextEditingController.text.length < 6) {
       return;
     }
+    code.value = await UserService.postVerifikasi(
+        otp: otpTextEditingController.text, email: email);
 
-    ;
+    if (code.value == 200) {
+      Future.delayed(const Duration(seconds: 4), () {
+        Get.offAllNamed(Routes.LOGIN);
+      });
+    }
   }
+
+  Future<void> onTapResendOtp() async {}
 }

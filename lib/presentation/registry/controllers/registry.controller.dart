@@ -192,7 +192,7 @@ class RegistryController extends GetxController {
       password: konformasiKataSandiTextEditingController.text,
       name: fullNameTextEditingController.text,
       nik: nikTextEditingController.text,
-      phone: numberPhoneTextEditingController.text,
+      phone: '+62${numberPhoneTextEditingController.text}',
       fkProvince: selectProvince.value!.id,
       fkRegency: selectRegency.value!.id,
       fkDistrict: selectDistrict.value!.id,

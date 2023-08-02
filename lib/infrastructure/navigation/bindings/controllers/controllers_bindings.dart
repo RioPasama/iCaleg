@@ -3,6 +3,9 @@ export 'package:icaleg/infrastructure/navigation/bindings/controllers/home.contr
 export 'package:icaleg/infrastructure/navigation/bindings/controllers/login.controller.binding.dart'; 
 export 'package:icaleg/infrastructure/navigation/bindings/controllers/main.controller.binding.dart'; 
 export 'package:icaleg/infrastructure/navigation/bindings/controllers/privacy_policy.controller.binding.dart'; 
+export 'package:icaleg/infrastructure/navigation/bindings/controllers/profile.controller.binding.dart'; 
 export 'package:icaleg/infrastructure/navigation/bindings/controllers/registry.controller.binding.dart'; 
 export 'package:icaleg/infrastructure/navigation/bindings/controllers/registry_verification.controller.binding.dart'; 
 export 'package:icaleg/infrastructure/navigation/bindings/controllers/splash.controller.binding.dart'; 
+export 'package:icaleg/infrastructure/navigation/bindings/controllers/statistics.controller.binding.dart'; 
+export 'package:icaleg/infrastructure/navigation/bindings/controllers/support.controller.binding.dart'; 

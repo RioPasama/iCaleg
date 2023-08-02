@@ -21,8 +21,12 @@ class $AssetsIconsGen {
   /// File path: assets/icons/Button Photo Preson.svg
   String get buttonPhotoPreson => 'assets/icons/Button Photo Preson.svg';
 
+  /// File path: assets/icons/Icon Correct.svg
+  String get iconCorrect => 'assets/icons/Icon Correct.svg';
+
   /// List of all assets
-  List<String> get values => [backBotton, buttonPhotoIndeti, buttonPhotoPreson];
+  List<String> get values =>
+      [backBotton, buttonPhotoIndeti, buttonPhotoPreson, iconCorrect];
 }
 
 class $AssetsImagesGen {

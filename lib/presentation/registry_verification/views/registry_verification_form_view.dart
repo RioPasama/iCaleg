@@ -71,8 +71,9 @@ class RegistryVerificationFormView extends GetView {
               width: Get.width,
               child: Obx(
                 () => ElevatedButton(
-                    onPressed:
-                        (controller.setSeconds.value == 0) ? () {} : null,
+                    onPressed: (controller.setSeconds.value == 0)
+                        ? () => controller.onTapResendOtp()
+                        : null,
                     child: const Text('Kirim Ulang OTP')),
               )),
           Obx(

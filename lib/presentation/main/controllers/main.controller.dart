@@ -1,11 +1,14 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MainController extends GetxController {
-  //TODO: Implement MainController
+  late PageController pageControllerMain;
 
-  final count = 0.obs;
+  RxInt selectedIndex = 0.obs;
+
   @override
   void onInit() {
+    pageControllerMain = PageController();
     super.onInit();
   }
 
@@ -16,8 +19,16 @@ class MainController extends GetxController {
 
   @override
   void onClose() {
+    pageControllerMain.dispose();
     super.onClose();
   }
 
-  void increment() => count.value++;
+  void onItemSelectedBottomNavyBar(int index) {
+    selectedIndex.value = index;
+    pageControllerMain.jumpToPage(index);
+  }
+
+  void onPageChangedPageView(int index) {
+    selectedIndex.value = index;
+  }
 }

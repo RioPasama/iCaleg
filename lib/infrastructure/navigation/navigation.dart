@@ -66,5 +66,20 @@ class Nav {
       page: () => const RegistryVerificationScreen(),
       binding: RegistryVerificationControllerBinding(),
     ),
+    GetPage(
+      name: Routes.SUPPORT,
+      page: () => const SupportScreen(),
+      binding: SupportControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.STATISTICS,
+      page: () => const StatisticsScreen(),
+      binding: StatisticsControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.PROFILE,
+      page: () => const ProfileScreen(),
+      binding: ProfileControllerBinding(),
+    ),
   ];
 }

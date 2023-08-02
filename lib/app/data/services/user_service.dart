@@ -1,9 +1,17 @@
 import 'dart:io';
 
+import 'package:icaleg/app/data/models/user_model.dart';
 import 'package:icaleg/app/data/services/main_service.dart';
 import 'package:http/http.dart' as http;
 
 class UserService {
+  static Future<String> postLogin(
+      {required String email, required String password}) async {
+    Map<String, String> body = {'email': email, 'password': password};
+    final result = await MainService().postAPI(url: 'auth/login', body: body);
+    return result['data']['token'];
+  }
+
   static Future<int> postRegister({
     required String emial,
     required String password,
@@ -51,5 +59,20 @@ class UserService {
     );
 
     return result['code'];
+  }
+
+  static Future<int> postVerifikasi(
+      {required String otp, required String email}) async {
+    Map<String, String> body = {'kode': otp, 'email': email};
+    final result =
+        await MainService().postAPI(url: 'auth/verification', body: body);
+
+    return result['code'];
+  }
+
+  static Future<UserModel> getDataUser() async {
+    final result = await MainService().getAPI(url: 'auth/getMe');
+
+    return UserModel.fromJson(result['data']);
   }
 }

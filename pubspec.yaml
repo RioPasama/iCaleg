@@ -19,6 +19,7 @@ dependencies:
   flutter_svg: ^2.0.7
   image_picker: ^0.8.9
   pinput: ^2.3.0
+  bottom_navy_bar: ^6.0.0
 
 dev_dependencies: 
   flutter_gen_runner: ^5.3.1

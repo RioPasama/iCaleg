@@ -37,6 +37,7 @@ class LoginFromView extends GetView {
               textFromFiled(
                 controller: controller.emailTextEditingController,
                 labelText: 'E-mail',
+                keyboardType: TextInputType.emailAddress,
                 prefixIcon: Icon(
                   Ionicons.mail_outline,
                   color: Colors.grey.shade600,
@@ -49,6 +50,7 @@ class LoginFromView extends GetView {
                 () => textFromFiled(
                   controller: controller.passwordTextEditingController,
                   textInputAction: TextInputAction.go,
+                  keyboardType: TextInputType.emailAddress,
                   obscureText: !controller.showPassowrd.value,
                   labelText: 'Password',
                   prefixIcon: Icon(
@@ -78,8 +80,9 @@ class LoginFromView extends GetView {
         ),
         SizedBox(
             width: Get.width,
-            child:
-                ElevatedButton(onPressed: () {}, child: const Text('Masuk'))),
+            child: ElevatedButton(
+                onPressed: () => controller.onTapLogin(),
+                child: const Text('Masuk'))),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

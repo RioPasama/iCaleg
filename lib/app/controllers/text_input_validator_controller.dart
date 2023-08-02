@@ -27,7 +27,7 @@ class TextInputValidatorController extends GetxController {
       return 'Nomor telepon harus dimulai dengan +62';
     }
 
-    return (GetUtils.isPhoneNumber(val!))
+    return (GetUtils.isPhoneNumber(val))
         ? null
         : 'Periksa kembali nomor telepon Anda';
   }

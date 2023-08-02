@@ -35,9 +35,11 @@ class RegistryVerificationScreen
                 ),
               ),
               //
-              (controller.code.value == 0)
-                  ? RegistryVerificationFormView()
-                  : RegistryVerificationDialogView(),
+              Obx(
+                () => (controller.code.value != 200)
+                    ? RegistryVerificationFormView()
+                    : RegistryVerificationDialogView(),
+              ),
               //
               SizedBox(
                 child: Stack(

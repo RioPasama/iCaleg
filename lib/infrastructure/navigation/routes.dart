@@ -9,6 +9,9 @@ class Routes {
   static const MAIN = '/main';
   static const PRIVACY_POLICY = '/privacy-policy';
   static const REGISTRY = '/registry';
-  static const SPLASH = '/splash';
   static const REGISTRY_VERIFICATION = '/registry-verification';
+  static const SPLASH = '/splash';
+  static const STATISTICS = '/statistics';
+  static const SUPPORT = '/support';
+  static const PROFILE = '/profile';
 }

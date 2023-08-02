@@ -1,12 +1,11 @@
 import 'package:get/get.dart';
-import 'package:icaleg/app/controllers/auth_controller.dart';
 
-class HomeController extends GetxController {
-  AuthController authController = Get.put(AuthController());
+class ProfileController extends GetxController {
+  //TODO: Implement ProfileController
 
+  final count = 0.obs;
   @override
   void onInit() {
-    authController.getDataUser();
     super.onInit();
   }
 
@@ -19,4 +18,6 @@ class HomeController extends GetxController {
   void onClose() {
     super.onClose();
   }
+
+  void increment() => count.value++;
 }

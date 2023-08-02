@@ -3,9 +3,13 @@ import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:icaleg/app/controllers/auth_controller.dart';
+import 'package:icaleg/app/views/views/dialog_view.dart';
 import 'package:icaleg/app/views/views/loading_view.dart';
 
 class MainService {
+  AuthController authController = Get.put(AuthController());
+
   String urlAPIMain = 'https://icaleg.windypermadi.com/';
   late String urlRedirect = '${urlAPIMain}icaleg-restapi/api/';
 
@@ -15,13 +19,30 @@ class MainService {
     String apiHttp = urlRedirect + url;
 
     Get.dialog(loadingDefault(), barrierDismissible: false);
+    authController.getDataToken();
 
-    final response = await http.post(Uri.parse(apiHttp), body: body);
+    final response = await http.post(
+      Uri.parse(apiHttp),
+      headers: (authController.isLogin.value)
+          ? {'Authorization': 'Bearer ${authController.token}'}
+          : null,
+      body: body,
+    );
 
     log('Url:$apiHttp\nBody\n$body\n${response.body}');
 
     final result = jsonDecode(response.body);
     Get.back();
+
+    if (result['code'].toString()[0] != '2') {
+      Get.dialog(
+        dialogView(
+          title: 'Terjadi Kesalahan',
+          content: result['message'],
+          onTapOke: () => Get.back(),
+        ),
+      );
+    }
 
     return result;
   }
@@ -33,12 +54,25 @@ class MainService {
     client ??= http.Client();
     String queryString = Uri(queryParameters: body).query;
     String apiHttp = '$urlRedirect$url?$queryString';
-
-    final response = await http.get(Uri.parse(apiHttp));
+    authController.getDataToken();
+    final response = await http.get(Uri.parse(apiHttp),
+        headers: (authController.isLogin.value)
+            ? {'Authorization': 'Bearer ${authController.token}'}
+            : null);
 
     log('Url:$apiHttp\nBody\n$body\n${response.body}');
 
     final result = jsonDecode(response.body);
+
+    if (result['code'].toString()[0] != '2') {
+      Get.dialog(
+        dialogView(
+          title: 'Terjadi Kesalahan',
+          content: result['message'],
+          onTapOke: () => Get.back(),
+        ),
+      );
+    }
 
     return result;
   }
@@ -52,9 +86,14 @@ class MainService {
     client ??= http.Client();
 
     Get.dialog(loadingDefault(), barrierDismissible: false);
-
+    authController.getDataToken();
     try {
       var request = http.MultipartRequest('POST', Uri.parse(apiHttp));
+
+      if (authController.isLogin.value) {
+        // Menambahkan header pada request
+        request.headers['Authorization'] = 'Bearer ${authController.token}';
+      }
 
       // Menambahkan fields ke dalam permintaan multipart
       fields?.forEach((key, value) {
@@ -74,8 +113,14 @@ class MainService {
 
       final result = jsonDecode(response.body);
 
-      if (!(result['code'] == 200)) {
-        throw '';
+      if (result['code'].toString()[0] != '2') {
+        Get.dialog(
+          dialogView(
+            title: 'Terjadi Kesalahan',
+            content: result['message'],
+            onTapOke: () => Get.back(),
+          ),
+        );
       }
 
       Get.back();
