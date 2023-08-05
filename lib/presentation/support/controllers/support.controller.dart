@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:icaleg/app/controllers/auth_controller.dart';
 import 'package:icaleg/app/data/models/voter_dukungan_model.dart';
 import 'package:icaleg/app/data/services/voter_service.dart';
 
 class SupportController extends GetxController {
+  AuthController authController = Get.put(AuthController());
+
   RxList<VoterDukunganModel> voterDukunganModel = RxList<VoterDukunganModel>();
 
   late TextEditingController search;

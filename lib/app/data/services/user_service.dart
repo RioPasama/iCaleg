@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:icaleg/app/data/models/level_model.dart';
 import 'package:icaleg/app/data/models/user_model.dart';
 import 'package:icaleg/app/data/services/main_service.dart';
 import 'package:http/http.dart' as http;
@@ -29,6 +30,7 @@ class UserService {
     required String fkPartai,
     required String religion,
     required String gender,
+    String referalCode = '',
     required File photoIdentity,
     required File photoKTP,
   }) async {
@@ -49,6 +51,7 @@ class UserService {
         'address': address,
         'user_status': userStatus.toString(),
         'level': levelPemilihan,
+        'referal_code': referalCode,
         'fk_dapil': fkDapil,
         'fk_partai': fkPartai
       },
@@ -74,5 +77,12 @@ class UserService {
     final result = await MainService().getAPI(url: 'auth/getMe');
 
     return UserModel.fromJson(result['data']);
+  }
+
+  static Future<List<LevelModel>> getRole() async {
+    final result = await MainService().getAPI(url: 'partai/role');
+
+    return List<LevelModel>.from(((result != null) ? result['data'] : [])
+        .map((e) => LevelModel.fromJson(e)));
   }
 }

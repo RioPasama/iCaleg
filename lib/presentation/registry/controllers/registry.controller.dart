@@ -32,6 +32,7 @@ class RegistryController extends GetxController {
   late TextEditingController addressTextEditingController;
   late TextEditingController kataSandiTextEditingController;
   late TextEditingController konformasiKataSandiTextEditingController;
+  late TextEditingController referalCodeTextEditingController;
 
   RxList<String> gender = ['Laki - Laki', 'Perempuan'].obs;
   RxList<String> religion = [
@@ -49,6 +50,7 @@ class RegistryController extends GetxController {
   RxList<DapilModel> dapilModel = RxList<DapilModel>();
   RxList<PartaiModel> partaiModel = RxList<PartaiModel>();
   RxList<LevelModel> levelModel = RxList<LevelModel>();
+  RxList<LevelModel> roleModel = RxList<LevelModel>();
   Rxn<AddressModel> selectProvince = Rxn<AddressModel>();
   Rxn<AddressModel> selectRegency = Rxn<AddressModel>();
   Rxn<AddressModel> selectDistrict = Rxn<AddressModel>();
@@ -56,6 +58,7 @@ class RegistryController extends GetxController {
   Rxn<DapilModel> selectDapil = Rxn<DapilModel>();
   Rxn<PartaiModel> selectPartai = Rxn<PartaiModel>();
   Rxn<LevelModel> selectLevel = Rxn<LevelModel>();
+  Rxn<LevelModel> selectRole = Rxn<LevelModel>();
   RxString selectReligion = ''.obs;
   RxString selectGender = ''.obs;
 
@@ -77,6 +80,7 @@ class RegistryController extends GetxController {
     addressTextEditingController = TextEditingController();
     kataSandiTextEditingController = TextEditingController();
     konformasiKataSandiTextEditingController = TextEditingController();
+    referalCodeTextEditingController = TextEditingController();
     super.onInit();
   }
 
@@ -95,6 +99,7 @@ class RegistryController extends GetxController {
     addressTextEditingController.dispose();
     kataSandiTextEditingController.dispose();
     konformasiKataSandiTextEditingController.dispose();
+    referalCodeTextEditingController.dispose();
     super.onClose();
   }
 
@@ -121,6 +126,7 @@ class RegistryController extends GetxController {
     Get.dialog(loadingDefault(), barrierDismissible: false);
     partaiModel.value = await PemiluService.getPartai();
     levelModel.value = await PemiluService.getLevel();
+    roleModel.value = await UserService.getRole();
     addressProvince.value = await fetchAddress(urlPath: 'province');
     Get.back();
   }
@@ -199,11 +205,12 @@ class RegistryController extends GetxController {
       fkVillage: selectVillage.value!.id,
       address: addressTextEditingController.text,
       levelPemilihan: selectLevel.value!.status,
-      userStatus: 1,
+      userStatus: int.parse(selectRole.value!.id),
       gender: selectReligion.value,
       religion: selectGender.value,
       fkDapil: selectDapil.value!.id,
       fkPartai: selectPartai.value!.id,
+      referalCode: referalCodeTextEditingController.text,
       photoIdentity: File(identi!.path),
       photoKTP: File(photo!.path),
     );

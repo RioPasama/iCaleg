@@ -109,10 +109,10 @@ class MainService {
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);
 
-      log('Url: ${request.url}\nBody\n${request.fields}\n${request.files[0]} ${request.files[1]}\n${response.body}');
+      log('Url: ${request.url}\nBody\n${request.fields}\n${request.files[0].filename} ${request.files[1].filename}\n${response.body}');
 
       final result = jsonDecode(response.body);
-
+      Get.back();
       if (result['code'].toString()[0] != '2') {
         Get.dialog(
           dialogView(
@@ -123,7 +123,6 @@ class MainService {
         );
       }
 
-      Get.back();
       return result;
     } catch (e) {
       Get.back();

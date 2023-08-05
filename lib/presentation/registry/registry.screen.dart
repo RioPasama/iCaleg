@@ -25,186 +25,193 @@ class RegistryScreen extends GetView<RegistryController> {
 
     return Scaffold(
       appBar: appBarDefault(title: 'FORMULIR REGISTRASI'),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: marginHorizontal),
-          child: Form(
-              key: controller.formkey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _textLabel(label: 'Nama Lengkap', subLabel: '* Wajib di isi'),
-                  textFromFiled(
-                    controller: controller.fullNameTextEditingController,
-                    keyboardType: TextInputType.emailAddress,
-                    hintText: 'Isi Nama Lengkap',
-                    validator: (val) => controller.textInputValidatorController
-                        .validatorFullName(val),
-                  ),
-                  _textLabel(label: 'NIK', subLabel: '* Wajib di isi'),
-                  textFromFiled(
-                    controller: controller.nikTextEditingController,
-                    keyboardType: TextInputType.datetime,
-                    hintText: 'Isi NIK',
-                    validator: (val) => controller.textInputValidatorController
-                        .validatorNIK(val),
-                  ),
-                  _textLabel(
-                      label: 'No. Telpon (WA)', subLabel: '* Wajib di isi'),
-                  textFromFiled(
-                    controller: controller.numberPhoneTextEditingController,
-                    hintText: ' Isi No. Telpon (WA)',
-                    keyboardType: TextInputType.datetime,
-                    prefixIcon: Container(
-                        width: 24,
-                        decoration: const BoxDecoration(
-                            border:
-                                Border(right: BorderSide(color: Colors.grey))),
-                        alignment: Alignment.center,
-                        child: const Text('+62')),
-                    validator: (val) => controller.textInputValidatorController
-                        .validatorNumberPhone(val),
-                  ),
-                  _textLabel(
-                      label: 'Jenis Kelamin', subLabel: '* Wajib di isi'),
-                  _dropdownGender(data: controller.gender),
-                  _textLabel(label: 'Agama', subLabel: '* Wajib di isi'),
-                  _dropdownReligion(data: controller.religion),
-                  _textLabel(label: 'Email', subLabel: '* Wajib di isi'),
-                  textFromFiled(
-                    controller: controller.emailTextEditingController,
-                    hintText: 'Isi Email',
-                    keyboardType: TextInputType.emailAddress,
-                    validator: (val) => controller.textInputValidatorController
-                        .validatorIdentifier(val),
-                  ),
-                  _textLabel(label: 'Kata Sandi', subLabel: '* Wajib di isi'),
-                  Obx(
-                    () => textFromFiled(
-                      controller: controller.kataSandiTextEditingController,
-                      hintText: 'Isi Kata Sandi',
-                      obscureText: controller.obscureKataSandi.value,
-                      suffixIcon: IconButton(
-                          onPressed: () => controller.obscureKataSandi.toggle(),
-                          icon: Icon((controller.obscureKataSandi.value)
-                              ? Ionicons.eye_off_outline
-                              : Ionicons.eye_outline)),
-                      validator: (val) => controller
-                          .textInputValidatorController
-                          .validatorNotNull(
+      body: Form(
+          key: controller.formkey,
+          child: ListView(
+            padding: EdgeInsets.symmetric(horizontal: marginHorizontal),
+            children: [
+              _textLabel(label: 'Nama Lengkap', subLabel: '* Wajib di isi'),
+              textFromFiled(
+                controller: controller.fullNameTextEditingController,
+                keyboardType: TextInputType.emailAddress,
+                hintText: 'Isi Nama Lengkap',
+                validator: (val) => controller.textInputValidatorController
+                    .validatorFullName(val),
+              ),
+              _textLabel(label: 'NIK', subLabel: '* Wajib di isi'),
+              textFromFiled(
+                controller: controller.nikTextEditingController,
+                keyboardType: TextInputType.datetime,
+                hintText: 'Isi NIK',
+                validator: (val) =>
+                    controller.textInputValidatorController.validatorNIK(val),
+              ),
+              _textLabel(label: 'No. Telpon (WA)', subLabel: '* Wajib di isi'),
+              textFromFiled(
+                controller: controller.numberPhoneTextEditingController,
+                hintText: ' Isi No. Telpon (WA)',
+                keyboardType: TextInputType.datetime,
+                prefixIcon: Container(
+                    width: 24,
+                    decoration: const BoxDecoration(
+                        border: Border(right: BorderSide(color: Colors.grey))),
+                    alignment: Alignment.center,
+                    child: const Text('+62')),
+                validator: (val) => controller.textInputValidatorController
+                    .validatorNumberPhone(val),
+              ),
+              _textLabel(label: 'Jenis Kelamin', subLabel: '* Wajib di isi'),
+              _dropdownGender(data: controller.gender),
+              _textLabel(label: 'Agama', subLabel: '* Wajib di isi'),
+              _dropdownReligion(data: controller.religion),
+              _textLabel(label: 'Email', subLabel: '* Wajib di isi'),
+              textFromFiled(
+                controller: controller.emailTextEditingController,
+                hintText: 'Isi Email',
+                keyboardType: TextInputType.emailAddress,
+                validator: (val) => controller.textInputValidatorController
+                    .validatorIdentifier(val),
+              ),
+              _textLabel(label: 'Kata Sandi', subLabel: '* Wajib di isi'),
+              Obx(
+                () => textFromFiled(
+                  controller: controller.kataSandiTextEditingController,
+                  hintText: 'Isi Kata Sandi',
+                  obscureText: controller.obscureKataSandi.value,
+                  suffixIcon: IconButton(
+                      onPressed: () => controller.obscureKataSandi.toggle(),
+                      icon: Icon((controller.obscureKataSandi.value)
+                          ? Ionicons.eye_off_outline
+                          : Ionicons.eye_outline)),
+                  validator: (val) => controller.textInputValidatorController
+                      .validatorNotNull(
+                          controller.kataSandiTextEditingController.text),
+                ),
+              ),
+              _textLabel(
+                  label: 'Konfirmasi Kata Sandi', subLabel: '* Wajib di isi'),
+              Obx(
+                () => textFromFiled(
+                  controller:
+                      controller.konformasiKataSandiTextEditingController,
+                  hintText: 'Isi Konfirmasi Kata Sandi',
+                  obscureText: controller.obscureKonfirmasiKataSandi.value,
+                  suffixIcon: IconButton(
+                      onPressed: () =>
+                          controller.obscureKonfirmasiKataSandi.toggle(),
+                      icon: Icon((controller.obscureKonfirmasiKataSandi.value)
+                          ? Ionicons.eye_off_outline
+                          : Ionicons.eye_outline)),
+                  validator: (val) => controller.textInputValidatorController
+                      .validatorConfirmationPassword(
+                          val: val,
+                          passwordTextEditingController:
                               controller.kataSandiTextEditingController.text),
-                    ),
-                  ),
-                  _textLabel(
-                      label: 'Konfirmasi Kata Sandi',
-                      subLabel: '* Wajib di isi'),
-                  Obx(
-                    () => textFromFiled(
-                      controller:
-                          controller.konformasiKataSandiTextEditingController,
-                      hintText: 'Isi Konfirmasi Kata Sandi',
-                      obscureText: controller.obscureKonfirmasiKataSandi.value,
-                      suffixIcon: IconButton(
-                          onPressed: () =>
-                              controller.obscureKonfirmasiKataSandi.toggle(),
-                          icon: Icon(
-                              (controller.obscureKonfirmasiKataSandi.value)
-                                  ? Ionicons.eye_off_outline
-                                  : Ionicons.eye_outline)),
-                      validator: (val) => controller
-                          .textInputValidatorController
-                          .validatorConfirmationPassword(
-                              val: val,
-                              passwordTextEditingController: controller
-                                  .kataSandiTextEditingController.text),
-                    ),
-                  ),
-                  _textLabel(label: 'Provinsi', subLabel: '* Wajib di isi'),
-                  _dropdownAddress(
-                    tag: 'province',
-                    select: controller.selectProvince,
-                    data: controller.addressProvince,
-                  ),
-                  _textLabel(label: 'Kabupaten', subLabel: '* Wajib di isi'),
-                  _dropdownAddress(
-                    tag: 'regency',
-                    select: controller.selectRegency,
-                    data: controller.addressRegency,
-                  ),
-                  _textLabel(label: 'Kecamatan', subLabel: '* Wajib di isi'),
-                  _dropdownAddress(
-                    tag: 'district',
-                    select: controller.selectDistrict,
-                    data: controller.addressDistrict,
-                  ),
-                  _textLabel(label: 'Kelurahan', subLabel: '* Wajib di isi'),
-                  _dropdownAddress(
-                    tag: 'village',
-                    select: controller.selectVillage,
-                    data: controller.addressVillage,
-                  ),
-                  _textLabel(
-                      label: 'Level Pemilihan', subLabel: '* Wajib di isi'),
-                  _dropdownLevel(
-                    select: controller.selectLevel,
-                    data: controller.levelModel,
-                  ),
-                  _textLabel(label: 'DAPIL', subLabel: '* Wajib di isi'),
-                  _dropdownDapil(
-                    select: controller.selectDapil,
-                    data: controller.dapilModel,
-                  ),
-                  _textLabel(
-                      label: 'Partai Politik', subLabel: '* Wajib di isi'),
-                  _dropdownPartai(
-                    select: controller.selectPartai.value,
-                    data: controller.partaiModel,
-                  ),
-                  _textLabel(
-                      label: 'Alamat Lengkapi', subLabel: '* Wajib di isi'),
-                  textFromFiled(
-                    controller: controller.addressTextEditingController,
-                    hintText:
-                        'Isi alamat Lengkap\nJl Seturan, RT 02 RW05 Candi asih, Sleman...',
-                    keyboardType: TextInputType.multiline,
-                    maxLines: null,
-                    validator: (val) => controller.textInputValidatorController
-                        .validatorNotNull(val),
-                  ),
-                  Row(
-                    // alignment: WrapAlignment.spaceEvenly,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                ),
+              ),
+              _textLabel(label: 'Provinsi', subLabel: '* Wajib di isi'),
+              _dropdownAddress(
+                tag: 'province',
+                select: controller.selectProvince,
+                data: controller.addressProvince,
+              ),
+              _textLabel(label: 'Kabupaten', subLabel: '* Wajib di isi'),
+              _dropdownAddress(
+                tag: 'regency',
+                select: controller.selectRegency,
+                data: controller.addressRegency,
+              ),
+              _textLabel(label: 'Kecamatan', subLabel: '* Wajib di isi'),
+              _dropdownAddress(
+                tag: 'district',
+                select: controller.selectDistrict,
+                data: controller.addressDistrict,
+              ),
+              _textLabel(label: 'Kelurahan', subLabel: '* Wajib di isi'),
+              _dropdownAddress(
+                tag: 'village',
+                select: controller.selectVillage,
+                data: controller.addressVillage,
+              ),
+              _textLabel(label: 'Level Pemilihan', subLabel: '* Wajib di isi'),
+              _dropdownLevel(
+                select: controller.selectLevel,
+                data: controller.levelModel,
+              ),
+              _textLabel(label: 'Role Pengguna', subLabel: '* Wajib di isi'),
+              _dropdownRole(
+                select: controller.selectRole,
+                data: controller.roleModel,
+              ),
+              _textLabel(label: 'DAPIL', subLabel: '* Wajib di isi'),
+              _dropdownDapil(
+                select: controller.selectDapil,
+                data: controller.dapilModel,
+              ),
+              _textLabel(label: 'Partai Politik', subLabel: '* Wajib di isi'),
+              _dropdownPartai(
+                select: controller.selectPartai.value,
+                data: controller.partaiModel,
+              ),
+              Obx(
+                () => Visibility(
+                  visible: controller.selectRole.value?.id != '1',
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _buttonPhoto(
-                        label: 'Foto Profile',
-                        icon: Assets.icons.buttonPhotoPreson,
-                        isPhoto: true,
-                        path: controller.pathPhoto,
-                        onTap: () =>
-                            Get.bottomSheet(_bottomSheetPhoto(isPhoto: true)),
+                      _textLabel(
+                          label: 'Kode Referal', subLabel: '* Wajib di isi'),
+                      textFromFiled(
+                        controller: controller.referalCodeTextEditingController,
+                        keyboardType: TextInputType.emailAddress,
+                        hintText: 'Isi Kode Referal',
                       ),
-                      _buttonPhoto(
-                        label: 'Foto Kartu Tanda Penduduk (KTP)',
-                        icon: Assets.icons.buttonPhotoIndeti,
-                        isPhoto: false,
-                        path: controller.pathIdenti,
-                        onTap: () =>
-                            Get.bottomSheet(_bottomSheetPhoto(isPhoto: false)),
-                      )
                     ],
                   ),
-                  const SizedBox(height: 40),
-                  SizedBox(
-                    width: Get.width,
-                    child: ElevatedButton(
-                        onPressed: () => controller.onTapRegistry(),
-                        child: const Text('Daftar')),
+                ),
+              ),
+              _textLabel(label: 'Alamat Lengkapi', subLabel: '* Wajib di isi'),
+              textFromFiled(
+                controller: controller.addressTextEditingController,
+                hintText:
+                    'Isi alamat Lengkap\nJl Seturan, RT 02 RW05 Candi asih, Sleman...',
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
+                validator: (val) => controller.textInputValidatorController
+                    .validatorNotNull(val),
+              ),
+              Row(
+                // alignment: WrapAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buttonPhoto(
+                    label: 'Foto Profile',
+                    icon: Assets.icons.buttonPhotoPreson,
+                    isPhoto: true,
+                    path: controller.pathPhoto,
+                    onTap: () =>
+                        Get.bottomSheet(_bottomSheetPhoto(isPhoto: true)),
+                  ),
+                  _buttonPhoto(
+                    label: 'Foto Kartu Tanda Penduduk (KTP)',
+                    icon: Assets.icons.buttonPhotoIndeti,
+                    isPhoto: false,
+                    path: controller.pathIdenti,
+                    onTap: () =>
+                        Get.bottomSheet(_bottomSheetPhoto(isPhoto: false)),
                   )
                 ],
-              )),
-        ),
-      ),
+              ),
+              const SizedBox(height: 40),
+              SizedBox(
+                width: Get.width,
+                child: ElevatedButton(
+                    onPressed: () => controller.onTapRegistry(),
+                    child: const Text('Daftar')),
+              )
+            ],
+          )),
     );
   }
 
@@ -317,6 +324,29 @@ class RegistryScreen extends GetView<RegistryController> {
             )
             .toList(),
         onChanged: (LevelModel? val) => controller.fetchDapil(levelModel: val),
+        isExpanded: true,
+        validator: (val) =>
+            controller.textInputValidatorController.validatorNotNull(val),
+      ),
+    ));
+  }
+
+  DropdownButtonHideUnderline _dropdownRole(
+      {Rxn<LevelModel>? select, required RxList<LevelModel> data}) {
+    return DropdownButtonHideUnderline(
+        child: Obx(
+      () => DropdownButtonFormField<LevelModel>(
+        borderRadius: borderRadius,
+        value: select?.value,
+        items: data
+            .map(
+              (val) => DropdownMenuItem<LevelModel>(
+                value: val,
+                child: Text(val.name),
+              ),
+            )
+            .toList(),
+        onChanged: (LevelModel? val) => controller.selectRole.value = val,
         isExpanded: true,
         validator: (val) =>
             controller.textInputValidatorController.validatorNotNull(val),

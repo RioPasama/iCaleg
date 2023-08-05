@@ -8,10 +8,11 @@ class Routes {
   static const LOGIN = '/login';
   static const MAIN = '/main';
   static const PRIVACY_POLICY = '/privacy-policy';
+  static const PROFILE = '/profile';
   static const REGISTRY = '/registry';
   static const REGISTRY_VERIFICATION = '/registry-verification';
   static const SPLASH = '/splash';
   static const STATISTICS = '/statistics';
   static const SUPPORT = '/support';
-  static const PROFILE = '/profile';
+  static const SUPPORT_INPUT = '/support-input';
 }

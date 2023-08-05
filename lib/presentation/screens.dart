@@ -9,3 +9,4 @@ export 'package:icaleg/presentation/registry_verification/registry_verification.
 export 'package:icaleg/presentation/splash/splash.screen.dart';
 export 'package:icaleg/presentation/statistics/statistics.screen.dart';
 export 'package:icaleg/presentation/support/support.screen.dart';
+export 'package:icaleg/presentation/support_input/support_input.screen.dart';

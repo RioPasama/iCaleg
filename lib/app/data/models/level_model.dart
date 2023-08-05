@@ -11,7 +11,7 @@ class LevelModel {
 
   factory LevelModel.fromJson(Map<String, dynamic> json) => LevelModel(
         id: json['id'],
-        status: json['status'],
+        status: json['status'] ?? '',
         name: json['name'],
       );
 }

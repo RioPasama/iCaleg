@@ -81,5 +81,10 @@ class Nav {
       page: () => const ProfileScreen(),
       binding: ProfileControllerBinding(),
     ),
+    GetPage(
+      name: Routes.SUPPORT_INPUT,
+      page: () => const SupportInputScreen(),
+      binding: SupportInputControllerBinding(),
+    ),
   ];
 }

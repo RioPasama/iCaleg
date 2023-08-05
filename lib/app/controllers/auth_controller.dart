@@ -39,4 +39,15 @@ class AuthController extends GetxController {
 
     log('isLogin $isLogin');
   }
+
+  void logOut() {
+    clearAllChace();
+    token = null;
+    isLogin.value = false;
+  }
+
+  void clearAllChace() {
+    GetStorage().remove('user');
+    GetStorage().remove('token');
+  }
 }

@@ -49,11 +49,22 @@ class $AssetsImagesGen {
   List<dynamic> get values => [footer1, footer2, logoText, logoIcaleg];
 }
 
+class $AssetsLottieGen {
+  const $AssetsLottieGen();
+
+  /// File path: assets/lottie/empty-state-page.json
+  String get emptyStatePage => 'assets/lottie/empty-state-page.json';
+
+  /// List of all assets
+  List<String> get values => [emptyStatePage];
+}
+
 class Assets {
   Assets._();
 
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const $AssetsLottieGen lottie = $AssetsLottieGen();
 }
 
 class AssetGenImage {

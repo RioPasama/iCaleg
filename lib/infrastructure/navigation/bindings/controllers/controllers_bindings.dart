@@ -9,3 +9,4 @@ export 'package:icaleg/infrastructure/navigation/bindings/controllers/registry_v
 export 'package:icaleg/infrastructure/navigation/bindings/controllers/splash.controller.binding.dart'; 
 export 'package:icaleg/infrastructure/navigation/bindings/controllers/statistics.controller.binding.dart'; 
 export 'package:icaleg/infrastructure/navigation/bindings/controllers/support.controller.binding.dart'; 
+export 'package:icaleg/infrastructure/navigation/bindings/controllers/support_input.controller.binding.dart'; 

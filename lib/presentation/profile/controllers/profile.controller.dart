@@ -1,11 +1,13 @@
 import 'package:get/get.dart';
+import 'package:icaleg/app/controllers/auth_controller.dart';
+import 'package:icaleg/infrastructure/navigation/routes.dart';
 
 class ProfileController extends GetxController {
-  //TODO: Implement ProfileController
+  AuthController authController = Get.put(AuthController());
 
-  final count = 0.obs;
   @override
   void onInit() {
+    authController.getDataUser();
     super.onInit();
   }
 
@@ -19,5 +21,10 @@ class ProfileController extends GetxController {
     super.onClose();
   }
 
-  void increment() => count.value++;
+  void onTapLogout() {
+    authController.logOut();
+    if (authController.isLogin.isFalse) {
+      Get.offAllNamed(Routes.LOGIN);
+    }
+  }
 }
