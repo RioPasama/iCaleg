@@ -47,16 +47,10 @@ Obx dukungan() {
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
                             fontSize: 16),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text('tes'),
-                            Text(
-                              'Waktu survey ${controller.voterDukunganModel[index].survey.toString().toDateTime()}',
-                              style:
-                                  const TextStyle(fontStyle: FontStyle.italic),
-                            ),
-                          ],
+                        subtitle: Text(
+                          'Waktu survey ${controller.voterDukunganModel[index].survey.toString().split(':').first}:${controller.voterDukunganModel[index].survey.toString().split(':')[1]}',
+                          style: const TextStyle(
+                              fontSize: 13, fontStyle: FontStyle.italic),
                         ),
                         isThreeLine: true,
                       );

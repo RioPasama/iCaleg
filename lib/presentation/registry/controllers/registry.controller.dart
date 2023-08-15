@@ -43,6 +43,7 @@ class RegistryController extends GetxController {
     'Buddha',
     'Khonghucu'
   ].obs;
+
   RxList<AddressModel> addressProvince = RxList<AddressModel>();
   RxList<AddressModel> addressRegency = RxList<AddressModel>();
   RxList<AddressModel> addressDistrict = RxList<AddressModel>();

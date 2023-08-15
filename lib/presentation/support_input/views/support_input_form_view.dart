@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
+import 'package:icaleg/app/data/models/address_model.dart';
+import 'package:icaleg/app/data/models/level_model.dart';
 import 'package:icaleg/app/views/views/utils_view.dart';
 import 'package:icaleg/gen/assets.gen.dart';
 import 'package:icaleg/infrastructure/theme/theme_utils.dart';
@@ -46,6 +48,69 @@ class SupportInputFormView extends GetView {
             validator: (val) =>
                 controller.textInputValidatorController.validatorNIK(val),
           ),
+          _textLabel(label: 'No. Telpon (WA)', subLabel: '* Wajib di isi'),
+          textFromFiled(
+            controller: controller.numberPhoneTextEditingController,
+            hintText: ' Isi No. Telpon (WA)',
+            keyboardType: TextInputType.datetime,
+            prefixIcon: Container(
+                width: 24,
+                decoration: const BoxDecoration(
+                    border: Border(right: BorderSide(color: Colors.grey))),
+                alignment: Alignment.center,
+                child: const Text('+62')),
+            validator: (val) => controller.textInputValidatorController
+                .validatorNumberPhone(val),
+          ),
+          _textLabel(label: 'Tempat Lahir', subLabel: '* Wajib di isi'),
+          textFromFiled(
+            controller: controller.tempatLahirTextEditingController,
+            keyboardType: TextInputType.emailAddress,
+            hintText: 'Isi Tempat Lahir',
+            validator: (val) =>
+                controller.textInputValidatorController.validatorNotNull(val),
+          ),
+          _textLabel(label: 'Tanggal Lahir', subLabel: '* Wajib di isi'),
+          textFromFiled(
+            controller: controller.tanggalLahirTextEditingController,
+            keyboardType: TextInputType.emailAddress,
+            hintText: 'Isi Tanggal Lahir',
+            validator: (val) =>
+                controller.textInputValidatorController.validatorNotNull(val),
+          ),
+          _textLabel(label: 'Agama', subLabel: '* Wajib di isi'),
+          _dropdownReligion(
+              data: controller.religion, select: controller.selectReligion),
+          _textLabel(label: 'Status Perkawinan', subLabel: '* Wajib di isi'),
+          _dropdownStatusPerkawinan(data: controller.statusPerkawinan),
+          _textLabel(label: 'Pekerjaan', subLabel: '* Wajib di isi'),
+          _dropdownJob(data: controller.job, select: controller.selectJob),
+          _textLabel(label: 'Jenis Kelamin', subLabel: '* Wajib di isi'),
+          _dropdownGender(data: controller.gender),
+          _textLabel(label: 'Provinsi', subLabel: '* Wajib di isi'),
+          _dropdownAddress(
+            tag: 'province',
+            select: controller.selectProvince,
+            data: controller.addressProvince,
+          ),
+          _textLabel(label: 'Kabupaten', subLabel: '* Wajib di isi'),
+          _dropdownAddress(
+            tag: 'regency',
+            select: controller.selectRegency,
+            data: controller.addressRegency,
+          ),
+          _textLabel(label: 'Kecamatan', subLabel: '* Wajib di isi'),
+          _dropdownAddress(
+            tag: 'district',
+            select: controller.selectDistrict,
+            data: controller.addressDistrict,
+          ),
+          _textLabel(label: 'Kelurahan', subLabel: '* Wajib di isi'),
+          _dropdownAddress(
+            tag: 'village',
+            select: controller.selectVillage,
+            data: controller.addressVillage,
+          ),
           _textLabel(label: 'Alamat Lengkapi', subLabel: '* Wajib di isi'),
           textFromFiled(
             controller: controller.alamatTextEditingController,
@@ -56,9 +121,133 @@ class SupportInputFormView extends GetView {
             validator: (val) =>
                 controller.textInputValidatorController.validatorNotNull(val),
           ),
+          const SizedBox(height: 40),
+          SizedBox(
+            width: Get.width,
+            child: ElevatedButton(
+                onPressed: () => controller.onTapRegistry(),
+                child: const Text('Daftar')),
+          )
         ],
       ),
     );
+  }
+
+  DropdownButtonHideUnderline _dropdownReligion(
+      {Rxn<LevelModel>? select, required RxList<LevelModel> data}) {
+    return DropdownButtonHideUnderline(
+        child: Obx(
+      () => DropdownButtonFormField<LevelModel>(
+        borderRadius: borderRadius,
+        value: select?.value,
+        items: data
+            .map(
+              (val) => DropdownMenuItem<LevelModel>(
+                value: val,
+                child: Text(val.name),
+              ),
+            )
+            .toList(),
+        onChanged: (LevelModel? val) => controller.selectReligion.value = val,
+        isExpanded: true,
+        validator: (val) =>
+            controller.textInputValidatorController.validatorNotNull(val),
+      ),
+    ));
+  }
+
+  DropdownButtonHideUnderline _dropdownJob(
+      {Rxn<LevelModel>? select, required RxList<LevelModel> data}) {
+    return DropdownButtonHideUnderline(
+        child: Obx(
+      () => DropdownButtonFormField<LevelModel>(
+        borderRadius: borderRadius,
+        value: select?.value,
+        items: data
+            .map(
+              (val) => DropdownMenuItem<LevelModel>(
+                value: val,
+                child: Text(val.name),
+              ),
+            )
+            .toList(),
+        onChanged: (LevelModel? val) => controller.selectJob.value = val,
+        isExpanded: true,
+        validator: (val) =>
+            controller.textInputValidatorController.validatorNotNull(val),
+      ),
+    ));
+  }
+
+  DropdownButtonHideUnderline _dropdownAddress(
+      {Rxn<AddressModel>? select,
+      required RxList<AddressModel> data,
+      required String tag}) {
+    return DropdownButtonHideUnderline(
+        child: Obx(
+      () => DropdownButtonFormField(
+        borderRadius: borderRadius,
+        value: select?.value,
+        items: data
+            .map(
+              (val) => DropdownMenuItem(
+                value: val,
+                child: Text(val.name),
+              ),
+            )
+            .toList(),
+        onChanged: (AddressModel? val) =>
+            controller.onChangedDropdownAddress(val, tag: tag),
+        isExpanded: true,
+        validator: (val) =>
+            controller.textInputValidatorController.validatorNotNull(val),
+      ),
+    ));
+  }
+
+  DropdownButtonHideUnderline _dropdownStatusPerkawinan(
+      {required List<String> data}) {
+    return DropdownButtonHideUnderline(
+        child: Obx(
+      () => DropdownButtonFormField(
+        borderRadius: borderRadius,
+        items: data
+            .map(
+              (val) => DropdownMenuItem(
+                value: val,
+                child: Text(val),
+              ),
+            )
+            .toList(),
+        onChanged: (String? val) =>
+            controller.selectStatusPerkawinan.value = val.toString(),
+        isExpanded: true,
+        validator: (val) =>
+            controller.textInputValidatorController.validatorNotNull(val),
+      ),
+    ));
+  }
+
+  DropdownButtonHideUnderline _dropdownGender({required List<String> data}) {
+    return DropdownButtonHideUnderline(
+        child: Obx(
+      () => DropdownButtonFormField(
+        borderRadius: borderRadius,
+        items: data
+            .map(
+              (val) => DropdownMenuItem(
+                value: val,
+                child: Text(val),
+              ),
+            )
+            .toList(),
+        onChanged: (String? val) =>
+            controller.selectGender.value = val.toString(),
+        isExpanded: true,
+        validator: (val) =>
+            controller.textInputValidatorController.validatorNotNull(val),
+      ),
+    ));
   }
 
   Container _bottomSheetPhoto({required bool isPhoto}) {

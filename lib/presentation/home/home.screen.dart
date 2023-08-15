@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
+import 'package:icaleg/app/views/views/loading_view.dart';
 import 'package:icaleg/gen/assets.gen.dart';
 import 'package:icaleg/infrastructure/theme/theme_utils.dart';
+import 'package:ionicons/ionicons.dart';
 
 import 'controllers/home.controller.dart';
 
@@ -19,14 +21,186 @@ class HomeScreen extends GetView<HomeController> {
             _appBar(),
             Padding(
               padding: const EdgeInsets.only(top: 138),
-              child: Column(
-                children: [
-                  _infoUser(),
-                ],
+              child: Obx(
+                () => (controller.isLoading.value)
+                    ? loadingDefault()
+                    : Column(
+                        children: [
+                          _infoUser(),
+                          _statistikPrimary(),
+                          _statistikSecondary()
+                        ],
+                      ),
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  SizedBox _statistikSecondary() {
+    return SizedBox(
+      height: 68,
+      width: Get.width,
+      child: Center(
+        child: ListView(
+          shrinkWrap: true,
+          scrollDirection: Axis.horizontal,
+          children: [
+            _cardStatistikSecondary(
+              lable: 'Alokasi Kursi',
+              value: controller.homeModel.value!.statistik.alokasiKursi,
+            ),
+            _cardStatistikSecondary(
+              lable: 'TPS',
+              value: controller.homeModel.value!.statistik.tps,
+            ),
+            _cardStatistikSecondary(
+              lable: 'DPT Dapil',
+              value: controller.homeModel.value!.statistik.dptDapil,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Container _cardStatistikSecondary(
+      {required String lable, required String value}) {
+    return Container(
+      height: 68,
+      width: 110,
+      margin: const EdgeInsets.symmetric(horizontal: 6),
+      child: Stack(
+        children: [
+          Align(
+            alignment: Alignment.topCenter,
+            child: Container(
+              height: 68,
+              width: 106,
+              decoration: BoxDecoration(
+                  color: colorPrimary,
+                  borderRadius: borderRadius,
+                  boxShadow: [boxShadow]),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              height: 64,
+              width: 110,
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: borderRadius,
+                  boxShadow: [boxShadow]),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    lable,
+                    style: TextStyle(
+                        color: colorTextPrimary,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12),
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      value,
+                      style: TextStyle(
+                          color: colorTextPrimary,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Container _statistikPrimary() {
+    return Container(
+      height: 130,
+      width: Get.width,
+      margin: const EdgeInsets.symmetric(vertical: 16),
+      child: ListView(
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        padding: EdgeInsets.symmetric(horizontal: marginHorizontal),
+        children: [
+          _cardStatistikPrimary(
+            lable: 'Total Dukungan',
+            value: controller.homeModel.value!.statistik.totalDukungan,
+            icon: Ionicons.people_outline,
+            colorData: const Color(0xFF02754C),
+            colorBackground: const Color(0xFFD3F6EA),
+          ),
+          _cardStatistikPrimary(
+            lable: 'Jumlah Relawan',
+            value: controller.homeModel.value!.statistik.totalRelawan,
+            icon: Ionicons.person_add_outline,
+            colorData: const Color(0xFFC39D00),
+            colorBackground: const Color(0xFFFEF6D5),
+          ),
+          _cardStatistikPrimary(
+            lable: 'Target Dukungan',
+            value: controller.homeModel.value!.statistik.targetDukungan,
+            icon: Ionicons.pulse_outline,
+            colorData: const Color(0xFF3598DB),
+            colorBackground: const Color(0xFFDCEFFC),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Container _cardStatistikPrimary({
+    required String lable,
+    required String value,
+    required IconData icon,
+    required Color colorData,
+    required Color colorBackground,
+  }) {
+    return Container(
+      width: 166,
+      margin: const EdgeInsets.symmetric(horizontal: 6),
+      decoration: BoxDecoration(
+        color: colorBackground,
+        borderRadius: borderRadius,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 24, top: 14),
+            child: Text(
+              value,
+              style: TextStyle(
+                  color: colorData, fontSize: 28, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 18),
+            child: Text(
+              lable,
+              style: TextStyle(color: colorData, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 18),
+            child: Icon(
+              icon,
+              size: 34,
+              color: colorData,
+            ),
+          )
+        ],
       ),
     );
   }
@@ -57,7 +231,7 @@ class HomeScreen extends GetView<HomeController> {
               SizedBox(
                 width: Get.width / 2,
                 child: Text(
-                  controller.authController.userModel.name,
+                  controller.homeModel.value!.name,
                   style: const TextStyle(
                       fontWeight: FontWeight.bold, fontSize: 18),
                 ),
@@ -65,7 +239,7 @@ class HomeScreen extends GetView<HomeController> {
               SizedBox(
                 width: Get.width / 2,
                 child: Text(
-                  'CALEG DPRD KABUPATEN MAGELANG',
+                  '${controller.homeModel.value!.level} ${controller.homeModel.value!.daerahPemilihan}',
                   style: TextStyle(
                       color: colorTextPrimary, fontWeight: FontWeight.bold),
                 ),
@@ -73,12 +247,12 @@ class HomeScreen extends GetView<HomeController> {
               const SizedBox(height: 6),
               SizedBox(
                 width: Get.width / 2,
-                child: Text('PARTAI POLITIK'),
+                child: const Text('PARTAI POLITIK'),
               ),
               SizedBox(
                 width: Get.width / 2,
                 child: Text(
-                  'Partai Bahagia Selalu (PBS)',
+                  controller.homeModel.value!.partai,
                   style: TextStyle(
                       color: colorTextPrimary, fontWeight: FontWeight.bold),
                 ),
@@ -86,12 +260,12 @@ class HomeScreen extends GetView<HomeController> {
               const SizedBox(height: 6),
               SizedBox(
                 width: Get.width / 2,
-                child: Text('DAERAH PEMILIHAN'),
+                child: const Text('DAERAH PEMILIHAN'),
               ),
               SizedBox(
                 width: Get.width / 2,
                 child: Text(
-                  'DP MAGELANG 1',
+                  controller.homeModel.value!.daerahPemilihan,
                   style: TextStyle(
                       color: colorTextPrimary, fontWeight: FontWeight.bold),
                 ),

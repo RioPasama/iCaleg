@@ -1,4 +1,4 @@
-package com.example.icaleg
+package com.app.icaleg
 
 import io.flutter.embedding.android.FlutterActivity
 

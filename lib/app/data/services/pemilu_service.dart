@@ -4,6 +4,20 @@ import 'package:icaleg/app/data/models/partai_model.dart';
 import 'package:icaleg/app/data/services/main_service.dart';
 
 class PemiluService {
+  static Future<List<LevelModel>> getJob() async {
+    final result = await MainService().getAPI(url: 'user/job');
+
+    return List<LevelModel>.from(((result != null) ? result['data'] : [])
+        .map((e) => LevelModel.fromJson(e)));
+  }
+
+  static Future<List<LevelModel>> getReligion() async {
+    final result = await MainService().getAPI(url: 'user/religion');
+
+    return List<LevelModel>.from(((result != null) ? result['data'] : [])
+        .map((e) => LevelModel.fromJson(e)));
+  }
+
   static Future<List<LevelModel>> getLevel() async {
     final result = await MainService().getAPI(url: 'partai/level');
 
