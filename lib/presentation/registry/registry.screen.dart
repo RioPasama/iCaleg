@@ -61,9 +61,11 @@ class RegistryScreen extends GetView<RegistryController> {
                     .validatorNumberPhone(val),
               ),
               _textLabel(label: 'Jenis Kelamin', subLabel: '* Wajib di isi'),
-              _dropdownGender(data: controller.gender),
+              _dropdownGender(
+                  data: controller.gender, select: controller.selectGender),
               _textLabel(label: 'Agama', subLabel: '* Wajib di isi'),
-              _dropdownReligion(data: controller.religion),
+              _dropdownReligion(
+                  data: controller.religion, select: controller.selectReligion),
               _textLabel(label: 'Email', subLabel: '* Wajib di isi'),
               textFromFiled(
                 controller: controller.emailTextEditingController,
@@ -215,11 +217,15 @@ class RegistryScreen extends GetView<RegistryController> {
     );
   }
 
-  DropdownButtonHideUnderline _dropdownReligion({required List<String> data}) {
+  DropdownButtonHideUnderline _dropdownReligion({
+    required List<String> data,
+    RxString? select,
+  }) {
     return DropdownButtonHideUnderline(
         child: Obx(
       () => DropdownButtonFormField(
         borderRadius: borderRadius,
+        value: select?.value,
         items: data
             .map(
               (val) => DropdownMenuItem(
@@ -229,7 +235,7 @@ class RegistryScreen extends GetView<RegistryController> {
             )
             .toList(),
         onChanged: (String? val) =>
-            controller.selectReligion.value = val.toString(),
+            controller.selectReligion?.value = val.toString(),
         isExpanded: true,
         validator: (val) =>
             controller.textInputValidatorController.validatorNotNull(val),
@@ -237,11 +243,15 @@ class RegistryScreen extends GetView<RegistryController> {
     ));
   }
 
-  DropdownButtonHideUnderline _dropdownGender({required List<String> data}) {
+  DropdownButtonHideUnderline _dropdownGender({
+    RxString? select,
+    required List<String> data,
+  }) {
     return DropdownButtonHideUnderline(
         child: Obx(
       () => DropdownButtonFormField(
         borderRadius: borderRadius,
+        value: select?.value,
         items: data
             .map(
               (val) => DropdownMenuItem(
@@ -251,7 +261,7 @@ class RegistryScreen extends GetView<RegistryController> {
             )
             .toList(),
         onChanged: (String? val) =>
-            controller.selectGender.value = val.toString(),
+            controller.selectGender?.value = val.toString(),
         isExpanded: true,
         validator: (val) =>
             controller.textInputValidatorController.validatorNotNull(val),

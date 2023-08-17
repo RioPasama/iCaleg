@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icaleg/app/controllers/text_input_validator_controller.dart';
 import 'package:icaleg/app/data/services/address_service.dart';
 import 'package:icaleg/app/data/services/pemilu_service.dart';
+import 'package:icaleg/app/data/services/voter_service.dart';
 import 'package:icaleg/app/views/views/dialog_view.dart';
 import 'package:icaleg/app/views/views/loading_view.dart';
+import 'package:icaleg/infrastructure/navigation/routes.dart';
 // import 'package:icaleg/app/views/views/dialog_view.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:nik_validator/nik_validator.dart';
@@ -21,6 +25,7 @@ class SupportInputController extends GetxController {
   final ImagePicker _picker = ImagePicker();
 
   late TextEditingController fullNameTextEditingController;
+  late TextEditingController emailTextEditingController;
   late TextEditingController nikTextEditingController;
   late TextEditingController tempatLahirTextEditingController;
   late TextEditingController tanggalLahirTextEditingController;
@@ -68,6 +73,7 @@ class SupportInputController extends GetxController {
   void onInit() {
     fullNameTextEditingController = TextEditingController();
     nikTextEditingController = TextEditingController();
+    emailTextEditingController = TextEditingController();
     tempatLahirTextEditingController = TextEditingController();
     tanggalLahirTextEditingController = TextEditingController();
     numberPhoneTextEditingController = TextEditingController();
@@ -84,6 +90,7 @@ class SupportInputController extends GetxController {
   void onClose() {
     fullNameTextEditingController.dispose();
     nikTextEditingController.dispose();
+    emailTextEditingController.dispose();
     tempatLahirTextEditingController.dispose();
     tanggalLahirTextEditingController.dispose();
     numberPhoneTextEditingController.dispose();
@@ -271,6 +278,30 @@ class SupportInputController extends GetxController {
   Future<void> onTapRegistry() async {
     if (!formkey.currentState!.validate() || photo == null || identi == null) {
       return;
+    }
+
+    int code = await VoterService.postVoterDukungan(
+        nik: nikTextEditingController.text,
+        name: fullNameTextEditingController.text,
+        gender: selectGender.value,
+        phone: '+62${numberPhoneTextEditingController.text}',
+        email: emailTextEditingController.text,
+        born: tempatLahirTextEditingController.text,
+        birthday: tanggalLahirTextEditingController.text,
+        fkProvince: selectProvince.value!.id,
+        fkRegency: selectRegency.value!.id,
+        fkDistrict: selectDistrict.value!.id,
+        fkVillage: selectVillage.value!.id,
+        photoIdentity: File(pathIdenti!.value),
+        photoKTP: File(pathPhoto!.value));
+
+    if (code == 200) {
+      dialogView(
+        title: 'Berhasil',
+        content:
+            'Data ${fullNameTextEditingController.text} berhasil di simpan',
+        onTapOke: () => Get.offAllNamed(Routes.MAIN),
+      );
     }
   }
 }

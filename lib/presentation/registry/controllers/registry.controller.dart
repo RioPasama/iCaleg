@@ -60,8 +60,8 @@ class RegistryController extends GetxController {
   Rxn<PartaiModel> selectPartai = Rxn<PartaiModel>();
   Rxn<LevelModel> selectLevel = Rxn<LevelModel>();
   Rxn<LevelModel> selectRole = Rxn<LevelModel>();
-  RxString selectReligion = ''.obs;
-  RxString selectGender = ''.obs;
+  RxString? selectReligion = 'Islam'.obs;
+  RxString? selectGender = 'Laki - Laki'.obs;
 
   RxString? pathPhoto = ''.obs;
   RxString? pathIdenti = ''.obs;
@@ -207,8 +207,8 @@ class RegistryController extends GetxController {
       address: addressTextEditingController.text,
       levelPemilihan: selectLevel.value!.status,
       userStatus: int.parse(selectRole.value!.id),
-      gender: selectReligion.value,
-      religion: selectGender.value,
+      gender: selectReligion!.value,
+      religion: selectGender!.value,
       fkDapil: selectDapil.value!.id,
       fkPartai: selectPartai.value!.id,
       referalCode: referalCodeTextEditingController.text,
