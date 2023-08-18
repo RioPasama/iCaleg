@@ -61,7 +61,7 @@ class SupportInputController extends GetxController {
 
   late String textblock;
 
-  RxList<String> gender = ['Laki - Laki', 'Perempuan'].obs;
+  RxList<String> gender = ['male', 'female'].obs;
   RxList<String> statusPerkawinan = [
     'Belum Kawin',
     'Kawin',
@@ -238,9 +238,11 @@ class SupportInputController extends GetxController {
       debugPrint('something goes wrong $e');
     }
     initValuerKTP(data: res);
+
+    isOpenCam.value = false;
     await initValueKTP();
     await fetchData();
-    isOpenCam.value = false;
+    pathIdenti?.value = res?.imagePath ?? '';
   }
 
   void initValuerKTP({OcrResultModel? data}) {
@@ -265,21 +267,24 @@ class SupportInputController extends GetxController {
     Get.back();
   }
 
-  Future<void> getIdenti({required ImageSource source}) async {
-    var image = await _picker.pickImage(source: source, imageQuality: 80);
-    pathIdenti!.value = image?.path ?? '';
-    identi = image;
+  // Future<void> getIdenti({required ImageSource source}) async {
+  //   var image = await _picker.pickImage(source: source, imageQuality: 80);
+  //   pathIdenti!.value = image?.path ?? '';
+  //   identi = image;
 
-    if (pathIdenti?.value != '') {
-      Get.back();
-    }
-  }
+  //   if (pathIdenti?.value != '') {
+  //     Get.back();
+  //   }
+  // }
 
   Future<void> onTapRegistry() async {
-    if (!formkey.currentState!.validate() || photo == null || identi == null) {
+    if (!formkey.currentState!.validate() ||
+        pathPhoto?.value == null ||
+        pathIdenti?.value == null) {
       return;
     }
-
+    print('test1 ${pathPhoto!.value}');
+    print('test1 ${pathIdenti!.value}');
     int code = await VoterService.postVoterDukungan(
         nik: nikTextEditingController.text,
         name: fullNameTextEditingController.text,
@@ -292,8 +297,11 @@ class SupportInputController extends GetxController {
         fkRegency: selectRegency.value!.id,
         fkDistrict: selectDistrict.value!.id,
         fkVillage: selectVillage.value!.id,
-        photoIdentity: File(pathIdenti!.value),
-        photoKTP: File(pathPhoto!.value));
+        photoIdentity: File(pathPhoto!.value),
+        photoKTP: File(pathIdenti!.value),
+        job: selectJob.value!.name,
+        religion: selectGender.value,
+        statusKawin: '1');
 
     if (code == 200) {
       dialogView(

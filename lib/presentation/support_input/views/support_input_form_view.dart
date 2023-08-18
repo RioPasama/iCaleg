@@ -48,6 +48,14 @@ class SupportInputFormView extends GetView {
             validator: (val) =>
                 controller.textInputValidatorController.validatorNIK(val),
           ),
+          _textLabel(label: 'Email', subLabel: '* Wajib di isi'),
+          textFromFiled(
+            controller: controller.emailTextEditingController,
+            keyboardType: TextInputType.emailAddress,
+            hintText: 'Isi Email',
+            validator: (val) =>
+                controller.textInputValidatorController.validatorFullName(val),
+          ),
           _textLabel(label: 'No. Telpon (WA)', subLabel: '* Wajib di isi'),
           textFromFiled(
             controller: controller.numberPhoneTextEditingController,
@@ -262,14 +270,14 @@ class SupportInputFormView extends GetView {
             title: const Text('Kamera'),
             onTap: () async => (isPhoto)
                 ? controller.getPhoto(source: ImageSource.camera)
-                : controller.getIdenti(source: ImageSource.camera),
+                : null,
           ),
           ListTile(
             leading: const Icon(Ionicons.image_outline),
             title: const Text('Galeri'),
             onTap: () async => (isPhoto)
                 ? controller.getPhoto(source: ImageSource.gallery)
-                : controller.getIdenti(source: ImageSource.gallery),
+                : null,
           ),
         ],
       ),

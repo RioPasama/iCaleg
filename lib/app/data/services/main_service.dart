@@ -108,7 +108,7 @@ class MainService {
       // Mengirim permintaan multipart
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);
-
+      print('test1' + authController.token.toString());
       log('Url: ${request.url}\nBody\n${request.fields}\n${request.files[0].filename} ${request.files[1].filename}\n${response.body}');
 
       final result = jsonDecode(response.body);
