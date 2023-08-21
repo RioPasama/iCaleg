@@ -81,6 +81,8 @@ class SupportInputFormView extends GetView {
           _textLabel(label: 'Tanggal Lahir', subLabel: '* Wajib di isi'),
           textFromFiled(
             controller: controller.tanggalLahirTextEditingController,
+            readOnly: true,
+            onTap: () => controller.showDialogDatePicker(context),
             keyboardType: TextInputType.emailAddress,
             hintText: 'Isi Tanggal Lahir',
             validator: (val) =>
@@ -133,8 +135,8 @@ class SupportInputFormView extends GetView {
           SizedBox(
             width: Get.width,
             child: ElevatedButton(
-                onPressed: () => controller.onTapRegistry(),
-                child: const Text('Daftar')),
+                onPressed: () => controller.onNext(),
+                child: const Text('Cari Koor TPS')),
           )
         ],
       ),

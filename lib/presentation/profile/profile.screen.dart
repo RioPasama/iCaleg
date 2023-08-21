@@ -16,12 +16,12 @@ class ProfileScreen extends GetView<ProfileController> {
         appBar: AppBar(toolbarHeight: 0),
         body: Stack(
           children: [
-            _appBar(),
             (controller.authController.userModel.userStatus == '1')
                 ? profileCaleg()
-                : (controller.authController.userModel.userStatus == '4')
+                : (controller.authController.userModel.userStatus == '6')
                     ? profileSaksi()
-                    : profileKoor()
+                    : profileKoor(),
+            _appBar(),
           ],
         ));
   }

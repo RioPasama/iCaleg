@@ -24,6 +24,8 @@ dependencies:
   # google_ml_kit: ^0.16.2
   nik_validator: ^1.1.2
   mnc_identifier_ocr: ^1.0.20
+  geolocator: ^10.0.0
+  intl: ^0.18.1
   
 
 dev_dependencies: 

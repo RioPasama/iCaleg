@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icaleg/app/controllers/text_input_validator_controller.dart';
+import 'package:icaleg/app/data/models/Koorlap_tps_model.dart';
 import 'package:icaleg/app/data/services/address_service.dart';
 import 'package:icaleg/app/data/services/pemilu_service.dart';
 import 'package:icaleg/app/data/services/voter_service.dart';
@@ -17,6 +18,8 @@ import 'package:mnc_identifier_ocr/model/ocr_result_model.dart';
 import 'dart:async';
 import 'package:icaleg/app/data/models/address_model.dart';
 import 'package:icaleg/app/data/models/level_model.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:intl/intl.dart';
 
 class SupportInputController extends GetxController {
   final TextInputValidatorController textInputValidatorController =
@@ -25,6 +28,7 @@ class SupportInputController extends GetxController {
   final ImagePicker _picker = ImagePicker();
 
   late TextEditingController fullNameTextEditingController;
+  late TextEditingController tpsTextEditingController;
   late TextEditingController emailTextEditingController;
   late TextEditingController nikTextEditingController;
   late TextEditingController tempatLahirTextEditingController;
@@ -32,11 +36,14 @@ class SupportInputController extends GetxController {
   late TextEditingController numberPhoneTextEditingController;
   late TextEditingController alamatTextEditingController;
 
+  late Position position;
+
   RxList<AddressModel> addressProvince = RxList<AddressModel>();
   RxList<AddressModel> addressRegency = RxList<AddressModel>();
   RxList<AddressModel> addressDistrict = RxList<AddressModel>();
   RxList<AddressModel> addressVillage = RxList<AddressModel>();
   RxList<LevelModel> religion = RxList<LevelModel>();
+  RxList<KoorlapTpsModel> koorlapTps = RxList<KoorlapTpsModel>();
   RxList<LevelModel> job = RxList<LevelModel>();
   Rxn<AddressModel> selectProvince = Rxn<AddressModel>();
   Rxn<AddressModel> selectRegency = Rxn<AddressModel>();
@@ -44,12 +51,16 @@ class SupportInputController extends GetxController {
   Rxn<AddressModel> selectVillage = Rxn<AddressModel>();
   Rxn<LevelModel> selectReligion = Rxn<LevelModel>();
   Rxn<LevelModel> selectJob = Rxn<LevelModel>();
-  RxString selectGender = ''.obs;
-  RxString selectStatusPerkawinan = ''.obs;
+  Rxn<KoorlapTpsModel> selectKoorlapTps = Rxn<KoorlapTpsModel>();
+  RxString selectGender = 'Laki - Laki'.obs;
+  RxString selectStatusPerkawinan = 'Belum Kawin'.obs;
 
   late NIKModel dataNIKKTP;
 
+  RxBool isLoaded = false.obs;
+  RxBool isEmty = false.obs;
   RxBool isOpenCam = true.obs;
+  RxBool isInputTPS = false.obs;
   RxString? pathPhoto = ''.obs;
   RxString? pathIdenti = ''.obs;
   XFile? photo;
@@ -61,7 +72,7 @@ class SupportInputController extends GetxController {
 
   late String textblock;
 
-  RxList<String> gender = ['male', 'female'].obs;
+  RxList<String> gender = ['Laki - Laki', 'Perempuan'].obs;
   RxList<String> statusPerkawinan = [
     'Belum Kawin',
     'Kawin',
@@ -71,6 +82,7 @@ class SupportInputController extends GetxController {
 
   @override
   void onInit() {
+    tpsTextEditingController = TextEditingController();
     fullNameTextEditingController = TextEditingController();
     nikTextEditingController = TextEditingController();
     emailTextEditingController = TextEditingController();
@@ -82,12 +94,14 @@ class SupportInputController extends GetxController {
   }
 
   @override
-  void onReady() {
+  void onReady() async {
+    position = await _determinePosition();
     super.onReady();
   }
 
   @override
   void onClose() {
+    tpsTextEditingController.dispose();
     fullNameTextEditingController.dispose();
     nikTextEditingController.dispose();
     emailTextEditingController.dispose();
@@ -96,6 +110,61 @@ class SupportInputController extends GetxController {
     numberPhoneTextEditingController.dispose();
     alamatTextEditingController.dispose();
     super.onClose();
+  }
+
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Location services are not enabled don't continue
+      // accessing the position and request users of the
+      // App to enable the location services.
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Permissions are denied, next time you could try
+        // requesting permissions again (this is also where
+        // Android's shouldShowRequestPermissionRationale
+        // returned true. According to Android guidelines
+        // your App should show an explanatory UI now.
+        // _determinePosition();
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      // _determinePosition();
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    // When we reach here, permissions are granted and we can
+    // continue accessing the position of the device.
+    return await Geolocator.getCurrentPosition();
+  }
+
+  Future<void> showDialogDatePicker(BuildContext context) async {
+    final currentDate = DateTime.now();
+    final minimumDate = currentDate
+        .subtract(const Duration(days: 17 * 365)); // 17 tahun ke belakang
+    DateTime? selectedDate = await showDatePicker(
+      context: context,
+      initialDate: minimumDate,
+      firstDate: DateTime(1900),
+      lastDate: minimumDate,
+      initialDatePickerMode: DatePickerMode.year,
+    );
+
+    tanggalLahirTextEditingController.text =
+        DateFormat('yyyy-MM-dd').format(selectedDate!);
   }
 
   Future<void> onChangedDropdownAddress(AddressModel? val,
@@ -174,9 +243,6 @@ class SupportInputController extends GetxController {
     religion.value = await PemiluService.getReligion();
     job.value = await PemiluService.getJob();
 
-    print('Data KTP Provinsi  ${ktpRes?.ktp?.provinsi} ${dataNIKKTP.province}');
-    print('Data KTP Agama  ${ktpRes?.ktp?.agama} ');
-
     for (AddressModel dataAddressModel in addressProvince) {
       if ([
         ktpRes?.ktp?.provinsi?.toUpperCase().trim(),
@@ -240,9 +306,9 @@ class SupportInputController extends GetxController {
     initValuerKTP(data: res);
 
     isOpenCam.value = false;
+    pathIdenti?.value = res?.imagePath ?? '';
     await initValueKTP();
     await fetchData();
-    pathIdenti?.value = res?.imagePath ?? '';
   }
 
   void initValuerKTP({OcrResultModel? data}) {
@@ -267,41 +333,60 @@ class SupportInputController extends GetxController {
     Get.back();
   }
 
-  // Future<void> getIdenti({required ImageSource source}) async {
-  //   var image = await _picker.pickImage(source: source, imageQuality: 80);
-  //   pathIdenti!.value = image?.path ?? '';
-  //   identi = image;
-
-  //   if (pathIdenti?.value != '') {
-  //     Get.back();
-  //   }
-  // }
-
-  Future<void> onTapRegistry() async {
+  Future<void> onNext() async {
     if (!formkey.currentState!.validate() ||
         pathPhoto?.value == null ||
         pathIdenti?.value == null) {
       return;
     }
-    print('test1 ${pathPhoto!.value}');
-    print('test1 ${pathIdenti!.value}');
+
+    isInputTPS.value = true;
+  }
+
+  Future<void> onTapGetKoorlapTPS() async {
+    isLoaded.value = true;
+    koorlapTps.value = await PemiluService.getKoorlapTps(
+        tps: tpsTextEditingController.text, fkVillage: selectVillage.value!.id);
+    isLoaded.value = false;
+    isEmty.value = koorlapTps.isEmpty;
+  }
+
+  Future<void> onTapRegistry() async {
+    if (selectKoorlapTps.value?.id.isEmpty ?? true) {
+      Get.dialog(dialogView(
+        title: 'Data Kurang Lengkap',
+        content: 'Isikan Nomor TPS dan  Piih KoorLapnya',
+        onTapOke: () => Get.back(),
+      ));
+    }
     int code = await VoterService.postVoterDukungan(
-        nik: nikTextEditingController.text,
-        name: fullNameTextEditingController.text,
-        gender: selectGender.value,
-        phone: '+62${numberPhoneTextEditingController.text}',
-        email: emailTextEditingController.text,
-        born: tempatLahirTextEditingController.text,
-        birthday: tanggalLahirTextEditingController.text,
-        fkProvince: selectProvince.value!.id,
-        fkRegency: selectRegency.value!.id,
-        fkDistrict: selectDistrict.value!.id,
-        fkVillage: selectVillage.value!.id,
-        photoIdentity: File(pathPhoto!.value),
-        photoKTP: File(pathIdenti!.value),
-        job: selectJob.value!.name,
-        religion: selectGender.value,
-        statusKawin: '1');
+      nik: nikTextEditingController.text,
+      name: fullNameTextEditingController.text,
+      gender: (selectGender.value == 'Laki - Laki') ? 'male' : 'female',
+      phone: '+62${numberPhoneTextEditingController.text}',
+      email: emailTextEditingController.text,
+      born: tempatLahirTextEditingController.text,
+      birthday: tanggalLahirTextEditingController.text,
+      fkProvince: selectProvince.value!.id,
+      fkRegency: selectRegency.value!.id,
+      fkDistrict: selectDistrict.value!.id,
+      fkVillage: selectVillage.value!.id,
+      photoIdentity: File(pathPhoto!.value),
+      photoKTP: File(pathIdenti!.value),
+      job: selectJob.value!.name,
+      religion: selectReligion.value!.name,
+      lat: position.altitude,
+      lng: position.longitude,
+      tps: tpsTextEditingController.text,
+      fkKortep: selectKoorlapTps.value!.id,
+      statusKawin: (selectStatusPerkawinan.value == 'Belum Kawin')
+          ? '1'
+          : (selectStatusPerkawinan.value == 'Kawin')
+              ? '2'
+              : (selectStatusPerkawinan.value == 'Cerai Hidup')
+                  ? '3'
+                  : '4',
+    );
 
     if (code == 200) {
       dialogView(

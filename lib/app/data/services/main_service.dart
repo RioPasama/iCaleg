@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:icaleg/app/controllers/auth_controller.dart';
 import 'package:icaleg/app/views/views/dialog_view.dart';
 import 'package:icaleg/app/views/views/loading_view.dart';
+import 'package:icaleg/infrastructure/navigation/routes.dart';
 
 class MainService {
   AuthController authController = Get.put(AuthController());
@@ -34,7 +35,18 @@ class MainService {
     final result = jsonDecode(response.body);
     Get.back();
 
-    if (result['code'].toString()[0] != '2') {
+    if (result['message'] == 'Unauthorization') {
+      Get.dialog(
+        dialogView(
+          title: 'Terjadi Kesalahan',
+          content: result['message'],
+          onTapOke: () {
+            authController.logOut();
+            Get.offAllNamed(Routes.LOGIN);
+          },
+        ),
+      );
+    } else if (result['code'].toString()[0] != '2') {
       Get.dialog(
         dialogView(
           title: 'Terjadi Kesalahan',
@@ -64,7 +76,19 @@ class MainService {
 
     final result = jsonDecode(response.body);
 
-    if (result['code'].toString()[0] != '2') {
+    if (result['message'] == 'Unauthorization') {
+      Get.dialog(
+        dialogView(
+          title: 'Kesalahan',
+          content: result['message'],
+          onTapOke: () {
+            authController.logOut();
+            Get.offAllNamed(Routes.LOGIN);
+          },
+        ),
+        // barrierDismissible: false,
+      );
+    } else if (result['code'].toString()[0] != '2') {
       Get.dialog(
         dialogView(
           title: 'Terjadi Kesalahan',
@@ -113,7 +137,19 @@ class MainService {
 
       final result = jsonDecode(response.body);
       Get.back();
-      if (result['code'].toString()[0] != '2') {
+
+      if (result['message'] == 'Unauthorization') {
+        Get.dialog(
+          dialogView(
+            title: 'Terjadi Kesalahan',
+            content: result['message'],
+            onTapOke: () {
+              authController.logOut();
+              Get.offAllNamed(Routes.LOGIN);
+            },
+          ),
+        );
+      } else if (result['code'].toString()[0] != '2') {
         Get.dialog(
           dialogView(
             title: 'Terjadi Kesalahan',

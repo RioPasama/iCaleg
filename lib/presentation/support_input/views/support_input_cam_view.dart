@@ -7,8 +7,6 @@ import 'package:get/get.dart';
 import 'package:icaleg/gen/assets.gen.dart';
 import 'package:icaleg/infrastructure/theme/theme_utils.dart';
 import 'package:icaleg/presentation/support_input/controllers/support_input.controller.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:ionicons/ionicons.dart';
 
 class SupportInputCamView extends GetView {
   SupportInputCamView({Key? key}) : super(key: key);

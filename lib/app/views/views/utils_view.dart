@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 
-TextFormField textFromFiled({
-  TextEditingController? controller,
-  Widget? prefixIcon,
-  String? hintText,
-  String? labelText,
-  int? maxLines = 1,
-  TextInputType? keyboardType,
-  TextInputAction textInputAction = TextInputAction.next,
-  bool obscureText = false,
-  Widget? suffixIcon,
-  String? Function(String?)? validator,
-}) {
+TextFormField textFromFiled(
+    {TextEditingController? controller,
+    Widget? prefixIcon,
+    String? hintText,
+    String? labelText,
+    int? maxLines = 1,
+    TextInputType? keyboardType,
+    TextInputAction textInputAction = TextInputAction.next,
+    bool obscureText = false,
+    bool readOnly = false,
+    Widget? suffixIcon,
+    String? Function(String?)? validator,
+    void Function()? onTap}) {
   return TextFormField(
+    readOnly: readOnly,
+    onTap: onTap,
     controller: controller,
     keyboardType: keyboardType,
     obscureText: obscureText,

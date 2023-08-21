@@ -15,6 +15,8 @@ class SupportScreen extends GetView<SupportController> {
     return ([
       '2',
       '3',
+      '4',
+      '5',
     ].any((val) => val == controller.authController.userModel.userStatus))
         ? Scaffold(
             appBar: AppBar(toolbarHeight: 0),

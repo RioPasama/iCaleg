@@ -1,3 +1,4 @@
+import 'package:icaleg/app/data/models/Koorlap_tps_model.dart';
 import 'package:icaleg/app/data/models/dapil_model.dart';
 import 'package:icaleg/app/data/models/level_model.dart';
 import 'package:icaleg/app/data/models/partai_model.dart';
@@ -39,5 +40,16 @@ class PemiluService {
 
     return List<DapilModel>.from(((result != null) ? result['data'] : [])
         .map((e) => DapilModel.fromJson(e)));
+  }
+
+  static Future<List<KoorlapTpsModel>> getKoorlapTps(
+      {required String tps, required String fkVillage}) async {
+    Map<String, String> body = {'tps': tps, 'fk_village': fkVillage};
+
+    final result =
+        await MainService().getAPI(url: 'koordinator/getKorlap', body: body);
+
+    return List<KoorlapTpsModel>.from(((result != null) ? result['data'] : [])
+        .map((e) => KoorlapTpsModel.fromJson(e)));
   }
 }
