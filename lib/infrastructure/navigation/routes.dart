@@ -15,4 +15,5 @@ class Routes {
   static const STATISTICS = '/statistics';
   static const SUPPORT = '/support';
   static const SUPPORT_INPUT = '/support-input';
+  static const LOGIN_VERIFICATION = '/login-verification';
 }

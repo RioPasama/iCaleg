@@ -152,7 +152,7 @@ class RegistryScreen extends GetView<RegistryController> {
               ),
               _textLabel(label: 'Partai Politik', subLabel: '* Wajib di isi'),
               _dropdownPartai(
-                select: controller.selectPartai.value,
+                select: controller.selectPartai,
                 data: controller.partaiModel,
               ),
               Obx(
@@ -365,12 +365,12 @@ class RegistryScreen extends GetView<RegistryController> {
   }
 
   DropdownButtonHideUnderline _dropdownPartai(
-      {PartaiModel? select, required RxList<PartaiModel> data}) {
+      {Rxn<PartaiModel>? select, required RxList<PartaiModel> data}) {
     return DropdownButtonHideUnderline(
         child: Obx(
       () => DropdownButtonFormField<PartaiModel>(
         borderRadius: borderRadius,
-        value: select,
+        value: select?.value,
         items: data
             .map(
               (val) => DropdownMenuItem<PartaiModel>(

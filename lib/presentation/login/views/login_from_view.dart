@@ -104,7 +104,16 @@ class LoginFromView extends GetView {
             width: Get.width,
             child: OutlinedButton(
                 onPressed: () => Get.toNamed(Routes.PRIVACY_POLICY),
-                child: const Text('Daftar')))
+                child: const Text('Daftar'))),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: TextButton(
+              onPressed: () => controller.loginByWhatsapp.toggle(),
+              child: const Text('Login by Whatsapp',
+                  style: TextStyle(
+                    color: Colors.green,
+                  ))),
+        ),
       ]),
     );
   }

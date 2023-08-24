@@ -13,15 +13,18 @@ class LoginController extends GetxController {
 
   late TextEditingController emailTextEditingController;
   late TextEditingController passwordTextEditingController;
+  late TextEditingController nomorWhatsappTextEditingController;
 
   final formKey = GlobalKey<FormState>();
 
   RxBool showPassowrd = false.obs;
+  RxBool loginByWhatsapp = false.obs;
 
   @override
   void onInit() {
     emailTextEditingController = TextEditingController();
     passwordTextEditingController = TextEditingController();
+    nomorWhatsappTextEditingController = TextEditingController();
     super.onInit();
   }
 
@@ -36,6 +39,20 @@ class LoginController extends GetxController {
     // emailTextEditingController.dispose();
     // passwordTextEditingController.dispose();
     super.onClose();
+  }
+
+  Future<void> onTapLoginWhatsapp() async {
+    if (!formKey.currentState!.validate()) {
+      return;
+    }
+
+    String code = await UserService.postLoginWhatsapp(
+        phone: '${nomorWhatsappTextEditingController.text}');
+
+    if (code.isNotEmpty) {
+      Get.toNamed(Routes.LOGIN_VERIFICATION,
+          arguments: '${nomorWhatsappTextEditingController.text}');
+    }
   }
 
   Future<void> onTapLogin() async {

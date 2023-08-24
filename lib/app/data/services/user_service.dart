@@ -13,6 +13,20 @@ class UserService {
     return result['data']['token'];
   }
 
+  static Future<String> postLoginWhatsapp(
+      {required String phone, String? otp}) async {
+    Map<String, String> body = {'phone': phone};
+    final result = await MainService().postAPI(url: 'auth/loginv2', body: body);
+    return result['code'].toString();
+  }
+
+  static Future<String> postLoginWhatsappVerifikasi(
+      {required String phone, required String otp}) async {
+    Map<String, String> body = {'phone': phone, 'otp': otp};
+    final result = await MainService().postAPI(url: 'auth/loginv2', body: body);
+    return result['data']['token'];
+  }
+
   static Future<int> postRegister({
     required String emial,
     required String password,

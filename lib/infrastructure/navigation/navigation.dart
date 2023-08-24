@@ -86,5 +86,10 @@ class Nav {
       page: () => const SupportInputScreen(),
       binding: SupportInputControllerBinding(),
     ),
+    GetPage(
+      name: Routes.LOGIN_VERIFICATION,
+      page: () => const LoginVerificationScreen(),
+      binding: LoginVerificationControllerBinding(),
+    ),
   ];
 }
