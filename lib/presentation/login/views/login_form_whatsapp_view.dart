@@ -54,12 +54,12 @@ class LoginFormWhatsappView extends GetView {
                     child: ElevatedButton(
                         onPressed: () => controller.onTapLoginWhatsapp(),
                         child: const Text('Kirim OTP'))),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: TextButton(
-                      onPressed: () => controller.loginByWhatsapp.toggle(),
-                      child: const Text('Login by Aplikasi iCaleg')),
-                ),
+                // Align(
+                //   alignment: Alignment.bottomCenter,
+                //   child: TextButton(
+                //       onPressed: () => controller.loginByWhatsapp.toggle(),
+                //       child: const Text('Login by Aplikasi iCaleg')),
+                // ),
               ],
             ),
           ),

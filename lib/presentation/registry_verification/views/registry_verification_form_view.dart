@@ -25,13 +25,13 @@ class RegistryVerificationFormView extends GetView {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const Text(
-            'Verifikasi Email',
+            'Verifikasi',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           RichText(
               text: TextSpan(children: [
             TextSpan(
-              text: 'Kami telah mengirimkan OTP ke Email anda ',
+              text: 'Kami telah mengirimkan OTP anda ',
               style: TextStyle(color: colorTextGray),
             ),
             TextSpan(

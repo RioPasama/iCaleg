@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:icaleg/gen/assets.gen.dart';
 import 'package:icaleg/infrastructure/theme/theme_utils.dart';
 import 'package:icaleg/presentation/login/views/login_form_whatsapp_view.dart';
-import 'package:icaleg/presentation/login/views/login_from_view.dart';
 import 'controllers/login.controller.dart';
 
 class LoginScreen extends GetView<LoginController> {
@@ -32,11 +31,12 @@ class LoginScreen extends GetView<LoginController> {
                     ],
                   ),
                 ),
-                Obx(
-                  () => (!controller.loginByWhatsapp.value)
-                      ? LoginFromView()
-                      : LoginFormWhatsappView(),
-                ),
+                // Obx(
+                //   () => (!controller.loginByWhatsapp.value)
+                //       ? LoginFromView()
+                //       : LoginFormWhatsappView(),
+                // ),
+                LoginFormWhatsappView(),
                 SizedBox(
                   child: Stack(
                     alignment: Alignment.bottomCenter,

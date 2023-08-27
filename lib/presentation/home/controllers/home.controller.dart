@@ -24,6 +24,7 @@ class HomeController extends GetxController {
 
   @override
   void onClose() {
+    //
     super.onClose();
   }
 

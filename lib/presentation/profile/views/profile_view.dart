@@ -50,6 +50,10 @@ Widget profileCaleg() {
         title: 'No. Handphone',
         subTitle: controller.authController.userModel.phone,
       ),
+      listviewTitle(
+        title: 'Kode Referral',
+        subTitle: controller.authController.userModel.referalCode,
+      ),
       const Divider(thickness: 2),
       Padding(
         padding:

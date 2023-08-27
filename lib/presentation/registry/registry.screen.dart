@@ -74,43 +74,43 @@ class RegistryScreen extends GetView<RegistryController> {
                 validator: (val) => controller.textInputValidatorController
                     .validatorIdentifier(val),
               ),
-              _textLabel(label: 'Kata Sandi', subLabel: '* Wajib di isi'),
-              Obx(
-                () => textFromFiled(
-                  controller: controller.kataSandiTextEditingController,
-                  hintText: 'Isi Kata Sandi',
-                  obscureText: controller.obscureKataSandi.value,
-                  suffixIcon: IconButton(
-                      onPressed: () => controller.obscureKataSandi.toggle(),
-                      icon: Icon((controller.obscureKataSandi.value)
-                          ? Ionicons.eye_off_outline
-                          : Ionicons.eye_outline)),
-                  validator: (val) => controller.textInputValidatorController
-                      .validatorNotNull(
-                          controller.kataSandiTextEditingController.text),
-                ),
-              ),
-              _textLabel(
-                  label: 'Konfirmasi Kata Sandi', subLabel: '* Wajib di isi'),
-              Obx(
-                () => textFromFiled(
-                  controller:
-                      controller.konformasiKataSandiTextEditingController,
-                  hintText: 'Isi Konfirmasi Kata Sandi',
-                  obscureText: controller.obscureKonfirmasiKataSandi.value,
-                  suffixIcon: IconButton(
-                      onPressed: () =>
-                          controller.obscureKonfirmasiKataSandi.toggle(),
-                      icon: Icon((controller.obscureKonfirmasiKataSandi.value)
-                          ? Ionicons.eye_off_outline
-                          : Ionicons.eye_outline)),
-                  validator: (val) => controller.textInputValidatorController
-                      .validatorConfirmationPassword(
-                          val: val,
-                          passwordTextEditingController:
-                              controller.kataSandiTextEditingController.text),
-                ),
-              ),
+              // _textLabel(label: 'Kata Sandi', subLabel: '* Wajib di isi'),
+              // Obx(
+              //   () => textFromFiled(
+              //     controller: controller.kataSandiTextEditingController,
+              //     hintText: 'Isi Kata Sandi',
+              //     obscureText: controller.obscureKataSandi.value,
+              //     suffixIcon: IconButton(
+              //         onPressed: () => controller.obscureKataSandi.toggle(),
+              //         icon: Icon((controller.obscureKataSandi.value)
+              //             ? Ionicons.eye_off_outline
+              //             : Ionicons.eye_outline)),
+              //     validator: (val) => controller.textInputValidatorController
+              //         .validatorNotNull(
+              //             controller.kataSandiTextEditingController.text),
+              //   ),
+              // ),
+              // _textLabel(
+              //     label: 'Konfirmasi Kata Sandi', subLabel: '* Wajib di isi'),
+              // Obx(
+              //   () => textFromFiled(
+              //     controller:
+              //         controller.konformasiKataSandiTextEditingController,
+              //     hintText: 'Isi Konfirmasi Kata Sandi',
+              //     obscureText: controller.obscureKonfirmasiKataSandi.value,
+              //     suffixIcon: IconButton(
+              //         onPressed: () =>
+              //             controller.obscureKonfirmasiKataSandi.toggle(),
+              //         icon: Icon((controller.obscureKonfirmasiKataSandi.value)
+              //             ? Ionicons.eye_off_outline
+              //             : Ionicons.eye_outline)),
+              //     validator: (val) => controller.textInputValidatorController
+              //         .validatorConfirmationPassword(
+              //             val: val,
+              //             passwordTextEditingController:
+              //                 controller.kataSandiTextEditingController.text),
+              //   ),
+              // ),
               _textLabel(label: 'Provinsi', subLabel: '* Wajib di isi'),
               _dropdownAddress(
                 tag: 'province',
