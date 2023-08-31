@@ -14,6 +14,7 @@ Color colorTextAlert = colorRad;
 Color colorTextGray = Colors.grey;
 
 BoxShadow boxShadow = BoxShadow(color: colorGray, blurRadius: 4);
+Shadow shadow = Shadow(color: colorGray, blurRadius: 4);
 BorderRadius borderRadius = BorderRadius.circular(16);
 Radius radius = const Radius.circular(16);
 BorderRadius borderRadiusTheme = BorderRadius.circular(14);

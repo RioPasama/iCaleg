@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:icaleg/app/views/views/utils_view.dart';
 import 'package:icaleg/infrastructure/theme/theme_utils.dart';
 import 'package:icaleg/presentation/login/controllers/login.controller.dart';
+import 'package:icaleg/infrastructure/navigation/routes.dart';
 
 class LoginFormWhatsappView extends GetView {
   LoginFormWhatsappView({Key? key}) : super(key: key);
@@ -54,6 +55,28 @@ class LoginFormWhatsappView extends GetView {
                     child: ElevatedButton(
                         onPressed: () => controller.onTapLoginWhatsapp(),
                         child: const Text('Kirim OTP'))),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: Get.width / 2 - (64),
+                      child: const Divider(thickness: 1),
+                    ),
+                    const Text(
+                      ' atau ',
+                      style: TextStyle(fontSize: 12),
+                    ),
+                    SizedBox(
+                      width: Get.width / 2 - (64),
+                      child: const Divider(thickness: 1),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                    width: Get.width,
+                    child: OutlinedButton(
+                        onPressed: () => Get.toNamed(Routes.PRIVACY_POLICY),
+                        child: const Text('Daftar'))),
                 // Align(
                 //   alignment: Alignment.bottomCenter,
                 //   child: TextButton(

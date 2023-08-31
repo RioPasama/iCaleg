@@ -106,7 +106,7 @@ Obx dukungan() {
           child: Align(
             alignment: Alignment.bottomRight,
             child: Padding(
-              padding: const EdgeInsets.only(bottom: 68),
+              padding: const EdgeInsets.only(bottom: 78, right: 10),
               child: ElevatedButton(
                   onPressed: () => Get.toNamed(Routes.SUPPORT_INPUT),
                   style: ElevatedButton.styleFrom(

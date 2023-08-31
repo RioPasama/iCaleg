@@ -16,6 +16,7 @@ class SupportScreen extends GetView<SupportController> {
             child: Scaffold(
               appBar: AppBar(
                 toolbarHeight: 0,
+                elevation: 0,
                 bottom: const TabBar(
                   isScrollable: true,
                   tabs: [
@@ -37,6 +38,7 @@ class SupportScreen extends GetView<SupportController> {
                 child: Scaffold(
                   appBar: AppBar(
                     toolbarHeight: 0,
+                    elevation: 0,
                     bottom: const TabBar(
                       isScrollable: true,
                       tabs: [
@@ -57,6 +59,7 @@ class SupportScreen extends GetView<SupportController> {
                     child: Scaffold(
                       appBar: AppBar(
                         toolbarHeight: 0,
+                        elevation: 0,
                         bottom: const TabBar(
                           isScrollable: true,
                           tabs: [
@@ -70,12 +73,13 @@ class SupportScreen extends GetView<SupportController> {
                       body: bodyTabBarKorlapKelurahanView(),
                     ),
                   )
-                : (controller.authController.userModel.userStatus == '3')
+                : (controller.authController.userModel.userStatus == '4')
                     ? DefaultTabController(
                         length: 3,
                         child: Scaffold(
                           appBar: AppBar(
                             toolbarHeight: 0,
+                            elevation: 0,
                             bottom: const TabBar(
                               isScrollable: true,
                               tabs: [
@@ -88,12 +92,13 @@ class SupportScreen extends GetView<SupportController> {
                           body: bodyTabBarKorlapDusunView(),
                         ),
                       )
-                    : (controller.authController.userModel.userStatus == '3')
+                    : (controller.authController.userModel.userStatus == '5')
                         ? DefaultTabController(
                             length: 2,
                             child: Scaffold(
                               appBar: AppBar(
                                 toolbarHeight: 0,
+                                elevation: 0,
                                 bottom: const TabBar(
                                   isScrollable: true,
                                   tabs: [
@@ -106,12 +111,13 @@ class SupportScreen extends GetView<SupportController> {
                             ),
                           )
                         : (controller.authController.userModel.userStatus ==
-                                '3')
+                                '6')
                             ? DefaultTabController(
                                 length: 1,
                                 child: Scaffold(
                                   appBar: AppBar(
                                     toolbarHeight: 0,
+                                    elevation: 0,
                                     bottom: const TabBar(
                                       isScrollable: true,
                                       tabs: [

@@ -50,15 +50,16 @@ class HomeScreen extends GetView<HomeController> {
           children: [
             _cardStatistikSecondary(
               lable: 'Alokasi Kursi',
-              value: controller.homeModel.value!.statistik.alokasiKursi,
+              value:
+                  controller.homeModel.value!.statistik.alokasiKursi.toString(),
             ),
             _cardStatistikSecondary(
               lable: 'TPS',
-              value: controller.homeModel.value!.statistik.tps,
+              value: controller.homeModel.value!.statistik.tps.toString(),
             ),
             _cardStatistikSecondary(
               lable: 'DPT Dapil',
-              value: controller.homeModel.value!.statistik.dptDapil,
+              value: controller.homeModel.value!.statistik.dptDapil.toString(),
             ),
           ],
         ),
@@ -136,21 +137,24 @@ class HomeScreen extends GetView<HomeController> {
         children: [
           _cardStatistikPrimary(
             lable: 'Total Dukungan',
-            value: controller.homeModel.value!.statistik.totalDukungan,
+            value:
+                controller.homeModel.value!.statistik.totalDukungan.toString(),
             icon: Ionicons.people_outline,
             colorData: const Color(0xFF02754C),
             colorBackground: const Color(0xFFD3F6EA),
           ),
           _cardStatistikPrimary(
             lable: 'Jumlah Relawan',
-            value: controller.homeModel.value!.statistik.totalRelawan,
+            value:
+                controller.homeModel.value!.statistik.totalRelawan.toString(),
             icon: Ionicons.person_add_outline,
             colorData: const Color(0xFFC39D00),
             colorBackground: const Color(0xFFFEF6D5),
           ),
           _cardStatistikPrimary(
             lable: 'Target Dukungan',
-            value: controller.homeModel.value!.statistik.targetDukungan,
+            value:
+                controller.homeModel.value!.statistik.targetDukungan.toString(),
             icon: Ionicons.pulse_outline,
             colorData: const Color(0xFF3598DB),
             colorBackground: const Color(0xFFDCEFFC),
