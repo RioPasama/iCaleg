@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:icaleg/gen/assets.gen.dart';
 import 'package:icaleg/infrastructure/theme/theme_utils.dart';
 import 'package:icaleg/presentation/support_input/controllers/support_input.controller.dart';
+import 'package:image_picker/image_picker.dart';
 
 class SupportInputCamView extends GetView {
   SupportInputCamView({Key? key}) : super(key: key);
@@ -22,39 +23,47 @@ class SupportInputCamView extends GetView {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Spacer(),
-            Text(
-              'Foto KTP',
-              style: TextStyle(
-                  color: colorTextPrimary,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold),
-            ),
-            const Spacer(),
-            InkWell(
-                // onTap: () => Get.bottomSheet(_bottomSheetPhoto(isPhoto: false)),
-                onTap: controller.scanKtp,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: marginHorizontal),
-                  child: AspectRatio(
-                      aspectRatio: 3 / 2,
-                      child: Obx(() => Container(
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                color: colorGray,
-                                borderRadius: borderRadius,
-                                image: (controller.pathIdenti?.value != '')
-                                    ? DecorationImage(
-                                        image: FileImage(
-                                            File(controller.pathIdenti!.value)),
-                                        fit: BoxFit.cover,
-                                      )
-                                    : null),
-                            child: SvgPicture.asset(
-                                Assets.icons.buttonPhotoIndeti),
-                          ))),
-                )),
-            const Spacer(flex: 3)
+            // const Spacer(),
+            // Text(
+            //   'Foto KTP',
+            //   style: TextStyle(
+            //       color: colorTextPrimary,
+            //       fontSize: 24,
+            //       fontWeight: FontWeight.bold),
+            // ),
+            // const Spacer(),
+            // InkWell(
+            //     // onTap: () => Get.bottomSheet(_bottomSheetPhoto(isPhoto: false)),
+            //     onTap: controller.scanKtp,
+            //     child: Padding(
+            //       padding: EdgeInsets.symmetric(horizontal: marginHorizontal),
+            //       child: AspectRatio(
+            //           aspectRatio: 3 / 2,
+            //           child: Obx(() => Container(
+            //                 alignment: Alignment.center,
+            //                 decoration: BoxDecoration(
+            //                     color: colorGray,
+            //                     borderRadius: borderRadius,
+            //                     image: (controller.pathIdenti?.value != '')
+            //                         ? DecorationImage(
+            //                             image: FileImage(
+            //                                 File(controller.pathIdenti!.value)),
+            //                             fit: BoxFit.cover,
+            //                           )
+            //                         : null),
+            //                 child: SvgPicture.asset(
+            //                     Assets.icons.buttonPhotoIndeti),
+            //               ))),
+            //     )),
+            // const Spacer(flex: 3)
+
+            ElevatedButton(
+                onPressed: () => controller.scanKtp(isInitValuerKTP: true),
+                child: const Text(' Sistem Scan KTP ')),
+            ElevatedButton(
+                onPressed: () =>
+                    controller.getIdenti(source: ImageSource.camera),
+                child: const Text(' Input Manual ')),
           ]),
     );
   }

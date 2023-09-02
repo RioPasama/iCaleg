@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:icaleg/app/controllers/auth_controller.dart';
 import 'package:icaleg/app/controllers/text_input_validator_controller.dart';
 import 'package:icaleg/app/data/models/Koorlap_tps_model.dart';
 import 'package:icaleg/app/data/services/address_service.dart';
@@ -22,6 +23,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 
 class SupportInputController extends GetxController {
+  final AuthController authController = Get.put(AuthController());
   final TextInputValidatorController textInputValidatorController =
       Get.put(TextInputValidatorController());
 
@@ -292,7 +294,7 @@ class SupportInputController extends GetxController {
     return result;
   }
 
-  Future<void> scanKtp() async {
+  Future<void> scanKtp({required bool isInitValuerKTP}) async {
     OcrResultModel? res;
     try {
       res = await MncIdentifierOcr.startCaptureKtp(
@@ -303,7 +305,9 @@ class SupportInputController extends GetxController {
     } catch (e) {
       debugPrint('something goes wrong $e');
     }
-    initValuerKTP(data: res);
+    if (isInitValuerKTP) {
+      initValuerKTP(data: res);
+    }
 
     isOpenCam.value = false;
     pathIdenti?.value = res?.imagePath ?? '';
@@ -340,7 +344,11 @@ class SupportInputController extends GetxController {
       return;
     }
 
-    isInputTPS.value = true;
+    if (authController.userModel.userStatus == '6') {
+      onTapRegistry();
+    } else {
+      isInputTPS.value = true;
+    }
   }
 
   Future<void> onTapGetKoorlapTPS() async {
@@ -349,6 +357,13 @@ class SupportInputController extends GetxController {
         tps: tpsTextEditingController.text, fkVillage: selectVillage.value!.id);
     isLoaded.value = false;
     isEmty.value = koorlapTps.isEmpty;
+  }
+
+  Future<void> getIdenti({required ImageSource source}) async {
+    var image = await _picker.pickImage(source: source, imageQuality: 0);
+    pathIdenti!.value = image?.path ?? '';
+    identi = image;
+    Get.back();
   }
 
   Future<void> onTapRegistry() async {

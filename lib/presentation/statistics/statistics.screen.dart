@@ -11,6 +11,8 @@ class StatisticsScreen extends GetView<StatisticsController> {
   const StatisticsScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    Get.put(StatisticsController());
+
     return DefaultTabController(
       length: 2,
       child: Scaffold(

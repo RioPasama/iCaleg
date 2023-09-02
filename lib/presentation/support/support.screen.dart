@@ -34,7 +34,7 @@ class SupportScreen extends GetView<SupportController> {
           )
         : (controller.authController.userModel.userStatus == '2')
             ? DefaultTabController(
-                length: 5,
+                length: 4,
                 child: Scaffold(
                   appBar: AppBar(
                     toolbarHeight: 0,
@@ -46,7 +46,6 @@ class SupportScreen extends GetView<SupportController> {
                         Tab(text: 'RELAWAM TPS'),
                         Tab(text: 'KOORDINATOR\nDUSUN'),
                         Tab(text: 'KOORDINATOR\nDESA/KELURAHAN'),
-                        Tab(text: 'KOORDINATOR\nKECAMATAN'),
                       ],
                     ),
                   ),
@@ -55,7 +54,7 @@ class SupportScreen extends GetView<SupportController> {
               )
             : (controller.authController.userModel.userStatus == '3')
                 ? DefaultTabController(
-                    length: 4,
+                    length: 3,
                     child: Scaffold(
                       appBar: AppBar(
                         toolbarHeight: 0,
@@ -66,7 +65,6 @@ class SupportScreen extends GetView<SupportController> {
                             Tab(text: 'DUKUNGAN'),
                             Tab(text: 'RELAWAM TPS'),
                             Tab(text: 'KOORDINATOR\nDUSUN'),
-                            Tab(text: 'KOORDINATOR\nDESA/KELURAHAN'),
                           ],
                         ),
                       ),
@@ -75,7 +73,7 @@ class SupportScreen extends GetView<SupportController> {
                   )
                 : (controller.authController.userModel.userStatus == '4')
                     ? DefaultTabController(
-                        length: 3,
+                        length: 2,
                         child: Scaffold(
                           appBar: AppBar(
                             toolbarHeight: 0,
@@ -85,7 +83,6 @@ class SupportScreen extends GetView<SupportController> {
                               tabs: [
                                 Tab(text: 'DUKUNGAN'),
                                 Tab(text: 'RELAWAM TPS'),
-                                Tab(text: 'KOORDINATOR\nDUSUN'),
                               ],
                             ),
                           ),
@@ -94,7 +91,7 @@ class SupportScreen extends GetView<SupportController> {
                       )
                     : (controller.authController.userModel.userStatus == '5')
                         ? DefaultTabController(
-                            length: 2,
+                            length: 1,
                             child: Scaffold(
                               appBar: AppBar(
                                 toolbarHeight: 0,
@@ -103,31 +100,15 @@ class SupportScreen extends GetView<SupportController> {
                                   isScrollable: true,
                                   tabs: [
                                     Tab(text: 'DUKUNGAN'),
-                                    Tab(text: 'RELAWAM TPS'),
                                   ],
                                 ),
                               ),
-                              body: bodyTabBarKorlapDusunView(),
+                              body: bodyTabBarKorlapTPSView(),
                             ),
                           )
                         : (controller.authController.userModel.userStatus ==
                                 '6')
-                            ? DefaultTabController(
-                                length: 1,
-                                child: Scaffold(
-                                  appBar: AppBar(
-                                    toolbarHeight: 0,
-                                    elevation: 0,
-                                    bottom: const TabBar(
-                                      isScrollable: true,
-                                      tabs: [
-                                        Tab(text: 'DUKUNGAN'),
-                                      ],
-                                    ),
-                                  ),
-                                  body: bodyTabBarKorlapTPSView(),
-                                ),
-                              )
+                            ? const SizedBox()
                             : const SizedBox();
     // ([
     //   '2',

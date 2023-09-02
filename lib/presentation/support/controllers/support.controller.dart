@@ -10,21 +10,36 @@ class SupportController extends GetxController {
   AuthController authController = Get.put(AuthController());
 
   RxList<VoterDukunganModel> voterDukunganModel = RxList<VoterDukunganModel>();
+  RxList<DataKoordinatorModel> dataKoordinatorKorcamModel =
+      RxList<DataKoordinatorModel>();
+  RxList<DataKoordinatorModel> dataKoordinatorKordesModel =
+      RxList<DataKoordinatorModel>();
+  RxList<DataKoordinatorModel> dataKoordinatorKordusModel =
+      RxList<DataKoordinatorModel>();
+  RxList<DataKoordinatorModel> dataKoordinatorKortepModel =
+      RxList<DataKoordinatorModel>();
 
   late TextEditingController search;
 
   RxBool isLoadVoterDukungan = true.obs;
+  RxBool isLoadVoterKorcam = true.obs;
+  RxBool isLoadVoterKordes = true.obs;
+  RxBool isLoadVoterKordus = true.obs;
+  RxBool isLoadVoterKortep = true.obs;
 
   @override
   void onInit() {
-    //
+    search = TextEditingController();
     super.onInit();
   }
 
   @override
-  void onReady() {
-    search = TextEditingController();
+  void onReady() async {
     getDukungan();
+    dataKoordinatorKorcamModel.value = await getKoorLap(tag: 'korcam');
+    dataKoordinatorKordesModel.value = await getKoorLap(tag: 'kordes');
+    dataKoordinatorKordusModel.value = await getKoorLap(tag: 'kordus');
+    dataKoordinatorKortepModel.value = await getKoorLap(tag: 'kortep');
     super.onReady();
   }
 
@@ -39,8 +54,10 @@ class SupportController extends GetxController {
     isLoadVoterDukungan.value = false;
   }
 
-  Future<void> getKoorLap({required String tag}) async {
+  Future<List<DataKoordinatorModel>> getKoorLap({required String tag}) async {
     List<DataKoordinatorModel> dataKoordinatorModel =
-        await PemiluService.getDataKoorlap();
+        await PemiluService.getDataKoorlap(filter: tag);
+
+    return dataKoordinatorModel;
   }
 }

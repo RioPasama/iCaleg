@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:icaleg/infrastructure/theme/theme_utils.dart';
 
 class ChartDoughnutView extends CustomPainter {
   final double data1Value;
@@ -24,13 +25,13 @@ class ChartDoughnutView extends CustomPainter {
     final Rect innerRect = Rect.fromCircle(
         center: Offset(radius, radius), radius: radius - strokeWidth * 0.5);
 
-    final Paint fillPaint1 = Paint()..color = Colors.blue;
-    final Paint fillPaint3 = Paint()..color = Colors.white;
-    final Paint fillPaint2 = Paint()..color = Colors.green;
-    const TextStyle textStyle = TextStyle(
-      color: Colors.black,
-      fontSize: 16.0,
-    );
+    final Paint fillPaint1 = Paint()..color = Colors.blue.withOpacity(0.6);
+    final Paint fillPaint3 = Paint()..color = colorPrimary;
+    final Paint fillPaint2 = Paint()..color = Colors.green.withOpacity(0.6);
+    // const TextStyle textStyle = TextStyle(
+    //   color: Colors.black,
+    //   fontSize: 16.0,
+    // );
 
     // Draw data 1
     canvas.drawArc(outerRect, startAngle, sweepAngle1, true, fillPaint1);
@@ -44,27 +45,27 @@ class ChartDoughnutView extends CustomPainter {
         innerRect, startAngle, sweepAngle1 + sweepAngle2, true, fillPaint3);
 
     // Display data values
-    final double centerX = size.width * 0.5;
-    final double centerY = size.height * 0.5;
-    final double data1ValueDegrees = sweepAngle1 * 180 / pi;
-    final double data2ValueDegrees = sweepAngle2 * 180 / pi;
+    // final double centerX = size.width * 0.5;
+    // final double centerY = size.height * 0.5;
+    // final double data1ValueDegrees = sweepAngle1 * 180 / pi;
+    // final double data2ValueDegrees = sweepAngle2 * 180 / pi;
 
-    final String data1ValueText = '${(data1Value * 100).toStringAsFixed(2)}%';
-    final String data2ValueText = '${(data2Value * 100).toStringAsFixed(2)}%';
+    // final String data1ValueText = '${(data1Value * 100).toStringAsFixed(2)}%';
+    // final String data2ValueText = '${(data2Value * 100).toStringAsFixed(2)}%';
 
     // Display data 1 value
-    final Offset data1TextOffset = Offset(
-      centerX + radius * cos(-data1ValueDegrees / 2),
-      centerY + radius * sin(-data1ValueDegrees / 2),
-    );
-    drawText(canvas, data1ValueText, data1TextOffset, textStyle);
+    // final Offset data1TextOffset = Offset(
+    //   centerX + radius * cos(-data1ValueDegrees / 2),
+    //   centerY + radius * sin(-data1ValueDegrees / -2),
+    // );
+    // drawText(canvas, data1ValueText, data1TextOffset, textStyle);
 
     // Display data 2 value
-    final Offset data2TextOffset = Offset(
-      centerX + radius * cos(data2ValueDegrees / 2),
-      centerY + radius * sin(data2ValueDegrees / -2),
-    );
-    drawText(canvas, data2ValueText, data2TextOffset, textStyle);
+    // final Offset data2TextOffset = Offset(
+    //   centerX + radius * cos(data2ValueDegrees / 2),
+    //   centerY + radius * sin(data2ValueDegrees / 2),
+    // );
+    // drawText(canvas, data2ValueText, data2TextOffset, textStyle);
   }
 
   @override
