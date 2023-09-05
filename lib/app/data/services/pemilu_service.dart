@@ -54,14 +54,29 @@ class PemiluService {
         .map((e) => KoorlapTpsModel.fromJson(e)));
   }
 
+  // static Future<List<DataKoordinatorModel>> getDataKoorlap(
+  //     {required String filter}) async {
+  //   Map<String, String> body = {'filter': filter};
+  //   final result =
+  //       await MainService().getAPI(url: 'koordinator/table', body: body);
+
+  //   return List<DataKoordinatorModel>.from(
+  //       ((result['data']['list'] != null) ? result['data']['list'] : [])
+  //           .map((e) => DataKoordinatorModel.fromJson(e)));
+  // }
   static Future<List<DataKoordinatorModel>> getDataKoorlap(
-      {required String filter}) async {
-    Map<String, String> body = {'filter': filter};
+      {required String filter, required String q}) async {
+    Map<String, String> body = {'filter': filter, 'q': q};
     final result =
         await MainService().getAPI(url: 'koordinator/table', body: body);
 
-    return List<DataKoordinatorModel>.from(
-        ((result != null) ? result['data']['list'] : [])
-            .map((e) => DataKoordinatorModel.fromJson(e)));
+    final dataList = result['data']['list'];
+
+    if (dataList != null && dataList is List) {
+      return List<DataKoordinatorModel>.from(dataList.map(
+          (e) => DataKoordinatorModel.fromJson(e as Map<String, dynamic>)));
+    } else {
+      return []; // Return an empty list when there's no data
+    }
   }
 }

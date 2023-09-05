@@ -6,8 +6,10 @@ export 'package:icaleg/infrastructure/navigation/bindings/controllers/main.contr
 export 'package:icaleg/infrastructure/navigation/bindings/controllers/privacy_policy.controller.binding.dart'; 
 export 'package:icaleg/infrastructure/navigation/bindings/controllers/profile.controller.binding.dart'; 
 export 'package:icaleg/infrastructure/navigation/bindings/controllers/registry.controller.binding.dart'; 
+export 'package:icaleg/infrastructure/navigation/bindings/controllers/registry_koor.controller.binding.dart'; 
 export 'package:icaleg/infrastructure/navigation/bindings/controllers/registry_verification.controller.binding.dart'; 
 export 'package:icaleg/infrastructure/navigation/bindings/controllers/splash.controller.binding.dart'; 
 export 'package:icaleg/infrastructure/navigation/bindings/controllers/statistics.controller.binding.dart'; 
 export 'package:icaleg/infrastructure/navigation/bindings/controllers/support.controller.binding.dart'; 
+export 'package:icaleg/infrastructure/navigation/bindings/controllers/support_detail.controller.binding.dart'; 
 export 'package:icaleg/infrastructure/navigation/bindings/controllers/support_input.controller.binding.dart'; 

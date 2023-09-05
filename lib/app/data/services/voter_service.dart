@@ -5,12 +5,22 @@ import 'package:icaleg/app/data/services/main_service.dart';
 import 'package:http/http.dart' as http;
 
 class VoterService {
-  static Future<List<VoterDukunganModel>> getVoterDukungan() async {
-    final result = await MainService().getAPI(url: 'vote/getVoter');
+  static Future<List<VoterDukunganModel>> getVoterDukungan(
+      {required String q}) async {
+    final result =
+        await MainService().getAPI(url: 'vote/getVoter', body: {'q': q});
 
     return List<VoterDukunganModel>.from(
-        ((result != null) ? result['data'] : [])
+        ((result != null) ? result['data']['list'] : [])
             .map((e) => VoterDukunganModel.fromJson(e)));
+  }
+
+  static Future<VoterDukunganModel> getVoterDukunganDetail(
+      {required String id}) async {
+    final result =
+        await MainService().getAPI(url: 'vote/getVoter', body: {'id': id});
+
+    return VoterDukunganModel.fromJson(result['data']);
   }
 
   static Future<int> postVoterDukungan({
@@ -30,6 +40,7 @@ class VoterService {
     required String fkVillage,
     required String fkKortep,
     required String tps,
+    required String address,
     required double lat,
     required double lng,
     required File photoIdentity,
@@ -40,22 +51,23 @@ class VoterService {
       fields: {
         'email': email,
         'name': name,
-        'religion': religion,
-        'job': job,
         'nik': nik,
-        'status_kawin': statusKawin,
-        'tps': tps,
-        'lat': lat,
-        'lng': lng,
-        'phone': phone,
         'gender': gender,
         'born': born,
+        'birthday': birthday,
         'fk_province': fkProvince,
         'fk_regency': fkRegency,
         'fk_district': fkDistrict,
+        'tps': tps,
+        'address': address,
+        'phone': phone,
         'fk_village': fkVillage,
         'fk_kortep': fkKortep,
-        'birthday': birthday,
+        'job': job,
+        'religion': religion,
+        'status_kawin': statusKawin,
+        'lat': lat,
+        'lng': lng,
       },
       files: [
         await http.MultipartFile.fromPath('photo_identity', photoIdentity.path),

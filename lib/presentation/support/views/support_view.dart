@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:icaleg/app/views/views/image_network_view.dart';
 import 'package:icaleg/app/views/views/loading_view.dart';
 import 'package:icaleg/app/views/views/not_found_view.dart';
 import 'package:icaleg/app/views/views/utils_view.dart';
@@ -17,7 +18,6 @@ TabBarView bodyTabBarCalegView() {
     koorKoordus(),
     koorKoordes(),
     koorKorcam(),
-    const SizedBox(),
   ]);
 }
 
@@ -28,7 +28,7 @@ TabBarView bodyTabBarKorlapKecamatanView() {
     koorKoortes(),
     koorKoordus(),
     koorKoordes(),
-    koorKorcam(),
+    // koorKorcam(),
   ]);
 }
 
@@ -61,7 +61,7 @@ Obx dukungan() {
       children: [
         Column(
           children: [
-            _filtterBar(),
+            _filtterBar(tag: '0'),
             Visibility(
                 visible: controller.isLoadVoterDukungan.value,
                 child: const Spacer()),
@@ -70,31 +70,43 @@ Obx dukungan() {
                   ? loadingDefault()
                   : (controller.voterDukunganModel.isEmpty)
                       ? const NotFoundView()
-                      : ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: controller.voterDukunganModel.length,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              leading: Container(
-                                height: 80,
-                                width: 80,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle, color: colorGray),
-                              ),
-                              title: Text(
-                                  controller.voterDukunganModel[index].name),
-                              titleTextStyle: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                  fontSize: 16),
-                              subtitle: Text(
-                                'Waktu survey ${controller.voterDukunganModel[index].survey.toString().split(':').first}:${controller.voterDukunganModel[index].survey.toString().split(':')[1]}',
-                                style: const TextStyle(
-                                    fontSize: 13, fontStyle: FontStyle.italic),
-                              ),
-                              isThreeLine: true,
-                            );
-                          },
+                      : RefreshIndicator(
+                          onRefresh: () => controller.getDukungan(),
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: controller.voterDukunganModel.length,
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                onTap: () => Get.toNamed(Routes.SUPPORT_DETAIL,
+                                    arguments: {
+                                      'isDukungan': true,
+                                      'id': controller
+                                          .voterDukunganModel[index].id
+                                    }),
+                                leading: ImageNetworkView(
+                                  url: controller
+                                      .voterDukunganModel[index].photo,
+                                  height: 80,
+                                  width: 80,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle, color: colorGray),
+                                ),
+                                title: Text(
+                                    controller.voterDukunganModel[index].name),
+                                titleTextStyle: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                    fontSize: 16),
+                                subtitle: Text(
+                                  'Waktu survey ${controller.voterDukunganModel[index].survey.toString().split(':').first}:${controller.voterDukunganModel[index].survey.toString().split(':')[1]}',
+                                  style: const TextStyle(
+                                      fontSize: 13,
+                                      fontStyle: FontStyle.italic),
+                                ),
+                                isThreeLine: true,
+                              );
+                            },
+                          ),
                         ),
             ),
             Visibility(
@@ -109,7 +121,7 @@ Obx dukungan() {
             child: Padding(
               padding: const EdgeInsets.only(bottom: 78, right: 10),
               child: ElevatedButton(
-                  onPressed: () => Get.toNamed(Routes.SUPPORT_INPUT),
+                  onPressed: () => Get.bottomSheet(_bottomSheet()),
                   style: ElevatedButton.styleFrom(
                     shape: const CircleBorder(),
                     padding: const EdgeInsets.all(18),
@@ -123,6 +135,28 @@ Obx dukungan() {
   );
 }
 
+Container _bottomSheet() {
+  return Container(
+    height: 140,
+    color: Colors.white,
+    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+    child: Column(
+      children: [
+        ListTile(
+          leading: const Icon(Ionicons.scan),
+          title: const Text('Input Scan KPT'),
+          onTap: () => Get.toNamed(Routes.SUPPORT_INPUT, arguments: true),
+        ),
+        ListTile(
+          leading: const Icon(Ionicons.document),
+          title: const Text('Input Manual'),
+          onTap: () => Get.toNamed(Routes.SUPPORT_INPUT, arguments: false),
+        ),
+      ],
+    ),
+  );
+}
+
 Obx koorKorcam() {
   final SupportController controller = Get.put(SupportController());
   return Obx(
@@ -130,7 +164,7 @@ Obx koorKorcam() {
       children: [
         Column(
           children: [
-            _filtterBar(),
+            _filtterBar(tag: '2'),
             Visibility(
                 visible: controller.isLoadVoterKorcam.value,
                 child: const Spacer()),
@@ -139,32 +173,43 @@ Obx koorKorcam() {
                   ? loadingDefault()
                   : (controller.dataKoordinatorKorcamModel.isEmpty)
                       ? const NotFoundView()
-                      : ListView.builder(
-                          shrinkWrap: true,
-                          itemCount:
-                              controller.dataKoordinatorKorcamModel.length,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              leading: Container(
-                                height: 80,
-                                width: 80,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle, color: colorGray),
-                              ),
-                              title: Text(controller
-                                  .dataKoordinatorKorcamModel[index].nik),
-                              titleTextStyle: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                  fontSize: 16),
-                              // subtitle: Text(
-                              //   'Waktu survey ${controller.voterDukunganModel[index].survey.toString().split(':').first}:${controller.voterDukunganModel[index].survey.toString().split(':')[1]}',
-                              //   style: const TextStyle(
-                              //       fontSize: 13, fontStyle: FontStyle.italic),
-                              // ),
-                              isThreeLine: true,
-                            );
-                          },
+                      : RefreshIndicator(
+                          onRefresh: () => controller.onTapSearch(tag: '2'),
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount:
+                                controller.dataKoordinatorKorcamModel.length,
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                onTap: () => Get.toNamed(Routes.SUPPORT_DETAIL,
+                                    arguments: {
+                                      'isDukungan': false,
+                                      'id': controller
+                                          .dataKoordinatorKorcamModel[index].id
+                                    }),
+                                leading: ImageNetworkView(
+                                  url: controller
+                                      .dataKoordinatorKorcamModel[index].image,
+                                  height: 80,
+                                  width: 80,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle, color: colorGray),
+                                ),
+                                title: Text(controller
+                                    .dataKoordinatorKorcamModel[index].name),
+                                titleTextStyle: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                    fontSize: 16),
+                                // subtitle: Text(
+                                //   'Waktu survey ${controller.voterDukunganModel[index].survey.toString().split(':').first}:${controller.voterDukunganModel[index].survey.toString().split(':')[1]}',
+                                //   style: const TextStyle(
+                                //       fontSize: 13, fontStyle: FontStyle.italic),
+                                // ),
+                                // isThreeLine: true,
+                              );
+                            },
+                          ),
                         ),
             ),
             Visibility(
@@ -179,7 +224,8 @@ Obx koorKorcam() {
             child: Padding(
               padding: const EdgeInsets.only(bottom: 78, right: 10),
               child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () =>
+                      Get.toNamed(Routes.REGISTRY_KOOR, arguments: 2),
                   style: ElevatedButton.styleFrom(
                     shape: const CircleBorder(),
                     padding: const EdgeInsets.all(18),
@@ -200,7 +246,7 @@ Obx koorKoordes() {
       children: [
         Column(
           children: [
-            _filtterBar(),
+            _filtterBar(tag: '3'),
             Visibility(
                 visible: controller.isLoadVoterKordes.value,
                 child: const Spacer()),
@@ -209,32 +255,44 @@ Obx koorKoordes() {
                   ? loadingDefault()
                   : (controller.dataKoordinatorKordesModel.isEmpty)
                       ? const NotFoundView()
-                      : ListView.builder(
-                          shrinkWrap: true,
-                          itemCount:
-                              controller.dataKoordinatorKordesModel.length,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              leading: Container(
-                                height: 80,
-                                width: 80,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle, color: colorGray),
-                              ),
-                              title: Text(controller
-                                  .dataKoordinatorKordesModel[index].nik),
-                              titleTextStyle: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                  fontSize: 16),
-                              // subtitle: Text(
-                              //   'Waktu survey ${controller.voterDukunganModel[index].survey.toString().split(':').first}:${controller.voterDukunganModel[index].survey.toString().split(':')[1]}',
-                              //   style: const TextStyle(
-                              //       fontSize: 13, fontStyle: FontStyle.italic),
-                              // ),
-                              isThreeLine: true,
-                            );
-                          },
+                      : RefreshIndicator(
+                          onRefresh: () => controller.onTapSearch(tag: '3'),
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount:
+                                controller.dataKoordinatorKordesModel.length,
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                onTap: () => Get.toNamed(Routes.SUPPORT_DETAIL,
+                                    arguments: {
+                                      'isDukungan': false,
+                                      'id': controller
+                                          .dataKoordinatorKordesModel[index].id
+                                    }),
+                                leading: ImageNetworkView(
+                                  url: controller
+                                      .dataKoordinatorKordesModel[index].image,
+                                  height: 80,
+                                  width: 80,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle, color: colorGray),
+                                ),
+                                title: Text(controller
+                                    .dataKoordinatorKordesModel[index].name),
+                                titleTextStyle: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                    fontSize: 16),
+                                subtitle: Text(
+                                  'Waktu survey ${controller.voterDukunganModel[index].survey.toString().split(':').first}:${controller.voterDukunganModel[index].survey.toString().split(':')[1]}',
+                                  style: const TextStyle(
+                                      fontSize: 13,
+                                      fontStyle: FontStyle.italic),
+                                ),
+                                isThreeLine: true,
+                              );
+                            },
+                          ),
                         ),
             ),
             Visibility(
@@ -249,7 +307,8 @@ Obx koorKoordes() {
             child: Padding(
               padding: const EdgeInsets.only(bottom: 78, right: 10),
               child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () =>
+                      Get.toNamed(Routes.REGISTRY_KOOR, arguments: 3),
                   style: ElevatedButton.styleFrom(
                     shape: const CircleBorder(),
                     padding: const EdgeInsets.all(18),
@@ -270,7 +329,7 @@ Obx koorKoordus() {
       children: [
         Column(
           children: [
-            _filtterBar(),
+            _filtterBar(tag: '4'),
             Visibility(
                 visible: controller.isLoadVoterKordus.value,
                 child: const Spacer()),
@@ -279,32 +338,44 @@ Obx koorKoordus() {
                   ? loadingDefault()
                   : (controller.dataKoordinatorKordusModel.isEmpty)
                       ? const NotFoundView()
-                      : ListView.builder(
-                          shrinkWrap: true,
-                          itemCount:
-                              controller.dataKoordinatorKordusModel.length,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              leading: Container(
-                                height: 80,
-                                width: 80,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle, color: colorGray),
-                              ),
-                              title: Text(controller
-                                  .dataKoordinatorKordusModel[index].nik),
-                              titleTextStyle: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                  fontSize: 16),
-                              // subtitle: Text(
-                              //   'Waktu survey ${controller.voterDukunganModel[index].survey.toString().split(':').first}:${controller.voterDukunganModel[index].survey.toString().split(':')[1]}',
-                              //   style: const TextStyle(
-                              //       fontSize: 13, fontStyle: FontStyle.italic),
-                              // ),
-                              isThreeLine: true,
-                            );
-                          },
+                      : RefreshIndicator(
+                          onRefresh: () => controller.onTapSearch(tag: '4'),
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount:
+                                controller.dataKoordinatorKordusModel.length,
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                onTap: () => Get.toNamed(Routes.SUPPORT_DETAIL,
+                                    arguments: {
+                                      'isDukungan': false,
+                                      'id': controller
+                                          .dataKoordinatorKordusModel[index].id
+                                    }),
+                                leading: ImageNetworkView(
+                                  url: controller
+                                      .dataKoordinatorKordusModel[index].image,
+                                  height: 80,
+                                  width: 80,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle, color: colorGray),
+                                ),
+                                title: Text(controller
+                                    .dataKoordinatorKordusModel[index].name),
+                                titleTextStyle: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                    fontSize: 16),
+                                subtitle: Text(
+                                  'Waktu survey ${controller.voterDukunganModel[index].survey.toString().split(':').first}:${controller.voterDukunganModel[index].survey.toString().split(':')[1]}',
+                                  style: const TextStyle(
+                                      fontSize: 13,
+                                      fontStyle: FontStyle.italic),
+                                ),
+                                isThreeLine: true,
+                              );
+                            },
+                          ),
                         ),
             ),
             Visibility(
@@ -319,7 +390,8 @@ Obx koorKoordus() {
             child: Padding(
               padding: const EdgeInsets.only(bottom: 78, right: 10),
               child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () =>
+                      Get.toNamed(Routes.REGISTRY_KOOR, arguments: 4),
                   style: ElevatedButton.styleFrom(
                     shape: const CircleBorder(),
                     padding: const EdgeInsets.all(18),
@@ -340,7 +412,7 @@ Obx koorKoortes() {
       children: [
         Column(
           children: [
-            _filtterBar(),
+            _filtterBar(tag: '5'),
             Visibility(
                 visible: controller.isLoadVoterKortep.value,
                 child: const Spacer()),
@@ -349,32 +421,44 @@ Obx koorKoortes() {
                   ? loadingDefault()
                   : (controller.dataKoordinatorKortepModel.isEmpty)
                       ? const NotFoundView()
-                      : ListView.builder(
-                          shrinkWrap: true,
-                          itemCount:
-                              controller.dataKoordinatorKortepModel.length,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              leading: Container(
-                                height: 80,
-                                width: 80,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle, color: colorGray),
-                              ),
-                              title: Text(controller
-                                  .dataKoordinatorKortepModel[index].nik),
-                              titleTextStyle: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                  fontSize: 16),
-                              // subtitle: Text(
-                              //   'Waktu survey ${controller.voterDukunganModel[index].survey.toString().split(':').first}:${controller.voterDukunganModel[index].survey.toString().split(':')[1]}',
-                              //   style: const TextStyle(
-                              //       fontSize: 13, fontStyle: FontStyle.italic),
-                              // ),
-                              isThreeLine: true,
-                            );
-                          },
+                      : RefreshIndicator(
+                          onRefresh: () => controller.onTapSearch(tag: '5'),
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount:
+                                controller.dataKoordinatorKortepModel.length,
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                onTap: () => Get.toNamed(Routes.SUPPORT_DETAIL,
+                                    arguments: {
+                                      'isDukungan': false,
+                                      'id': controller
+                                          .dataKoordinatorKortepModel[index].id
+                                    }),
+                                leading: ImageNetworkView(
+                                  url: controller
+                                      .dataKoordinatorKortepModel[index].image,
+                                  height: 80,
+                                  width: 80,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle, color: colorGray),
+                                ),
+                                title: Text(controller
+                                    .dataKoordinatorKortepModel[index].name),
+                                titleTextStyle: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                    fontSize: 16),
+                                subtitle: Text(
+                                  'Waktu survey ${controller.voterDukunganModel[index].survey.toString().split(':').first}:${controller.voterDukunganModel[index].survey.toString().split(':')[1]}',
+                                  style: const TextStyle(
+                                      fontSize: 13,
+                                      fontStyle: FontStyle.italic),
+                                ),
+                                isThreeLine: true,
+                              );
+                            },
+                          ),
                         ),
             ),
             Visibility(
@@ -389,7 +473,8 @@ Obx koorKoortes() {
             child: Padding(
               padding: const EdgeInsets.only(bottom: 78, right: 10),
               child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () =>
+                      Get.toNamed(Routes.REGISTRY_KOOR, arguments: 5),
                   style: ElevatedButton.styleFrom(
                     shape: const CircleBorder(),
                     padding: const EdgeInsets.all(18),
@@ -419,7 +504,8 @@ Obx koorKoortes() {
 //   );
 // }
 
-Container _filtterBar() {
+Container _filtterBar({required String tag}) {
+  final SupportController controller = Get.put(SupportController());
   return Container(
     padding: const EdgeInsets.only(top: 28, bottom: 10),
     color: colorPrimary.withOpacity(0.8),
@@ -433,17 +519,20 @@ Container _filtterBar() {
                 width: Get.width - 100,
                 decoration: BoxDecoration(
                     color: Colors.white, borderRadius: borderRadius),
-                child: textFromFiled(hintText: 'Masukan Nama Pendukung')),
+                child: textFromFiled(
+                    controller: controller.search,
+                    hintText: 'Masukan Nama Pendukung')),
             ElevatedButton(
-                onPressed: () {}, child: const Icon(Ionicons.options_outline))
+                onPressed: () => controller.onTapSearch(tag: tag),
+                child: const Icon(Ionicons.search))
           ],
         ),
         Padding(
           padding: EdgeInsets.only(left: marginHorizontal),
-          child: Text(
-            'Menampilkan 10 dari 4.231 data',
-            style: TextStyle(color: colorGray),
-          ),
+          // child: Text(
+          //   'Menampilkan 10 dari 4.231 data',
+          //   style: TextStyle(color: colorGray),
+          // ),
         )
       ],
     ),

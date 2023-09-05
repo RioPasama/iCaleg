@@ -12,7 +12,7 @@ class SupportScreen extends GetView<SupportController> {
     Get.put(SupportController());
     return (controller.authController.userModel.userStatus == '1')
         ? DefaultTabController(
-            length: 6,
+            length: 5,
             child: Scaffold(
               appBar: AppBar(
                 toolbarHeight: 0,
@@ -21,8 +21,8 @@ class SupportScreen extends GetView<SupportController> {
                   isScrollable: true,
                   tabs: [
                     Tab(text: 'DUKUNGAN'),
-                    Tab(text: 'SAKSI'),
-                    Tab(text: 'RELAWAM TPS'),
+                    // Tab(text: 'SAKSI'),
+                    Tab(text: 'KOORDINATOR TPS'),
                     Tab(text: 'KOORDINATOR\nDUSUN'),
                     Tab(text: 'KOORDINATOR\nDESA/KELURAHAN'),
                     Tab(text: 'KOORDINATOR\nKECAMATAN'),
@@ -43,7 +43,7 @@ class SupportScreen extends GetView<SupportController> {
                       isScrollable: true,
                       tabs: [
                         Tab(text: 'DUKUNGAN'),
-                        Tab(text: 'RELAWAM TPS'),
+                        Tab(text: 'KOORDINATOR TPS'),
                         Tab(text: 'KOORDINATOR\nDUSUN'),
                         Tab(text: 'KOORDINATOR\nDESA/KELURAHAN'),
                       ],
@@ -63,7 +63,7 @@ class SupportScreen extends GetView<SupportController> {
                           isScrollable: true,
                           tabs: [
                             Tab(text: 'DUKUNGAN'),
-                            Tab(text: 'RELAWAM TPS'),
+                            Tab(text: 'KOORDINATOR TPS'),
                             Tab(text: 'KOORDINATOR\nDUSUN'),
                           ],
                         ),
@@ -82,7 +82,7 @@ class SupportScreen extends GetView<SupportController> {
                               isScrollable: true,
                               tabs: [
                                 Tab(text: 'DUKUNGAN'),
-                                Tab(text: 'RELAWAM TPS'),
+                                Tab(text: 'KOORDINATOR TPS'),
                               ],
                             ),
                           ),
@@ -140,7 +140,7 @@ class SupportScreen extends GetView<SupportController> {
     //               tabs: [
     //                 Tab(text: 'DUKUNGAN'),
     //                 Tab(text: 'SAKSI'),
-    //                 Tab(text: 'RELAWAM TPS'),
+    //                 Tab(text: 'KOORDINATOR TPS'),
     //                 Tab(text: 'KOORDINATOR\nDUSUN'),
     //                 Tab(text: 'KOORDINATOR\nDESA/KELURAHAN'),
     //                 Tab(text: 'KOORDINATOR\nKECAMATAN'),

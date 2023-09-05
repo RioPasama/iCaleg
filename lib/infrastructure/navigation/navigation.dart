@@ -91,5 +91,15 @@ class Nav {
       page: () => const LoginVerificationScreen(),
       binding: LoginVerificationControllerBinding(),
     ),
+    GetPage(
+      name: Routes.REGISTRY_KOOR,
+      page: () => const RegistryKoorScreen(),
+      binding: RegistryKoorControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.SUPPORT_DETAIL,
+      page: () => const SupportDetailScreen(),
+      binding: SupportDetailControllerBinding(),
+    ),
   ];
 }

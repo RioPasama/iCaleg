@@ -28,11 +28,11 @@ Widget profileCaleg() {
       ]),
       listviewTitle(
         title: 'Partai Politik',
-        subTitle: 'Partai Selalu Damai (PSD)',
+        subTitle: controller.authController.userModel.partai,
       ),
       listviewTitle(
         title: 'Daerah Pemilih',
-        subTitle: 'tes',
+        subTitle: controller.authController.userModel.labelDusun,
       ),
       listviewTitle(
         title: 'Jenis Kelamin',
@@ -138,11 +138,11 @@ Widget profileKoor() {
       ),
       listviewTitle(
         title: 'Partai Politik',
-        subTitle: 'Partai Selalu Damai (PSD)',
+        subTitle: controller.authController.userModel.partai,
       ),
       listviewTitle(
         title: 'Daerah Pemilih',
-        subTitle: 'tes',
+        subTitle: controller.authController.userModel.labelDusun,
       ),
       listviewTitle(
         title: 'NIK',

@@ -15,16 +15,15 @@ import 'package:icaleg/infrastructure/theme/theme_utils.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ionicons/ionicons.dart';
 
-import 'controllers/registry.controller.dart';
+import 'controllers/registry_koor.controller.dart';
 
-class RegistryScreen extends GetView<RegistryController> {
-  const RegistryScreen({Key? key}) : super(key: key);
+class RegistryKoorScreen extends GetView<RegistryKoorController> {
+  const RegistryKoorScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    Get.put(RegistryController());
-
+    Get.put(RegistryKoorController());
     return Scaffold(
-      appBar: appBarDefault(title: 'FORMULIR REGISTRASI'),
+      appBar: appBarDefault(title: 'FORMULIR REGISTRASI KOOR'),
       body: Form(
           key: controller.formkey,
           child: SingleChildScrollView(
@@ -149,12 +148,12 @@ class RegistryScreen extends GetView<RegistryController> {
                     select: controller.selectLevel,
                     data: controller.levelModel,
                   ),
-                  _textLabel(
-                      label: 'Role Pengguna', subLabel: '* Wajib di isi'),
-                  _dropdownRole(
-                    select: controller.selectRole,
-                    data: controller.roleModel,
-                  ),
+                  // _textLabel(
+                  //     label: 'Role Pengguna', subLabel: '* Wajib di isi'),
+                  // _dropdownRole(
+                  //   select: controller.selectRole,
+                  //   data: controller.roleModel,
+                  // ),
                   _textLabel(label: 'DAPIL', subLabel: '* Wajib di isi'),
                   _dropdownDapil(
                     select: controller.selectDapil,

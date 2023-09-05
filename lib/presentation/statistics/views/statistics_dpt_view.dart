@@ -129,7 +129,7 @@ class StatisticsDptView extends GetView {
             Align(
               alignment: Alignment.topLeft,
               child: Text(
-                '${controller.potensiDptModel.value?.dpt.presentaseLaki.toString().split('.').first}%',
+                '${double.parse(controller.potensiDptModel.value?.dpt.presentaseLaki.toString() ?? '0').toStringAsFixed(0)}%',
                 style: TextStyle(
                   color: Colors.white,
                   shadows: [shadow],
@@ -139,7 +139,7 @@ class StatisticsDptView extends GetView {
             Align(
               alignment: Alignment.topRight,
               child: Text(
-                '${controller.potensiDptModel.value?.dpt.presentasePerempuan.toString().split('.').first}%',
+                '${double.parse(controller.potensiDptModel.value?.dpt.presentasePerempuan.toString() ?? '0').toStringAsFixed(0)}%',
                 style: TextStyle(
                   color: Colors.white,
                   shadows: [shadow],

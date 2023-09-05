@@ -1,6 +1,7 @@
 class DataKoordinatorModel {
   final String id;
   final String nik;
+  final String name;
   final String dataKoordinatorModelAs;
   final String duty;
   final String phone;
@@ -10,6 +11,7 @@ class DataKoordinatorModel {
   DataKoordinatorModel({
     required this.id,
     required this.nik,
+    required this.name,
     required this.dataKoordinatorModelAs,
     required this.duty,
     required this.phone,
@@ -21,6 +23,7 @@ class DataKoordinatorModel {
       DataKoordinatorModel(
         id: json['id'],
         nik: json['nik'],
+        name: json['name'],
         dataKoordinatorModelAs: json['as'],
         duty: json['duty'],
         phone: json['phone'],
@@ -31,6 +34,7 @@ class DataKoordinatorModel {
   Map<String, dynamic> toJson() => {
         'id': id,
         'nik': nik,
+        'name': name,
         'as': dataKoordinatorModelAs,
         'duty': duty,
         'phone': phone,

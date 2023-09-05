@@ -59,6 +59,7 @@ class SupportInputController extends GetxController {
 
   late NIKModel dataNIKKTP;
 
+  bool isScan = Get.arguments ?? false;
   RxBool isLoaded = false.obs;
   RxBool isEmty = false.obs;
   RxBool isOpenCam = true.obs;
@@ -92,12 +93,15 @@ class SupportInputController extends GetxController {
     tanggalLahirTextEditingController = TextEditingController();
     numberPhoneTextEditingController = TextEditingController();
     alamatTextEditingController = TextEditingController();
+    if (isScan) {
+      scanKtp(isInitValuerKTP: true);
+    }
+    _determinePosition();
     super.onInit();
   }
 
   @override
-  void onReady() async {
-    position = await _determinePosition();
+  void onReady() {
     super.onReady();
   }
 
@@ -114,7 +118,7 @@ class SupportInputController extends GetxController {
     super.onClose();
   }
 
-  Future<Position> _determinePosition() async {
+  Future<void> _determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -150,7 +154,7 @@ class SupportInputController extends GetxController {
 
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
-    return await Geolocator.getCurrentPosition();
+    position = await Geolocator.getCurrentPosition();
   }
 
   Future<void> showDialogDatePicker(BuildContext context) async {
@@ -183,10 +187,12 @@ class SupportInputController extends GetxController {
         addressRegency.value = [];
         addressRegency.value =
             await fetchAddress(urlPath: 'regency', id: val?.id);
+        Get.back();
         selectByName(
             addressList: addressRegency,
             compareName: ktpRes?.ktp?.kabKot ?? dataNIKKTP.city ?? '',
             tag: 'regency');
+
         break;
       case 'regency':
         selectRegency.value = val;
@@ -196,6 +202,7 @@ class SupportInputController extends GetxController {
         addressDistrict.value = [];
         addressDistrict.value =
             await fetchAddress(urlPath: 'district', id: val?.id);
+        Get.back();
         selectByName(
             addressList: addressRegency,
             compareName: ktpRes?.ktp?.kecamatan ?? dataNIKKTP.subdistrict ?? '',
@@ -207,6 +214,7 @@ class SupportInputController extends GetxController {
         addressVillage.value = [];
         addressVillage.value =
             await fetchAddress(urlPath: 'village', id: val?.id);
+        Get.back();
         selectByName(
             addressList: addressRegency,
             compareName: ktpRes?.ktp?.kelurahan ?? '',
@@ -214,6 +222,7 @@ class SupportInputController extends GetxController {
         break;
       case 'village':
         selectVillage.value = val;
+        Get.back();
       default:
         Get.dialog(dialogView(
           title: 'Error wilaya',
@@ -221,7 +230,6 @@ class SupportInputController extends GetxController {
           onTapOke: () => Get.back(),
         ));
     }
-    Get.back();
   }
 
   void selectByName({
@@ -330,10 +338,9 @@ class SupportInputController extends GetxController {
   }
 
   Future<void> getPhoto({required ImageSource source}) async {
-    var image = await _picker.pickImage(source: source, imageQuality: 0);
+    var image = await _picker.pickImage(source: source, imageQuality: 20);
     pathPhoto!.value = image?.path ?? '';
     photo = image;
-
     Get.back();
   }
 
@@ -344,7 +351,7 @@ class SupportInputController extends GetxController {
       return;
     }
 
-    if (authController.userModel.userStatus == '6') {
+    if (authController.userModel.userStatus == '5') {
       onTapRegistry();
     } else {
       isInputTPS.value = true;
@@ -360,19 +367,24 @@ class SupportInputController extends GetxController {
   }
 
   Future<void> getIdenti({required ImageSource source}) async {
-    var image = await _picker.pickImage(source: source, imageQuality: 0);
+    var image = await _picker.pickImage(source: source, imageQuality: 20);
     pathIdenti!.value = image?.path ?? '';
     identi = image;
-    Get.back();
+    await fetchData();
+    // await initValueKTP();
+
+    // Get.back();
   }
 
   Future<void> onTapRegistry() async {
-    if (selectKoorlapTps.value?.id.isEmpty ?? true) {
-      Get.dialog(dialogView(
-        title: 'Data Kurang Lengkap',
-        content: 'Isikan Nomor TPS dan  Piih KoorLapnya',
-        onTapOke: () => Get.back(),
-      ));
+    if (authController.userModel.userStatus != '5') {
+      if (selectKoorlapTps.value?.id.isEmpty ?? true) {
+        Get.dialog(dialogView(
+          title: 'Data Kurang Lengkap',
+          content: 'Isikan Nomor TPS dan  Piih KoorLapnya',
+          onTapOke: () => Get.back(),
+        ));
+      }
     }
     int code = await VoterService.postVoterDukungan(
       nik: nikTextEditingController.text,
@@ -393,7 +405,8 @@ class SupportInputController extends GetxController {
       lat: position.altitude,
       lng: position.longitude,
       tps: tpsTextEditingController.text,
-      fkKortep: selectKoorlapTps.value!.id,
+      address: alamatTextEditingController.text,
+      fkKortep: selectKoorlapTps.value?.id ?? '0',
       statusKawin: (selectStatusPerkawinan.value == 'Belum Kawin')
           ? '1'
           : (selectStatusPerkawinan.value == 'Kawin')

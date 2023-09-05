@@ -22,123 +22,136 @@ class SupportInputFormView extends GetView {
   Widget build(BuildContext context) {
     return Form(
       key: controller.formkey,
-      child: ListView(
-        padding: EdgeInsets.symmetric(horizontal: marginHorizontal),
-        children: [
-          _buttonPhoto(
-            label: 'Foto Profile',
-            icon: Assets.icons.buttonPhotoPreson,
-            isPhoto: true,
-            path: controller.pathPhoto,
-            onTap: () => Get.bottomSheet(_bottomSheetPhoto(isPhoto: true)),
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: marginHorizontal),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: _buttonPhoto(
+                  label: 'Foto Profile',
+                  icon: Assets.icons.buttonPhotoPreson,
+                  isPhoto: true,
+                  path: controller.pathPhoto,
+                  onTap: () =>
+                      Get.bottomSheet(_bottomSheetPhoto(isPhoto: true)),
+                ),
+              ),
+              _textLabel(label: 'Nama Lengkap', subLabel: '* Wajib di isi'),
+              textFromFiled(
+                controller: controller.fullNameTextEditingController,
+                keyboardType: TextInputType.emailAddress,
+                hintText: 'Isi Nama Lengkap',
+                validator: (val) => controller.textInputValidatorController
+                    .validatorFullName(val),
+              ),
+              _textLabel(label: 'NIK', subLabel: '* Wajib di isi'),
+              textFromFiled(
+                controller: controller.nikTextEditingController,
+                keyboardType: TextInputType.datetime,
+                hintText: 'Isi NIK',
+                validator: (val) =>
+                    controller.textInputValidatorController.validatorNIK(val),
+              ),
+              _textLabel(label: 'Email', subLabel: '* Wajib di isi'),
+              textFromFiled(
+                controller: controller.emailTextEditingController,
+                keyboardType: TextInputType.emailAddress,
+                hintText: 'Isi Email',
+                validator: (val) => controller.textInputValidatorController
+                    .validatorFullName(val),
+              ),
+              _textLabel(label: 'No. Telpon (WA)', subLabel: '* Wajib di isi'),
+              textFromFiled(
+                controller: controller.numberPhoneTextEditingController,
+                hintText: ' Isi No. Telpon (WA)',
+                keyboardType: TextInputType.datetime,
+                prefixIcon: Container(
+                    width: 24,
+                    decoration: const BoxDecoration(
+                        border: Border(right: BorderSide(color: Colors.grey))),
+                    alignment: Alignment.center,
+                    child: const Text('+62')),
+                validator: (val) => controller.textInputValidatorController
+                    .validatorNumberPhone(val),
+              ),
+              _textLabel(label: 'Tempat Lahir', subLabel: '* Wajib di isi'),
+              textFromFiled(
+                controller: controller.tempatLahirTextEditingController,
+                keyboardType: TextInputType.emailAddress,
+                hintText: 'Isi Tempat Lahir',
+                validator: (val) => controller.textInputValidatorController
+                    .validatorNotNull(val),
+              ),
+              _textLabel(label: 'Tanggal Lahir', subLabel: '* Wajib di isi'),
+              textFromFiled(
+                controller: controller.tanggalLahirTextEditingController,
+                readOnly: true,
+                onTap: () => controller.showDialogDatePicker(context),
+                keyboardType: TextInputType.emailAddress,
+                hintText: 'Isi Tanggal Lahir',
+                validator: (val) => controller.textInputValidatorController
+                    .validatorNotNull(val),
+              ),
+              _textLabel(label: 'Agama', subLabel: '* Wajib di isi'),
+              _dropdownReligion(
+                  data: controller.religion, select: controller.selectReligion),
+              _textLabel(
+                  label: 'Status Perkawinan', subLabel: '* Wajib di isi'),
+              _dropdownStatusPerkawinan(data: controller.statusPerkawinan),
+              _textLabel(label: 'Pekerjaan', subLabel: '* Wajib di isi'),
+              _dropdownJob(data: controller.job, select: controller.selectJob),
+              _textLabel(label: 'Jenis Kelamin', subLabel: '* Wajib di isi'),
+              _dropdownGender(
+                  data: controller.gender, select: controller.selectGender),
+              _textLabel(label: 'Provinsi', subLabel: '* Wajib di isi'),
+              _dropdownAddress(
+                tag: 'province',
+                select: controller.selectProvince,
+                data: controller.addressProvince,
+              ),
+              _textLabel(label: 'Kabupaten', subLabel: '* Wajib di isi'),
+              _dropdownAddress(
+                tag: 'regency',
+                select: controller.selectRegency,
+                data: controller.addressRegency,
+              ),
+              _textLabel(label: 'Kecamatan', subLabel: '* Wajib di isi'),
+              _dropdownAddress(
+                tag: 'district',
+                select: controller.selectDistrict,
+                data: controller.addressDistrict,
+              ),
+              _textLabel(label: 'Kelurahan', subLabel: '* Wajib di isi'),
+              _dropdownAddress(
+                tag: 'village',
+                select: controller.selectVillage,
+                data: controller.addressVillage,
+              ),
+              _textLabel(label: 'Alamat Lengkapi', subLabel: '* Wajib di isi'),
+              textFromFiled(
+                controller: controller.alamatTextEditingController,
+                hintText:
+                    'Isi alamat Lengkap\nJl Seturan, RT 02 RW05 Candi asih, Sleman...',
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
+                validator: (val) => controller.textInputValidatorController
+                    .validatorNotNull(val),
+              ),
+              const SizedBox(height: 40),
+              SizedBox(
+                width: Get.width,
+                child: ElevatedButton(
+                    onPressed: () => controller.onNext(),
+                    child: Text(
+                        (controller.authController.userModel.userStatus == '5')
+                            ? 'Simpan'
+                            : 'Cari Koor TPS')),
+              )
+            ],
           ),
-          _textLabel(label: 'Nama Lengkap', subLabel: '* Wajib di isi'),
-          textFromFiled(
-            controller: controller.fullNameTextEditingController,
-            keyboardType: TextInputType.emailAddress,
-            hintText: 'Isi Nama Lengkap',
-            validator: (val) =>
-                controller.textInputValidatorController.validatorFullName(val),
-          ),
-          _textLabel(label: 'NIK', subLabel: '* Wajib di isi'),
-          textFromFiled(
-            controller: controller.nikTextEditingController,
-            keyboardType: TextInputType.datetime,
-            hintText: 'Isi NIK',
-            validator: (val) =>
-                controller.textInputValidatorController.validatorNIK(val),
-          ),
-          _textLabel(label: 'Email', subLabel: '* Wajib di isi'),
-          textFromFiled(
-            controller: controller.emailTextEditingController,
-            keyboardType: TextInputType.emailAddress,
-            hintText: 'Isi Email',
-            validator: (val) =>
-                controller.textInputValidatorController.validatorFullName(val),
-          ),
-          _textLabel(label: 'No. Telpon (WA)', subLabel: '* Wajib di isi'),
-          textFromFiled(
-            controller: controller.numberPhoneTextEditingController,
-            hintText: ' Isi No. Telpon (WA)',
-            keyboardType: TextInputType.datetime,
-            prefixIcon: Container(
-                width: 24,
-                decoration: const BoxDecoration(
-                    border: Border(right: BorderSide(color: Colors.grey))),
-                alignment: Alignment.center,
-                child: const Text('+62')),
-            validator: (val) => controller.textInputValidatorController
-                .validatorNumberPhone(val),
-          ),
-          _textLabel(label: 'Tempat Lahir', subLabel: '* Wajib di isi'),
-          textFromFiled(
-            controller: controller.tempatLahirTextEditingController,
-            keyboardType: TextInputType.emailAddress,
-            hintText: 'Isi Tempat Lahir',
-            validator: (val) =>
-                controller.textInputValidatorController.validatorNotNull(val),
-          ),
-          _textLabel(label: 'Tanggal Lahir', subLabel: '* Wajib di isi'),
-          textFromFiled(
-            controller: controller.tanggalLahirTextEditingController,
-            readOnly: true,
-            onTap: () => controller.showDialogDatePicker(context),
-            keyboardType: TextInputType.emailAddress,
-            hintText: 'Isi Tanggal Lahir',
-            validator: (val) =>
-                controller.textInputValidatorController.validatorNotNull(val),
-          ),
-          _textLabel(label: 'Agama', subLabel: '* Wajib di isi'),
-          _dropdownReligion(
-              data: controller.religion, select: controller.selectReligion),
-          _textLabel(label: 'Status Perkawinan', subLabel: '* Wajib di isi'),
-          _dropdownStatusPerkawinan(data: controller.statusPerkawinan),
-          _textLabel(label: 'Pekerjaan', subLabel: '* Wajib di isi'),
-          _dropdownJob(data: controller.job, select: controller.selectJob),
-          _textLabel(label: 'Jenis Kelamin', subLabel: '* Wajib di isi'),
-          _dropdownGender(data: controller.gender),
-          _textLabel(label: 'Provinsi', subLabel: '* Wajib di isi'),
-          _dropdownAddress(
-            tag: 'province',
-            select: controller.selectProvince,
-            data: controller.addressProvince,
-          ),
-          _textLabel(label: 'Kabupaten', subLabel: '* Wajib di isi'),
-          _dropdownAddress(
-            tag: 'regency',
-            select: controller.selectRegency,
-            data: controller.addressRegency,
-          ),
-          _textLabel(label: 'Kecamatan', subLabel: '* Wajib di isi'),
-          _dropdownAddress(
-            tag: 'district',
-            select: controller.selectDistrict,
-            data: controller.addressDistrict,
-          ),
-          _textLabel(label: 'Kelurahan', subLabel: '* Wajib di isi'),
-          _dropdownAddress(
-            tag: 'village',
-            select: controller.selectVillage,
-            data: controller.addressVillage,
-          ),
-          _textLabel(label: 'Alamat Lengkapi', subLabel: '* Wajib di isi'),
-          textFromFiled(
-            controller: controller.alamatTextEditingController,
-            hintText:
-                'Isi alamat Lengkap\nJl Seturan, RT 02 RW05 Candi asih, Sleman...',
-            keyboardType: TextInputType.multiline,
-            maxLines: null,
-            validator: (val) =>
-                controller.textInputValidatorController.validatorNotNull(val),
-          ),
-          const SizedBox(height: 40),
-          SizedBox(
-            width: Get.width,
-            child: ElevatedButton(
-                onPressed: () => controller.onNext(),
-                child: const Text('Cari Koor TPS')),
-          )
-        ],
+        ),
       ),
     );
   }
@@ -238,11 +251,13 @@ class SupportInputFormView extends GetView {
     ));
   }
 
-  DropdownButtonHideUnderline _dropdownGender({required List<String> data}) {
+  DropdownButtonHideUnderline _dropdownGender(
+      {RxString? select, required List<String> data}) {
     return DropdownButtonHideUnderline(
         child: Obx(
       () => DropdownButtonFormField(
         borderRadius: borderRadius,
+        // value: select?.value,
         items: data
             .map(
               (val) => DropdownMenuItem(

@@ -19,52 +19,58 @@ class SupportInputCamView extends GetView {
   Widget build(BuildContext context) {
     return SizedBox(
       width: Get.width,
-      child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            // const Spacer(),
-            // Text(
-            //   'Foto KTP',
-            //   style: TextStyle(
-            //       color: colorTextPrimary,
-            //       fontSize: 24,
-            //       fontWeight: FontWeight.bold),
-            // ),
-            // const Spacer(),
-            // InkWell(
-            //     // onTap: () => Get.bottomSheet(_bottomSheetPhoto(isPhoto: false)),
-            //     onTap: controller.scanKtp,
-            //     child: Padding(
-            //       padding: EdgeInsets.symmetric(horizontal: marginHorizontal),
-            //       child: AspectRatio(
-            //           aspectRatio: 3 / 2,
-            //           child: Obx(() => Container(
-            //                 alignment: Alignment.center,
-            //                 decoration: BoxDecoration(
-            //                     color: colorGray,
-            //                     borderRadius: borderRadius,
-            //                     image: (controller.pathIdenti?.value != '')
-            //                         ? DecorationImage(
-            //                             image: FileImage(
-            //                                 File(controller.pathIdenti!.value)),
-            //                             fit: BoxFit.cover,
-            //                           )
-            //                         : null),
-            //                 child: SvgPicture.asset(
-            //                     Assets.icons.buttonPhotoIndeti),
-            //               ))),
-            //     )),
-            // const Spacer(flex: 3)
+      child: (controller.isScan)
+          ? SizedBox()
+          : Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                  const Spacer(),
+                  Text(
+                    'Foto KTP',
+                    style: TextStyle(
+                        color: colorTextPrimary,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  const Spacer(),
+                  InkWell(
+                      onTap: () =>
+                          controller.getIdenti(source: ImageSource.camera),
+                      // onTap: () => Get.bottomSheet(_bottomSheetPhoto(isPhoto: false)),
+                      // onTap: controller.scanKtp,
+                      child: Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: marginHorizontal),
+                        child: AspectRatio(
+                            aspectRatio: 3 / 2,
+                            child: Obx(() => Container(
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      color: colorGray,
+                                      borderRadius: borderRadius,
+                                      image: (controller.pathIdenti?.value !=
+                                              '')
+                                          ? DecorationImage(
+                                              image: FileImage(File(controller
+                                                  .pathIdenti!.value)),
+                                              fit: BoxFit.cover,
+                                            )
+                                          : null),
+                                  child: SvgPicture.asset(
+                                      Assets.icons.buttonPhotoIndeti),
+                                ))),
+                      )),
+                  const Spacer(flex: 3)
 
-            ElevatedButton(
-                onPressed: () => controller.scanKtp(isInitValuerKTP: true),
-                child: const Text(' Sistem Scan KTP ')),
-            ElevatedButton(
-                onPressed: () =>
-                    controller.getIdenti(source: ImageSource.camera),
-                child: const Text(' Input Manual ')),
-          ]),
+                  // ElevatedButton(
+                  //     onPressed: () => controller.scanKtp(isInitValuerKTP: true),
+                  //     child: const Text(' Sistem Scan KTP ')),
+                  // ElevatedButton(
+                  //     onPressed: () =>
+                  //         controller.getIdenti(source: ImageSource.camera),
+                  //     child: const Text(' Input Manual ')),
+                ]),
     );
   }
 
