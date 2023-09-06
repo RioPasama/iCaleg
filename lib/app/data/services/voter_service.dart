@@ -18,7 +18,7 @@ class VoterService {
   static Future<VoterDukunganModel> getVoterDukunganDetail(
       {required String id}) async {
     final result =
-        await MainService().getAPI(url: 'vote/getVoter', body: {'id': id});
+        await MainService().getAPI(url: 'vote/detail', body: {'id': id});
 
     return VoterDukunganModel.fromJson(result['data']);
   }

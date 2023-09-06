@@ -417,12 +417,12 @@ class SupportInputController extends GetxController {
     );
 
     if (code == 200) {
-      dialogView(
+      Get.dialog(dialogView(
         title: 'Berhasil',
         content:
             'Data ${fullNameTextEditingController.text} berhasil di simpan',
         onTapOke: () => Get.offAllNamed(Routes.MAIN),
-      );
+      ));
     }
   }
 }

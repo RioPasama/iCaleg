@@ -1,6 +1,7 @@
 import 'package:icaleg/app/data/models/Koorlap_tps_model.dart';
 import 'package:icaleg/app/data/models/dapil_model.dart';
 import 'package:icaleg/app/data/models/data_koordinator_model.dart';
+import 'package:icaleg/app/data/models/detail_koordinator_model.dart';
 import 'package:icaleg/app/data/models/level_model.dart';
 import 'package:icaleg/app/data/models/partai_model.dart';
 import 'package:icaleg/app/data/services/main_service.dart';
@@ -78,5 +79,14 @@ class PemiluService {
     } else {
       return []; // Return an empty list when there's no data
     }
+  }
+
+  static Future<DetailKoordinatorModel> getDataKoorlapDetail(
+      {required String id}) async {
+    Map<String, String> body = {'id': id};
+    final result =
+        await MainService().getAPI(url: 'koordinator/detail', body: body);
+
+    return DetailKoordinatorModel.fromJson(result['data']);
   }
 }

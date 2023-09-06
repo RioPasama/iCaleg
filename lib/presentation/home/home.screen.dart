@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:icaleg/app/views/views/loading_view.dart';
 import 'package:icaleg/gen/assets.gen.dart';
 import 'package:icaleg/infrastructure/theme/theme_utils.dart';
+import 'package:intl/intl.dart';
 import 'package:ionicons/ionicons.dart';
 
 import 'controllers/home.controller.dart';
@@ -50,16 +51,15 @@ class HomeScreen extends GetView<HomeController> {
           children: [
             _cardStatistikSecondary(
               lable: 'Alokasi Kursi',
-              value:
-                  controller.homeModel.value!.statistik.alokasiKursi.toString(),
+              value: controller.homeModel.value!.statistik.alokasiKursi,
             ),
             _cardStatistikSecondary(
               lable: 'TPS',
-              value: controller.homeModel.value!.statistik.tps.toString(),
+              value: controller.homeModel.value!.statistik.tps,
             ),
             _cardStatistikSecondary(
               lable: 'DPT Dapil',
-              value: controller.homeModel.value!.statistik.dptDapil.toString(),
+              value: controller.homeModel.value!.statistik.dptDapil,
             ),
           ],
         ),
@@ -68,7 +68,7 @@ class HomeScreen extends GetView<HomeController> {
   }
 
   Container _cardStatistikSecondary(
-      {required String lable, required String value}) {
+      {required String lable, required int value}) {
     return Container(
       height: 68,
       width: 110,
@@ -109,7 +109,7 @@ class HomeScreen extends GetView<HomeController> {
                   Align(
                     alignment: Alignment.centerRight,
                     child: Text(
-                      value,
+                      NumberFormat.decimalPattern('id').format(value),
                       style: TextStyle(
                           color: colorTextPrimary,
                           fontSize: 16,
@@ -137,24 +137,21 @@ class HomeScreen extends GetView<HomeController> {
         children: [
           _cardStatistikPrimary(
             lable: 'Total Dukungan',
-            value:
-                controller.homeModel.value!.statistik.totalDukungan.toString(),
+            value: controller.homeModel.value!.statistik.totalDukungan,
             icon: Ionicons.people_outline,
             colorData: const Color(0xFF02754C),
             colorBackground: const Color(0xFFD3F6EA),
           ),
           _cardStatistikPrimary(
             lable: 'Jumlah Relawan',
-            value:
-                controller.homeModel.value!.statistik.totalRelawan.toString(),
+            value: controller.homeModel.value!.statistik.totalRelawan,
             icon: Ionicons.person_add_outline,
             colorData: const Color(0xFFC39D00),
             colorBackground: const Color(0xFFFEF6D5),
           ),
           _cardStatistikPrimary(
             lable: 'Target Dukungan',
-            value:
-                controller.homeModel.value!.statistik.targetDukungan.toString(),
+            value: controller.homeModel.value!.statistik.targetDukungan,
             icon: Ionicons.pulse_outline,
             colorData: const Color(0xFF3598DB),
             colorBackground: const Color(0xFFDCEFFC),
@@ -166,7 +163,7 @@ class HomeScreen extends GetView<HomeController> {
 
   Container _cardStatistikPrimary({
     required String lable,
-    required String value,
+    required int value,
     required IconData icon,
     required Color colorData,
     required Color colorBackground,
@@ -184,7 +181,7 @@ class HomeScreen extends GetView<HomeController> {
           Padding(
             padding: const EdgeInsets.only(left: 24, top: 14),
             child: Text(
-              value,
+              NumberFormat.decimalPattern('id').format(value),
               style: TextStyle(
                   color: colorData, fontSize: 28, fontWeight: FontWeight.bold),
             ),

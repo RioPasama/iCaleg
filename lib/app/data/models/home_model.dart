@@ -1,6 +1,3 @@
-import 'package:meta/meta.dart';
-import 'dart:convert';
-
 class HomeModel {
   final String name;
   final String partai;
@@ -15,11 +12,6 @@ class HomeModel {
     required this.daerahPemilihan,
     required this.statistik,
   });
-
-  factory HomeModel.fromRawJson(String str) =>
-      HomeModel.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
 
   factory HomeModel.fromJson(Map<String, dynamic> json) => HomeModel(
         name: json["name"],
@@ -57,11 +49,6 @@ class Statistik {
     required this.dukungan,
   });
 
-  factory Statistik.fromRawJson(String str) =>
-      Statistik.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
-
   factory Statistik.fromJson(Map<String, dynamic> json) => Statistik(
         totalDukungan: json["total_dukungan"],
         totalRelawan: json["total_relawan"],
@@ -92,11 +79,6 @@ class Dukungan {
     required this.jumlahData,
     required this.tanggal,
   });
-
-  factory Dukungan.fromRawJson(String str) =>
-      Dukungan.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
 
   factory Dukungan.fromJson(Map<String, dynamic> json) => Dukungan(
         jumlahData: json["jumlah_data"],

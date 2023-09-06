@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:icaleg/app/views/views/chart_doughnut_view.dart';
 import 'package:icaleg/infrastructure/theme/theme_utils.dart';
 import 'package:icaleg/presentation/statistics/controllers/statistics.controller.dart';
+import 'package:intl/intl.dart';
 import 'package:ionicons/ionicons.dart';
 
 class StatisticsDptView extends GetView {
@@ -35,15 +36,18 @@ class StatisticsDptView extends GetView {
           children: [
             cardValueKoor(
                 title: 'JUMLAH KECAMATAN',
-                value: '${controller.potensiDptModel.value?.jumlahKecamatan}',
+                value: NumberFormat.decimalPattern('id')
+                    .format(controller.potensiDptModel.value?.jumlahKecamatan),
                 color: Colors.blue),
             cardValueKoor(
                 title: 'JUMLAH DESA',
-                value: '${controller.potensiDptModel.value?.jumlahDesa}',
+                value: NumberFormat.decimalPattern('id')
+                    .format(controller.potensiDptModel.value?.jumlahDesa),
                 color: Colors.orangeAccent),
             cardValueKoor(
                 title: 'JUMLAH TPS',
-                value: '${controller.potensiDptModel.value?.jumlahTps}',
+                value: NumberFormat.decimalPattern('id')
+                    .format(controller.potensiDptModel.value?.jumlahTps),
                 color: Colors.green),
           ],
         ),
@@ -99,7 +103,8 @@ class StatisticsDptView extends GetView {
       child: Column(
         children: [
           Text(
-            '${controller.potensiDptModel.value?.dpt.totalDpt}',
+            NumberFormat.decimalPattern('id')
+                .format(controller.potensiDptModel.value?.dpt.totalDpt),
             style: TextStyle(
                 color: Colors.white,
                 fontSize: 38,
