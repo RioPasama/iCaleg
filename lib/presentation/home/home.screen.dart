@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
+import 'package:icaleg/app/views/views/image_network_view.dart';
 import 'package:icaleg/app/views/views/loading_view.dart';
 import 'package:icaleg/gen/assets.gen.dart';
 import 'package:icaleg/infrastructure/theme/theme_utils.dart';
@@ -15,6 +17,19 @@ class HomeScreen extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     Get.put(HomeController());
+
+    InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
+        crossPlatform: InAppWebViewOptions(
+          useShouldOverrideUrlLoading: true,
+          mediaPlaybackRequiresUserGesture: false,
+        ),
+        android: AndroidInAppWebViewOptions(
+          useHybridComposition: true,
+        ),
+        ios: IOSInAppWebViewOptions(
+          allowsInlineMediaPlayback: true,
+        ));
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Stack(
@@ -29,7 +44,50 @@ class HomeScreen extends GetView<HomeController> {
                         children: [
                           _infoUser(),
                           _statistikPrimary(),
-                          _statistikSecondary()
+                          _statistikSecondary(),
+                          Container(
+                            height: 680,
+                            width: Get.width,
+                            margin: const EdgeInsets.only(bottom: 100),
+                            child: InAppWebView(
+                              key: controller.webViewKey,
+                              initialOptions: options,
+                              initialUrlRequest: URLRequest(
+                                  url: Uri.parse(
+                                      'https://cekdptonline.kpu.go.id')),
+                              // shouldOverrideUrlLoading:
+                              //     (controller, navigationAction) async {
+                              // final uri = navigationAction.request.url!;
+
+                              // log('url ${navigationAction.request.url}');
+                              // // if ((uri.toString()).startsWith(
+                              // //     'https://dev.andipublisher.com/midtrans/transaksi/finish?')) {
+                              // //   Get.offAllNamed(Routes.MAIN);
+                              // //   return null;
+                              // // } else if ((uri.toString())
+                              // //     .startsWith('https://app.midtrans.com')) {
+                              // //   return null;
+                              // // } else if ((uri.toString())
+                              // //     .startsWith('https://app.sandbox.midtrans.com')) {
+                              // //   return null;
+                              // // }
+                              // log('test1' + uri.toString());
+                              // if ((uri.toString()).contains('finish')) {
+                              //   Get.offAllNamed(Routes.MAIN);
+                              //   return null;
+                              // } else if ((uri.toString())
+                              //     .startsWith('https://app.midtrans.com')) {
+                              //   return null;
+                              // } else if ((uri.toString())
+                              //     .startsWith('https://app.sandbox.midtrans.com')) {
+                              //   return null;
+                              // }
+                              // launchUrl(Uri.parse(uri.toString()),
+                              //     mode: LaunchMode.externalApplication);
+                              // return NavigationActionPolicy.CANCEL;
+                              // }
+                            ),
+                          )
                         ],
                       ),
               ),
@@ -216,7 +274,8 @@ class HomeScreen extends GetView<HomeController> {
           border: Border.all(color: colorPrimary)),
       child: Row(
         children: [
-          Container(
+          ImageNetworkView(
+            url: controller.homeModel.value?.images ?? '',
             height: Get.width / 3.8,
             width: Get.width / 3.8,
             margin: const EdgeInsets.only(right: 10),

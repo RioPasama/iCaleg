@@ -93,15 +93,26 @@ class SupportInputController extends GetxController {
     tanggalLahirTextEditingController = TextEditingController();
     numberPhoneTextEditingController = TextEditingController();
     alamatTextEditingController = TextEditingController();
-    if (isScan) {
-      scanKtp(isInitValuerKTP: true);
-    }
-    _determinePosition();
+
     super.onInit();
   }
 
   @override
   void onReady() {
+    if (isScan) {
+      scanKtp(isInitValuerKTP: true);
+    }
+    Get.dialog(
+        dialogView(
+            title: 'Location permissions',
+            content:
+                'Aplikasi ini mengumpulkan data lokasi untuk mengaktifkan fitur penambahan dukungan dan angota bahkan saat aplikasi ditutup atau tidak dalam penggunaan',
+            onTapOke: () async {
+              Get.back();
+              _determinePosition();
+            }),
+        barrierDismissible: false);
+
     super.onReady();
   }
 
@@ -348,6 +359,11 @@ class SupportInputController extends GetxController {
     if (!formkey.currentState!.validate() ||
         pathPhoto?.value == null ||
         pathIdenti?.value == null) {
+      Get.dialog(dialogView(
+        title: 'Data Kurang Lengkap',
+        content: 'Silakan cek kembali',
+        onTapOke: () => Get.back(),
+      ));
       return;
     }
 
@@ -384,8 +400,10 @@ class SupportInputController extends GetxController {
           content: 'Isikan Nomor TPS dan  Piih KoorLapnya',
           onTapOke: () => Get.back(),
         ));
+        return;
       }
     }
+
     int code = await VoterService.postVoterDukungan(
       nik: nikTextEditingController.text,
       name: fullNameTextEditingController.text,
@@ -417,12 +435,14 @@ class SupportInputController extends GetxController {
     );
 
     if (code == 200) {
-      Get.dialog(dialogView(
-        title: 'Berhasil',
-        content:
-            'Data ${fullNameTextEditingController.text} berhasil di simpan',
-        onTapOke: () => Get.offAllNamed(Routes.MAIN),
-      ));
+      Get.dialog(
+          dialogView(
+            title: 'Berhasil',
+            content:
+                'Data ${fullNameTextEditingController.text} berhasil di simpan',
+            onTapOke: () => Get.offAllNamed(Routes.MAIN),
+          ),
+          barrierDismissible: true);
     }
   }
 }

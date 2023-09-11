@@ -55,12 +55,12 @@ Widget profileCaleg() {
         subTitle: controller.authController.userModel.referalCode,
       ),
       const Divider(thickness: 2),
-      Padding(
-        padding:
-            EdgeInsets.symmetric(horizontal: marginHorizontal, vertical: 10),
-        child:
-            ElevatedButton(onPressed: () {}, child: const Text('Edit Profil')),
-      ),
+      // Padding(
+      //   padding:
+      //       EdgeInsets.symmetric(horizontal: marginHorizontal, vertical: 10),
+      //   child:
+      //       ElevatedButton(onPressed: () {}, child: const Text('Edit Profil')),
+      // ),
       Padding(
         padding:
             EdgeInsets.symmetric(horizontal: marginHorizontal, vertical: 10),
@@ -125,12 +125,14 @@ Widget profileKoor() {
               'Tim Suskes',
               style: TextStyle(color: colorTextPrimary),
             ),
-            Text(
-              'Jokowi 3 Periode',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-                color: colorTextPrimary,
+            Obx(
+              () => Text(
+                controller.homeModel.value?.name ?? '',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: colorTextPrimary,
+                ),
               ),
             ),
           ],
@@ -140,9 +142,11 @@ Widget profileKoor() {
         title: 'Partai Politik',
         subTitle: controller.authController.userModel.partai,
       ),
-      listviewTitle(
-        title: 'Daerah Pemilih',
-        subTitle: controller.authController.userModel.labelDusun,
+      Obx(
+        () => listviewTitle(
+          title: 'Daerah Pemilih',
+          subTitle: controller.homeModel.value?.daerahPemilihan ?? '',
+        ),
       ),
       listviewTitle(
         title: 'NIK',
@@ -154,23 +158,24 @@ Widget profileKoor() {
       ),
       listviewTitle(
         title: 'Tempat Tanggal Lahir',
-        subTitle: 'tes',
+        subTitle:
+            '${controller.authController.userModel.born} ${controller.authController.userModel.birthday.toString().split(' ').first}',
       ),
       listviewTitle(
         title: 'Email',
-        subTitle: 'tes',
+        subTitle: controller.authController.userModel.email,
       ),
       listviewTitle(
         title: 'No. Handphone',
         subTitle: controller.authController.userModel.phone,
       ),
       const Divider(thickness: 2),
-      Padding(
-        padding:
-            EdgeInsets.symmetric(horizontal: marginHorizontal, vertical: 10),
-        child:
-            ElevatedButton(onPressed: () {}, child: const Text('Edit Profil')),
-      ),
+      // Padding(
+      //   padding:
+      //       EdgeInsets.symmetric(horizontal: marginHorizontal, vertical: 10),
+      //   child:
+      //       ElevatedButton(onPressed: () {}, child: const Text('Edit Profil')),
+      // ),
       Padding(
         padding:
             EdgeInsets.symmetric(horizontal: marginHorizontal, vertical: 10),

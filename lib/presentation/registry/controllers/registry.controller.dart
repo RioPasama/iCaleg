@@ -15,6 +15,7 @@ import 'package:icaleg/app/views/views/dialog_view.dart';
 import 'package:icaleg/app/views/views/loading_view.dart';
 import 'package:icaleg/infrastructure/navigation/routes.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 class RegistryController extends GetxController {
   final UtilsController utilsController = Get.put(UtilsController());
@@ -33,15 +34,17 @@ class RegistryController extends GetxController {
   late TextEditingController kataSandiTextEditingController;
   late TextEditingController konformasiKataSandiTextEditingController;
   late TextEditingController referalCodeTextEditingController;
+  late TextEditingController tempatLahirTextEditingController;
+  late TextEditingController tanggalLahirTextEditingController;
 
   RxList<String> gender = ['Laki - Laki', 'Perempuan'].obs;
-  RxList<String> religion = [
-    'Islam',
-    'Kristen Protestan',
-    'Kristen Katolik',
-    'Hindu',
-    'Buddha',
-    'Khonghucu'
+  RxList<String> religion =
+      ['islam', 'kristen', 'katholik', 'budha', 'hindu', 'khonghucu'].obs;
+  RxList<String> statusPerkawinan = [
+    'Belum Kawin',
+    'Kawin',
+    'Cerai Hidup',
+    'Cerai Mati',
   ].obs;
 
   RxList<AddressModel> addressProvince = RxList<AddressModel>();
@@ -52,6 +55,7 @@ class RegistryController extends GetxController {
   RxList<PartaiModel> partaiModel = RxList<PartaiModel>();
   RxList<LevelModel> levelModel = RxList<LevelModel>();
   RxList<LevelModel> roleModel = RxList<LevelModel>();
+  RxList<LevelModel> job = RxList<LevelModel>();
   Rxn<AddressModel> selectProvince = Rxn<AddressModel>();
   Rxn<AddressModel> selectRegency = Rxn<AddressModel>();
   Rxn<AddressModel> selectDistrict = Rxn<AddressModel>();
@@ -60,8 +64,11 @@ class RegistryController extends GetxController {
   Rxn<PartaiModel> selectPartai = Rxn<PartaiModel>();
   Rxn<LevelModel> selectLevel = Rxn<LevelModel>();
   Rxn<LevelModel> selectRole = Rxn<LevelModel>();
+  Rxn<LevelModel> selectJob = Rxn<LevelModel>();
+
   RxString? selectReligion = 'Islam'.obs;
   RxString? selectGender = 'Laki - Laki'.obs;
+  RxString selectStatusPerkawinan = 'Belum Kawin'.obs;
 
   RxString? pathPhoto = ''.obs;
   RxString? pathIdenti = ''.obs;
@@ -74,6 +81,7 @@ class RegistryController extends GetxController {
 
   @override
   void onInit() {
+    tempatLahirTextEditingController = TextEditingController();
     fullNameTextEditingController = TextEditingController();
     nikTextEditingController = TextEditingController();
     numberPhoneTextEditingController = TextEditingController();
@@ -82,6 +90,7 @@ class RegistryController extends GetxController {
     kataSandiTextEditingController = TextEditingController();
     konformasiKataSandiTextEditingController = TextEditingController();
     referalCodeTextEditingController = TextEditingController();
+    tanggalLahirTextEditingController = TextEditingController();
     super.onInit();
   }
 
@@ -95,13 +104,31 @@ class RegistryController extends GetxController {
   void onClose() {
     fullNameTextEditingController.dispose();
     nikTextEditingController.dispose();
+    tempatLahirTextEditingController.dispose();
     numberPhoneTextEditingController.dispose();
     emailTextEditingController.dispose();
     addressTextEditingController.dispose();
     kataSandiTextEditingController.dispose();
     konformasiKataSandiTextEditingController.dispose();
     referalCodeTextEditingController.dispose();
+    tanggalLahirTextEditingController.dispose();
     super.onClose();
+  }
+
+  Future<void> showDialogDatePicker(BuildContext context) async {
+    final currentDate = DateTime.now();
+    final minimumDate = currentDate
+        .subtract(const Duration(days: 17 * 365)); // 17 tahun ke belakang
+    DateTime? selectedDate = await showDatePicker(
+      context: context,
+      initialDate: minimumDate,
+      firstDate: DateTime(1900),
+      lastDate: minimumDate,
+      initialDatePickerMode: DatePickerMode.year,
+    );
+
+    tanggalLahirTextEditingController.text =
+        DateFormat('yyyy-MM-dd').format(selectedDate!);
   }
 
   Future<List<DapilModel>> fetchDapil({required LevelModel? levelModel}) async {
@@ -129,6 +156,11 @@ class RegistryController extends GetxController {
     levelModel.value = await PemiluService.getLevel();
     roleModel.value = await UserService.getRole();
     addressProvince.value = await fetchAddress(urlPath: 'province');
+
+    job.value = await PemiluService.getJob();
+    for (LevelModel dataJob in job) {
+      selectJob.value = dataJob;
+    }
     Get.back();
   }
 
@@ -176,14 +208,14 @@ class RegistryController extends GetxController {
   }
 
   Future<void> getPhoto({required ImageSource source}) async {
-    var image = await _picker.pickImage(source: source, imageQuality: 0);
+    var image = await _picker.pickImage(source: source, imageQuality: 20);
     pathPhoto!.value = image?.path ?? '';
     photo = image;
     Get.back();
   }
 
   Future<void> getIdenti({required ImageSource source}) async {
-    var image = await _picker.pickImage(source: source, imageQuality: 0);
+    var image = await _picker.pickImage(source: source, imageQuality: 20);
     pathIdenti!.value = image?.path ?? '';
     identi = image;
     Get.back();
@@ -207,18 +239,28 @@ class RegistryController extends GetxController {
       address: addressTextEditingController.text,
       levelPemilihan: selectLevel.value!.status,
       userStatus: int.parse(selectRole.value!.id),
-      gender: selectReligion!.value,
-      religion: selectGender!.value,
+      gender: (selectGender!.value == 'Perempuan') ? 'female' : 'male',
+      religion: selectReligion!.value,
       fkDapil: selectDapil.value!.id,
+      birthday: tanggalLahirTextEditingController.text,
+      born: tempatLahirTextEditingController.text,
       fkPartai: selectPartai.value!.id,
+      job: selectJob.value!.name,
       referalCode: referalCodeTextEditingController.text,
       photoIdentity: File(identi!.path),
       photoKTP: File(photo!.path),
+      statusKawin: (selectStatusPerkawinan.value == 'Belum Kawin')
+          ? '1'
+          : (selectStatusPerkawinan.value == 'Kawin')
+              ? '2'
+              : (selectStatusPerkawinan.value == 'Cerai Hidup')
+                  ? '3'
+                  : '4',
     );
 
     if (code == 200) {
       Get.toNamed(Routes.REGISTRY_VERIFICATION,
-          arguments: emailTextEditingController.text);
+          arguments: '+62${numberPhoneTextEditingController.text}');
     }
   }
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icaleg/app/controllers/auth_controller.dart';
 import 'package:icaleg/app/data/models/home_model.dart';
@@ -5,6 +6,8 @@ import 'package:icaleg/app/data/services/home_service.dart';
 
 class HomeController extends GetxController {
   AuthController authController = Get.put(AuthController());
+
+  final GlobalKey webViewKey = GlobalKey();
 
   Rxn<HomeModel> homeModel = Rxn<HomeModel>();
 

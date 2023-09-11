@@ -19,7 +19,7 @@ class DetailKoordinatorModel {
   final String nameProvince;
   final String nameKoordinator;
   final int totalDukungan;
-  final int presentaseDukungan;
+  final dynamic presentaseDukungan;
   final int totalTarget;
   final DateTime createAt;
   final String detailKoordinatorModelAs;

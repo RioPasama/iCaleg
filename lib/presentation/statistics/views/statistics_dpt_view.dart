@@ -104,7 +104,7 @@ class StatisticsDptView extends GetView {
         children: [
           Text(
             NumberFormat.decimalPattern('id')
-                .format(controller.potensiDptModel.value?.dpt.totalDpt),
+                .format(controller.potensiDptModel.value?.dpt.totalDpt ?? 0),
             style: TextStyle(
                 color: Colors.white,
                 fontSize: 38,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:icaleg/app/data/models/data_koordinator_model.dart';
 import 'package:icaleg/app/views/views/image_network_view.dart';
 import 'package:icaleg/app/views/views/loading_view.dart';
 import 'package:icaleg/app/views/views/not_found_view.dart';
@@ -143,15 +144,19 @@ Container _bottomSheet() {
     child: Column(
       children: [
         ListTile(
-          leading: const Icon(Ionicons.scan),
-          title: const Text('Input Scan KPT'),
-          onTap: () => Get.toNamed(Routes.SUPPORT_INPUT, arguments: true),
-        ),
+            leading: const Icon(Ionicons.scan),
+            title: const Text('Input Scan KTP'),
+            onTap: () {
+              Get.back();
+              Get.toNamed(Routes.SUPPORT_INPUT, arguments: true);
+            }),
         ListTile(
-          leading: const Icon(Ionicons.document),
-          title: const Text('Input Manual'),
-          onTap: () => Get.toNamed(Routes.SUPPORT_INPUT, arguments: false),
-        ),
+            leading: const Icon(Ionicons.document),
+            title: const Text('Input Manual'),
+            onTap: () {
+              Get.back();
+              Get.toNamed(Routes.SUPPORT_INPUT, arguments: false);
+            }),
       ],
     ),
   );
@@ -180,34 +185,8 @@ Obx koorKorcam() {
                             itemCount:
                                 controller.dataKoordinatorKorcamModel.length,
                             itemBuilder: (context, index) {
-                              return ListTile(
-                                onTap: () => Get.toNamed(Routes.SUPPORT_DETAIL,
-                                    arguments: {
-                                      'isDukungan': false,
-                                      'id': controller
-                                          .dataKoordinatorKorcamModel[index].id
-                                    }),
-                                leading: ImageNetworkView(
-                                  url: controller
-                                      .dataKoordinatorKorcamModel[index].image,
-                                  height: 80,
-                                  width: 80,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle, color: colorGray),
-                                ),
-                                title: Text(controller
-                                    .dataKoordinatorKorcamModel[index].name),
-                                titleTextStyle: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                    fontSize: 16),
-                                // subtitle: Text(
-                                //   'Waktu survey ${controller.voterDukunganModel[index].survey.toString().split(':').first}:${controller.voterDukunganModel[index].survey.toString().split(':')[1]}',
-                                //   style: const TextStyle(
-                                //       fontSize: 13, fontStyle: FontStyle.italic),
-                                // ),
-                                // isThreeLine: true,
-                              );
+                              return _listTitle(
+                                  controller.dataKoordinatorKorcamModel[index]);
                             },
                           ),
                         ),
@@ -262,35 +241,8 @@ Obx koorKoordes() {
                             itemCount:
                                 controller.dataKoordinatorKordesModel.length,
                             itemBuilder: (context, index) {
-                              return ListTile(
-                                onTap: () => Get.toNamed(Routes.SUPPORT_DETAIL,
-                                    arguments: {
-                                      'isDukungan': false,
-                                      'id': controller
-                                          .dataKoordinatorKordesModel[index].id
-                                    }),
-                                leading: ImageNetworkView(
-                                  url: controller
-                                      .dataKoordinatorKordesModel[index].image,
-                                  height: 80,
-                                  width: 80,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle, color: colorGray),
-                                ),
-                                title: Text(controller
-                                    .dataKoordinatorKordesModel[index].name),
-                                titleTextStyle: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                    fontSize: 16),
-                                subtitle: Text(
-                                  'Waktu survey ${controller.voterDukunganModel[index].survey.toString().split(':').first}:${controller.voterDukunganModel[index].survey.toString().split(':')[1]}',
-                                  style: const TextStyle(
-                                      fontSize: 13,
-                                      fontStyle: FontStyle.italic),
-                                ),
-                                isThreeLine: true,
-                              );
+                              return _listTitle(
+                                  controller.dataKoordinatorKordesModel[index]);
                             },
                           ),
                         ),
@@ -345,35 +297,8 @@ Obx koorKoordus() {
                             itemCount:
                                 controller.dataKoordinatorKordusModel.length,
                             itemBuilder: (context, index) {
-                              return ListTile(
-                                onTap: () => Get.toNamed(Routes.SUPPORT_DETAIL,
-                                    arguments: {
-                                      'isDukungan': false,
-                                      'id': controller
-                                          .dataKoordinatorKordusModel[index].id
-                                    }),
-                                leading: ImageNetworkView(
-                                  url: controller
-                                      .dataKoordinatorKordusModel[index].image,
-                                  height: 80,
-                                  width: 80,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle, color: colorGray),
-                                ),
-                                title: Text(controller
-                                    .dataKoordinatorKordusModel[index].name),
-                                titleTextStyle: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                    fontSize: 16),
-                                subtitle: Text(
-                                  'Waktu survey ${controller.voterDukunganModel[index].survey.toString().split(':').first}:${controller.voterDukunganModel[index].survey.toString().split(':')[1]}',
-                                  style: const TextStyle(
-                                      fontSize: 13,
-                                      fontStyle: FontStyle.italic),
-                                ),
-                                isThreeLine: true,
-                              );
+                              return _listTitle(
+                                  controller.dataKoordinatorKordusModel[index]);
                             },
                           ),
                         ),
@@ -428,35 +353,8 @@ Obx koorKoortes() {
                             itemCount:
                                 controller.dataKoordinatorKortepModel.length,
                             itemBuilder: (context, index) {
-                              return ListTile(
-                                onTap: () => Get.toNamed(Routes.SUPPORT_DETAIL,
-                                    arguments: {
-                                      'isDukungan': false,
-                                      'id': controller
-                                          .dataKoordinatorKortepModel[index].id
-                                    }),
-                                leading: ImageNetworkView(
-                                  url: controller
-                                      .dataKoordinatorKortepModel[index].image,
-                                  height: 80,
-                                  width: 80,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle, color: colorGray),
-                                ),
-                                title: Text(controller
-                                    .dataKoordinatorKortepModel[index].name),
-                                titleTextStyle: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                    fontSize: 16),
-                                subtitle: Text(
-                                  'Waktu survey ${controller.voterDukunganModel[index].survey.toString().split(':').first}:${controller.voterDukunganModel[index].survey.toString().split(':')[1]}',
-                                  style: const TextStyle(
-                                      fontSize: 13,
-                                      fontStyle: FontStyle.italic),
-                                ),
-                                isThreeLine: true,
-                              );
+                              return _listTitle(
+                                  controller.dataKoordinatorKortepModel[index]);
                             },
                           ),
                         ),
@@ -485,6 +383,79 @@ Obx koorKoortes() {
         ),
       ],
     ),
+  );
+}
+
+ListTile _listTitle(DataKoordinatorModel data) {
+  return ListTile(
+    onTap: () => Get.toNamed(Routes.SUPPORT_DETAIL,
+        arguments: {'isDukungan': false, 'id': data.id}),
+    leading: ImageNetworkView(
+      url: data.image,
+      height: 80,
+      width: 80,
+      decoration: BoxDecoration(shape: BoxShape.circle, color: colorGray),
+    ),
+    title: Text(data.name),
+    titleTextStyle: const TextStyle(
+        fontWeight: FontWeight.bold, color: Colors.black, fontSize: 16),
+    subtitle: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Total Dukungan : ${data.jumlahPendukung}',
+          style: const TextStyle(
+            fontSize: 13,
+            color: Colors.black,
+          ),
+        ),
+        Visibility(
+          visible: data.kortep != null,
+          child: Text(
+            'Koor TPS : ${data.kortep}',
+            style: const TextStyle(
+              fontSize: 13,
+              color: Colors.black,
+            ),
+          ),
+        ),
+        Visibility(
+          visible: data.kordus != null,
+          child: Text(
+            'Koor Dusun : ${data.kordus}',
+            style: const TextStyle(
+              fontSize: 13,
+              color: Colors.black,
+            ),
+          ),
+        ),
+        Visibility(
+          visible: data.kordes != null,
+          child: Text(
+            'Koor Desa : ${data.kordes}',
+            style: const TextStyle(
+              fontSize: 13,
+              color: Colors.black,
+            ),
+          ),
+        ),
+        Visibility(
+          visible: data.kordes != null,
+          child: Text(
+            'Koor Kecamatan : ${data.korcam}',
+            style: const TextStyle(
+              fontSize: 13,
+              color: Colors.black,
+            ),
+          ),
+        ),
+        Text(
+          'Koord. ${data.namaAtasan}',
+          style: const TextStyle(fontSize: 13, fontStyle: FontStyle.italic),
+        ),
+      ],
+    ),
+    isThreeLine: true,
   );
 }
 

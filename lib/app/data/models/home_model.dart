@@ -1,5 +1,9 @@
+import 'package:meta/meta.dart';
+import 'dart:convert';
+
 class HomeModel {
   final String name;
+  final String images;
   final String partai;
   final String level;
   final String daerahPemilihan;
@@ -7,14 +11,21 @@ class HomeModel {
 
   HomeModel({
     required this.name,
+    required this.images,
     required this.partai,
     required this.level,
     required this.daerahPemilihan,
     required this.statistik,
   });
 
+  factory HomeModel.fromRawJson(String str) =>
+      HomeModel.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
   factory HomeModel.fromJson(Map<String, dynamic> json) => HomeModel(
         name: json["name"],
+        images: json["images"],
         partai: json["partai"],
         level: json["level"],
         daerahPemilihan: json["daerah_pemilihan"],
@@ -23,6 +34,7 @@ class HomeModel {
 
   Map<String, dynamic> toJson() => {
         "name": name,
+        "images": images,
         "partai": partai,
         "level": level,
         "daerah_pemilihan": daerahPemilihan,
@@ -48,6 +60,11 @@ class Statistik {
     required this.dptDapil,
     required this.dukungan,
   });
+
+  factory Statistik.fromRawJson(String str) =>
+      Statistik.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
 
   factory Statistik.fromJson(Map<String, dynamic> json) => Statistik(
         totalDukungan: json["total_dukungan"],
@@ -79,6 +96,11 @@ class Dukungan {
     required this.jumlahData,
     required this.tanggal,
   });
+
+  factory Dukungan.fromRawJson(String str) =>
+      Dukungan.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
 
   factory Dukungan.fromJson(Map<String, dynamic> json) => Dukungan(
         jumlahData: json["jumlah_data"],

@@ -31,6 +31,7 @@ class SupportDetailKoorView extends GetView {
               _statistilk(dataKoordinatorModel),
               _listTitle(
                   title: 'Nama Lengkap', subTitle: dataKoordinatorModel.name),
+              _listTitle(title: 'TPS', subTitle: dataKoordinatorModel.tps),
               _listTitle(
                   title: 'Tampat & Tanggal Lahir',
                   subTitle:

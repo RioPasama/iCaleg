@@ -65,6 +65,31 @@ class RegistryKoorScreen extends GetView<RegistryKoorController> {
                     validator: (val) => controller.textInputValidatorController
                         .validatorNumberPhone(val),
                   ),
+                  _textLabel(label: 'Tempat Lahir', subLabel: '* Wajib di isi'),
+                  textFromFiled(
+                    controller: controller.tempatLahirTextEditingController,
+                    keyboardType: TextInputType.emailAddress,
+                    hintText: 'Isi Tempat Lahir',
+                    validator: (val) => controller.textInputValidatorController
+                        .validatorNotNull(val),
+                  ),
+                  _textLabel(
+                      label: 'Tanggal Lahir', subLabel: '* Wajib di isi'),
+                  textFromFiled(
+                    controller: controller.tanggalLahirTextEditingController,
+                    readOnly: true,
+                    onTap: () => controller.showDialogDatePicker(context),
+                    keyboardType: TextInputType.emailAddress,
+                    hintText: 'Isi Tanggal Lahir',
+                    validator: (val) => controller.textInputValidatorController
+                        .validatorNotNull(val),
+                  ),
+                  _textLabel(
+                      label: 'Status Perkawinan', subLabel: '* Wajib di isi'),
+                  _dropdownStatusPerkawinan(data: controller.statusPerkawinan),
+                  _textLabel(label: 'Pekerjaan', subLabel: '* Wajib di isi'),
+                  _dropdownJob(
+                      data: controller.job, select: controller.selectJob),
                   _textLabel(
                       label: 'Jenis Kelamin', subLabel: '* Wajib di isi'),
                   _dropdownGender(
@@ -165,25 +190,25 @@ class RegistryKoorScreen extends GetView<RegistryKoorController> {
                     select: controller.selectPartai,
                     data: controller.partaiModel,
                   ),
-                  Obx(
-                    () => Visibility(
-                      visible: controller.selectRole.value?.id != '1',
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _textLabel(
-                              label: 'Kode Referal',
-                              subLabel: '* Wajib di isi'),
-                          textFromFiled(
-                            controller:
-                                controller.referalCodeTextEditingController,
-                            keyboardType: TextInputType.emailAddress,
-                            hintText: 'Isi Kode Referal',
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  // Obx(
+                  //   () => Visibility(
+                  //     visible: controller.selectRole.value?.id != '1',
+                  //     child: Column(
+                  //       crossAxisAlignment: CrossAxisAlignment.start,
+                  //       children: [
+                  //         _textLabel(
+                  //             label: 'Kode Referal',
+                  //             subLabel: '* Wajib di isi'),
+                  //         textFromFiled(
+                  //           controller:
+                  //               controller.referalCodeTextEditingController,
+                  //           keyboardType: TextInputType.emailAddress,
+                  //           hintText: 'Isi Kode Referal',
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
                   _textLabel(
                       label: 'Alamat Lengkapi', subLabel: '* Wajib di isi'),
                   textFromFiled(
@@ -251,6 +276,52 @@ class RegistryKoorScreen extends GetView<RegistryKoorController> {
             .toList(),
         onChanged: (String? val) =>
             controller.selectReligion?.value = val.toString(),
+        isExpanded: true,
+        validator: (val) =>
+            controller.textInputValidatorController.validatorNotNull(val),
+      ),
+    ));
+  }
+
+  DropdownButtonHideUnderline _dropdownJob(
+      {Rxn<LevelModel>? select, required RxList<LevelModel> data}) {
+    return DropdownButtonHideUnderline(
+        child: Obx(
+      () => DropdownButtonFormField<LevelModel>(
+        borderRadius: borderRadius,
+        value: select?.value,
+        items: data
+            .map(
+              (val) => DropdownMenuItem<LevelModel>(
+                value: val,
+                child: Text(val.name),
+              ),
+            )
+            .toList(),
+        onChanged: (LevelModel? val) => controller.selectJob.value = val,
+        isExpanded: true,
+        validator: (val) =>
+            controller.textInputValidatorController.validatorNotNull(val),
+      ),
+    ));
+  }
+
+  DropdownButtonHideUnderline _dropdownStatusPerkawinan(
+      {required List<String> data}) {
+    return DropdownButtonHideUnderline(
+        child: Obx(
+      () => DropdownButtonFormField(
+        borderRadius: borderRadius,
+        items: data
+            .map(
+              (val) => DropdownMenuItem(
+                value: val,
+                child: Text(val),
+              ),
+            )
+            .toList(),
+        onChanged: (String? val) =>
+            controller.selectStatusPerkawinan.value = val.toString(),
         isExpanded: true,
         validator: (val) =>
             controller.textInputValidatorController.validatorNotNull(val),
