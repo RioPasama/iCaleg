@@ -71,7 +71,7 @@ class MainService {
         headers: (authController.isLogin.value)
             ? {'Authorization': 'Bearer ${authController.token}'}
             : null);
-    log('test1' + authController.token.toString());
+    log('token : ${authController.token}');
     log('Url:$apiHttp\nBody\n$body\n${response.body}');
 
     final result = jsonDecode(response.body);

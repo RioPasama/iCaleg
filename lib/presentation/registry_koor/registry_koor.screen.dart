@@ -441,28 +441,28 @@ class RegistryKoorScreen extends GetView<RegistryKoorController> {
     ));
   }
 
-  DropdownButtonHideUnderline _dropdownRole(
-      {Rxn<LevelModel>? select, required RxList<LevelModel> data}) {
-    return DropdownButtonHideUnderline(
-        child: Obx(
-      () => DropdownButtonFormField<LevelModel>(
-        borderRadius: borderRadius,
-        value: select?.value,
-        items: data
-            .map(
-              (val) => DropdownMenuItem<LevelModel>(
-                value: val,
-                child: Text(val.name),
-              ),
-            )
-            .toList(),
-        onChanged: (LevelModel? val) => controller.selectRole.value = val,
-        isExpanded: true,
-        validator: (val) =>
-            controller.textInputValidatorController.validatorNotNull(val),
-      ),
-    ));
-  }
+  // DropdownButtonHideUnderline _dropdownRole(
+  //     {Rxn<LevelModel>? select, required RxList<LevelModel> data}) {
+  //   return DropdownButtonHideUnderline(
+  //       child: Obx(
+  //     () => DropdownButtonFormField<LevelModel>(
+  //       borderRadius: borderRadius,
+  //       value: select?.value,
+  //       items: data
+  //           .map(
+  //             (val) => DropdownMenuItem<LevelModel>(
+  //               value: val,
+  //               child: Text(val.name),
+  //             ),
+  //           )
+  //           .toList(),
+  //       onChanged: (LevelModel? val) => controller.selectRole.value = val,
+  //       isExpanded: true,
+  //       validator: (val) =>
+  //           controller.textInputValidatorController.validatorNotNull(val),
+  //     ),
+  //   ));
+  // }
 
   DropdownButtonHideUnderline _dropdownPartai(
       {Rxn<PartaiModel>? select, required RxList<PartaiModel> data}) {

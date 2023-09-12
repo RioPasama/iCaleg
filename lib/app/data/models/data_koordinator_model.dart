@@ -1,6 +1,3 @@
-import 'package:meta/meta.dart';
-import 'dart:convert';
-
 class DataKoordinatorModel {
   final String id;
   final String nik;
@@ -34,43 +31,38 @@ class DataKoordinatorModel {
     required this.namaAtasan,
   });
 
-  factory DataKoordinatorModel.fromRawJson(String str) =>
-      DataKoordinatorModel.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
-
   factory DataKoordinatorModel.fromJson(Map<String, dynamic> json) =>
       DataKoordinatorModel(
-        id: json["id"],
-        nik: json["nik"],
-        name: json["name"],
-        dataKoordinatorModelAs: json["as"],
-        duty: json["duty"],
-        phone: json["phone"],
-        jumlahPendukung: json["jumlah_pendukung"],
-        image: json["image"],
-        address: json["address"],
-        kortep: json["kortep"],
-        kordus: json["kordus"],
-        kordes: json["kordes"],
-        korcam: json["korcam"],
-        namaAtasan: json["nama_atasan"],
+        id: json['id'],
+        nik: json['nik'],
+        name: json['name'],
+        dataKoordinatorModelAs: json['as'],
+        duty: json['duty'],
+        phone: json['phone'],
+        jumlahPendukung: json['jumlah_pendukung'],
+        image: json['image'],
+        address: json['address'],
+        kortep: json['kortep'],
+        kordus: json['kordus'],
+        kordes: json['kordes'],
+        korcam: json['korcam'],
+        namaAtasan: json['nama_atasan'],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "nik": nik,
-        "name": name,
-        "as": dataKoordinatorModelAs,
-        "duty": duty,
-        "phone": phone,
-        "jumlah_pendukung": jumlahPendukung,
-        "image": image,
-        "address": address,
-        "kortep": kortep,
-        "kordus": kordus,
-        "kordes": kordes,
-        "korcam": korcam,
-        "nama_atasan": namaAtasan,
+        'id': id,
+        'nik': nik,
+        'name': name,
+        'as': dataKoordinatorModelAs,
+        'duty': duty,
+        'phone': phone,
+        'jumlah_pendukung': jumlahPendukung,
+        'image': image,
+        'address': address,
+        'kortep': kortep,
+        'kordus': kordus,
+        'kordes': kordes,
+        'korcam': korcam,
+        'nama_atasan': namaAtasan,
       };
 }

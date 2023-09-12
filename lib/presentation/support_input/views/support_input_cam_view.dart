@@ -20,7 +20,7 @@ class SupportInputCamView extends GetView {
     return SizedBox(
       width: Get.width,
       child: (controller.isScan)
-          ? SizedBox()
+          ? const SizedBox()
           : Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.center,
