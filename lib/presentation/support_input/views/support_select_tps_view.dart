@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:icaleg/app/views/views/image_network_view.dart';
 import 'package:icaleg/app/views/views/loading_view.dart';
 import 'package:icaleg/app/views/views/utils_view.dart';
 import 'package:icaleg/infrastructure/theme/theme_utils.dart';
@@ -42,10 +43,12 @@ class SupportSelectTpsView extends GetView {
                               () => ListTile(
                                 onTap: () => controller.selectKoorlapTps.value =
                                     controller.koorlapTps[index],
-                                leading: Container(
+                                leading: ImageNetworkView(
+                                  url: controller.koorlapTps[index].photoKtp,
                                   height: 80,
                                   width: 80,
-                                  color: colorGray,
+                                  decoration: BoxDecoration(
+                                      color: colorGray, shape: BoxShape.circle),
                                 ),
                                 title: Text(controller.koorlapTps[index].name),
                                 selected: controller.selectKoorlapTps.value ==

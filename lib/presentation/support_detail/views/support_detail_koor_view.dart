@@ -29,6 +29,7 @@ class SupportDetailKoorView extends GetView {
             children: [
               _header(dataKoordinatorModel),
               _statistilk(dataKoordinatorModel),
+              _listTitle(title: 'NIK', subTitle: dataKoordinatorModel.nik),
               _listTitle(
                   title: 'Nama Lengkap', subTitle: dataKoordinatorModel.name),
               _listTitle(title: 'TPS', subTitle: dataKoordinatorModel.tps),

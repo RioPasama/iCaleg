@@ -180,6 +180,22 @@ class RegistryScreen extends GetView<RegistryController> {
                     select: controller.selectRole,
                     data: controller.roleModel,
                   ),
+                  Obx(
+                    () => Visibility(
+                        visible: (controller.selectRole.value?.id == '5'),
+                        child: _textLabel(
+                            label: 'TPS', subLabel: '* Wajib di isi')),
+                  ),
+                  Obx(
+                    () => Visibility(
+                      visible: (controller.selectRole.value?.id == '5'),
+                      child: textFromFiled(
+                        controller: controller.tpsTextEditingController,
+                        keyboardType: TextInputType.datetime,
+                        hintText: 'Isi Nomor TPS',
+                      ),
+                    ),
+                  ),
                   _textLabel(label: 'DAPIL', subLabel: '* Wajib di isi'),
                   _dropdownDapil(
                     select: controller.selectDapil,

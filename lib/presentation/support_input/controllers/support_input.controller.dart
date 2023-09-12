@@ -434,7 +434,7 @@ class SupportInputController extends GetxController {
                   : '4',
     );
 
-    if (code == 200) {
+    if (code == 200 || code == 201) {
       Get.dialog(
           dialogView(
             title: 'Berhasil',

@@ -167,6 +167,20 @@ class RegistryKoorScreen extends GetView<RegistryKoorController> {
                     select: controller.selectVillage,
                     data: controller.addressVillage,
                   ),
+                  Visibility(
+                      visible: (Get.arguments == 5),
+                      child:
+                          _textLabel(label: 'TPS', subLabel: '* Wajib di isi')),
+
+                  Visibility(
+                    visible: (Get.arguments == 5),
+                    child: textFromFiled(
+                      controller: controller.tpsTextEditingController,
+                      keyboardType: TextInputType.datetime,
+                      hintText: 'Isi Nomor TPS',
+                    ),
+                  ),
+
                   _textLabel(
                       label: 'Level Pemilihan', subLabel: '* Wajib di isi'),
                   _dropdownLevel(

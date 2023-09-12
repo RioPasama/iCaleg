@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icaleg/infrastructure/theme/theme_utils.dart';
 import 'package:icaleg/presentation/profile/controllers/profile.controller.dart';
+import 'package:intl/intl.dart';
 
 Widget profileCaleg() {
   ProfileController controller = Get.put(ProfileController());
@@ -102,7 +103,8 @@ Widget profileKoor() {
           ),
           const SizedBox(height: 10),
           Text(
-            '658',
+            NumberFormat.decimalPattern('id')
+                .format(controller.authController.userModel.total),
             style: TextStyle(
               fontSize: 26,
               fontWeight: FontWeight.bold,

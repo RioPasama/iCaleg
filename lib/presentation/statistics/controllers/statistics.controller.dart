@@ -1,9 +1,11 @@
 import 'package:get/get.dart';
+import 'package:icaleg/app/controllers/utils_controller.dart';
 import 'package:icaleg/app/data/models/potensi_dpt_model.dart';
 import 'package:icaleg/app/data/models/statistik_dapil_wilayah_model.dart';
 import 'package:icaleg/app/data/services/statistics_service.dart';
 
 class StatisticsController extends GetxController {
+  UtilsController utilsController = Get.put(UtilsController());
   Rxn<PotensiDptModel> potensiDptModel = Rxn<PotensiDptModel>();
   RxList<StatistikDapilWilayahModel> statistikDapilWilayahModel =
       RxList<StatistikDapilWilayahModel>();

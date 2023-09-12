@@ -36,6 +36,7 @@ class RegistryKoorController extends GetxController {
   late TextEditingController kataSandiTextEditingController;
   late TextEditingController konformasiKataSandiTextEditingController;
   late TextEditingController referalCodeTextEditingController;
+  late TextEditingController tpsTextEditingController;
 
   RxList<String> gender = ['Laki - Laki', 'Perempuan'].obs;
   RxList<String> religion =
@@ -89,6 +90,7 @@ class RegistryKoorController extends GetxController {
     kataSandiTextEditingController = TextEditingController();
     konformasiKataSandiTextEditingController = TextEditingController();
     referalCodeTextEditingController = TextEditingController();
+    tpsTextEditingController = TextEditingController();
     super.onInit();
   }
 
@@ -110,6 +112,7 @@ class RegistryKoorController extends GetxController {
     kataSandiTextEditingController.dispose();
     konformasiKataSandiTextEditingController.dispose();
     referalCodeTextEditingController.dispose();
+    tpsTextEditingController.dispose();
     super.onClose();
   }
 
@@ -242,6 +245,7 @@ class RegistryKoorController extends GetxController {
       levelPemilihan: selectLevel.value!.status,
       // userStatus: int.parse(selectRole.value!.id),
       userStatus: Get.arguments,
+      tps: tpsTextEditingController.text,
       gender: (selectGender!.value == 'Perempuan') ? 'female' : 'male',
       religion: selectReligion!.value,
       fkDapil: selectDapil.value!.id,

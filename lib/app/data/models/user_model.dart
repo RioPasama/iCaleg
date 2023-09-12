@@ -22,6 +22,7 @@ class UserModel {
   final District village;
   final String labelDusun;
   final String labelTps;
+  final int total;
   final DateTime expToken;
   final List<Device> device;
 
@@ -48,6 +49,7 @@ class UserModel {
     required this.labelTps,
     required this.expToken,
     required this.device,
+    required this.total,
   });
 
   factory UserModel.fromRawJson(String str) =>
@@ -76,6 +78,7 @@ class UserModel {
         village: District.fromJson(json["village"]),
         labelDusun: json["label_dusun"],
         labelTps: json["label_tps"],
+        total: json["total"],
         expToken: DateTime.parse(json["exp_token"]),
         device:
             List<Device>.from(json["device"].map((x) => Device.fromJson(x))),
@@ -96,6 +99,7 @@ class UserModel {
         "ket_status": ketStatus,
         "job": job,
         "image": image,
+        'total': total,
         "partai": partai,
         "province": province.toJson(),
         "regency": regency.toJson(),

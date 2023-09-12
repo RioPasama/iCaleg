@@ -35,6 +35,7 @@ class RegistryController extends GetxController {
   late TextEditingController konformasiKataSandiTextEditingController;
   late TextEditingController referalCodeTextEditingController;
   late TextEditingController tempatLahirTextEditingController;
+  late TextEditingController tpsTextEditingController;
   late TextEditingController tanggalLahirTextEditingController;
 
   RxList<String> gender = ['Laki - Laki', 'Perempuan'].obs;
@@ -91,6 +92,7 @@ class RegistryController extends GetxController {
     konformasiKataSandiTextEditingController = TextEditingController();
     referalCodeTextEditingController = TextEditingController();
     tanggalLahirTextEditingController = TextEditingController();
+    tpsTextEditingController = TextEditingController();
     super.onInit();
   }
 
@@ -112,6 +114,7 @@ class RegistryController extends GetxController {
     konformasiKataSandiTextEditingController.dispose();
     referalCodeTextEditingController.dispose();
     tanggalLahirTextEditingController.dispose();
+    tpsTextEditingController.dispose();
     super.onClose();
   }
 
@@ -246,6 +249,7 @@ class RegistryController extends GetxController {
       born: tempatLahirTextEditingController.text,
       fkPartai: selectPartai.value!.id,
       job: selectJob.value!.name,
+      tps: tpsTextEditingController.text,
       referalCode: referalCodeTextEditingController.text,
       photoIdentity: File(identi!.path),
       photoKTP: File(photo!.path),

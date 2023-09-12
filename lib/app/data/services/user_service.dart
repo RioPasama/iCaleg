@@ -46,6 +46,7 @@ class UserService {
     required String gender,
     required String job,
     required String born,
+    required String tps,
     required String birthday,
     required String statusKawin,
     String referalCode = '',
@@ -75,6 +76,7 @@ class UserService {
         'level': levelPemilihan,
         'referal_code': referalCode,
         'fk_dapil': fkDapil,
+        'tps': tps,
         'fk_partai': fkPartai
       },
       files: [
