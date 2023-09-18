@@ -9,7 +9,8 @@ class AddressService {
     final result =
         await MainService().getAPI(url: 'district/$urlPath', body: body);
 
-    return List<AddressModel>.from(((result != null) ? result['data'] : [])
-        .map((e) => AddressModel.fromJson(e)));
+    return List<AddressModel>.from(
+        ((result['data'] != null) ? result['data'] : [])
+            .map((e) => AddressModel.fromJson(e)));
   }
 }

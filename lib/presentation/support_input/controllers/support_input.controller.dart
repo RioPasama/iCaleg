@@ -106,7 +106,7 @@ class SupportInputController extends GetxController {
         dialogView(
             title: 'Location permissions',
             content:
-                'Aplikasi ini mengumpulkan data lokasi untuk mengaktifkan fitur penambahan dukungan dan angota bahkan saat aplikasi ditutup atau tidak dalam penggunaan',
+                'Aplikasi ini mengumpulkan data lokasi pengguna untuk meningkatkan pengalaman pengguna dengan mengaktifkan fitur penambahan dukungan dan anggota. Kami mengumpulkan data lokasi bahkan saat aplikasi tidak dalam penggunaan atau telah ditutup. Data lokasi yang dikumpulkan digunakan secara eksklusif untuk keperluan aplikasi ini dan tidak akan dibagikan dengan pihak ketiga tanpa izin pengguna.',
             onTapOke: () async {
               Get.back();
               _determinePosition();
@@ -407,7 +407,7 @@ class SupportInputController extends GetxController {
     int code = await VoterService.postVoterDukungan(
       nik: nikTextEditingController.text,
       name: fullNameTextEditingController.text,
-      gender: (selectGender.value == 'Laki - Laki') ? 'male' : 'female',
+      gender: (selectGender.value == 'Laki - Laki') ? 'Male' : 'Female',
       phone: '+62${numberPhoneTextEditingController.text}',
       email: emailTextEditingController.text,
       born: tempatLahirTextEditingController.text,

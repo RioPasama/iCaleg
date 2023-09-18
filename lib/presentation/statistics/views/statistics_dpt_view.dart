@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:icaleg/app/views/views/chart_doughnut_view.dart';
+import 'package:icaleg/app/views/views/loading_view.dart';
 import 'package:icaleg/infrastructure/theme/theme_utils.dart';
 import 'package:icaleg/presentation/statistics/controllers/statistics.controller.dart';
 import 'package:intl/intl.dart';
@@ -15,54 +16,59 @@ class StatisticsDptView extends GetView {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        _banner(),
-        _date(),
-        _koorValue(),
-        Container(
-          margin:
-              EdgeInsets.symmetric(horizontal: marginHorizontal, vertical: 20),
-          padding:
-              EdgeInsets.symmetric(horizontal: marginHorizontal, vertical: 8),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: borderRadius,
-              boxShadow: [boxShadow]),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Total Dapil',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold, color: colorTextPrimary),
-              ),
-              Obx(
-                () => (controller.statistikDapilWilayahModel.isNotEmpty)
-                    ? ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: controller.statistikDapilWilayahModel.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            decoration: BoxDecoration(
-                                color: controller.utilsController
-                                    .getRandomColor()),
-                            child: Text(controller
-                                .statistikDapilWilayahModel[index].namaWilayah),
-                          );
-                        },
-                      )
-                    : Center(
-                        child: Text(
-                        'Data Wilayah Tidak Ada',
-                        style: TextStyle(color: colorTextGray),
-                      )),
-              )
-            ],
-          ),
-        ),
-      ],
+    return Obx(
+      () => (controller.potensiDptModel.value?.namaWilayah == null)
+          ? loadingDefault()
+          : ListView(
+              children: [
+                _banner(),
+                _date(),
+                _koorValue(),
+                Container(
+                  margin: EdgeInsets.symmetric(
+                      horizontal: marginHorizontal, vertical: 20),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: marginHorizontal, vertical: 8),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: borderRadius,
+                      boxShadow: [boxShadow]),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Total Dapil',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: colorTextPrimary),
+                      ),
+                      (controller.statistikDapilWilayahModel.isNotEmpty)
+                          ? ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount:
+                                  controller.statistikDapilWilayahModel.length,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  decoration: BoxDecoration(
+                                      color: controller.utilsController
+                                          .getRandomColor()),
+                                  child: Text(controller
+                                      .statistikDapilWilayahModel[index]
+                                      .namaWilayah),
+                                );
+                              },
+                            )
+                          : Center(
+                              child: Text(
+                              'Data Wilayah Tidak Ada',
+                              style: TextStyle(color: colorTextGray),
+                            )),
+                    ],
+                  ),
+                ),
+              ],
+            ),
     );
   }
 

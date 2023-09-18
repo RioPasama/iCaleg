@@ -18,18 +18,6 @@ class HomeScreen extends GetView<HomeController> {
   Widget build(BuildContext context) {
     Get.put(HomeController());
 
-    InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
-        crossPlatform: InAppWebViewOptions(
-          useShouldOverrideUrlLoading: true,
-          mediaPlaybackRequiresUserGesture: false,
-        ),
-        android: AndroidInAppWebViewOptions(
-          useHybridComposition: true,
-        ),
-        ios: IOSInAppWebViewOptions(
-          allowsInlineMediaPlayback: true,
-        ));
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Stack(
@@ -45,55 +33,69 @@ class HomeScreen extends GetView<HomeController> {
                           _infoUser(),
                           _statistikPrimary(),
                           _statistikSecondary(),
-                          Container(
-                            height: 680,
-                            width: Get.width,
-                            margin: const EdgeInsets.only(bottom: 100),
-                            child: InAppWebView(
-                              key: controller.webViewKey,
-                              initialOptions: options,
-                              initialUrlRequest: URLRequest(
-                                  url: Uri.parse(
-                                      'https://cekdptonline.kpu.go.id')),
-                              // shouldOverrideUrlLoading:
-                              //     (controller, navigationAction) async {
-                              // final uri = navigationAction.request.url!;
-
-                              // log('url ${navigationAction.request.url}');
-                              // // if ((uri.toString()).startsWith(
-                              // //     'https://dev.andipublisher.com/midtrans/transaksi/finish?')) {
-                              // //   Get.offAllNamed(Routes.MAIN);
-                              // //   return null;
-                              // // } else if ((uri.toString())
-                              // //     .startsWith('https://app.midtrans.com')) {
-                              // //   return null;
-                              // // } else if ((uri.toString())
-                              // //     .startsWith('https://app.sandbox.midtrans.com')) {
-                              // //   return null;
-                              // // }
-                              // log('test1' + uri.toString());
-                              // if ((uri.toString()).contains('finish')) {
-                              //   Get.offAllNamed(Routes.MAIN);
-                              //   return null;
-                              // } else if ((uri.toString())
-                              //     .startsWith('https://app.midtrans.com')) {
-                              //   return null;
-                              // } else if ((uri.toString())
-                              //     .startsWith('https://app.sandbox.midtrans.com')) {
-                              //   return null;
-                              // }
-                              // launchUrl(Uri.parse(uri.toString()),
-                              //     mode: LaunchMode.externalApplication);
-                              // return NavigationActionPolicy.CANCEL;
-                              // }
-                            ),
-                          )
+                          _webView()
                         ],
                       ),
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Container _webView() {
+    InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
+        crossPlatform: InAppWebViewOptions(
+          useShouldOverrideUrlLoading: true,
+          mediaPlaybackRequiresUserGesture: false,
+        ),
+        android: AndroidInAppWebViewOptions(
+          useHybridComposition: true,
+        ),
+        ios: IOSInAppWebViewOptions(
+          allowsInlineMediaPlayback: true,
+        ));
+    return Container(
+      height: 680,
+      width: Get.width,
+      margin: const EdgeInsets.only(bottom: 100),
+      child: InAppWebView(
+        key: controller.webViewKey,
+        initialOptions: options,
+        initialUrlRequest:
+            URLRequest(url: Uri.parse('https://cekdptonline.kpu.go.id')),
+        // shouldOverrideUrlLoading:
+        //     (controller, navigationAction) async {
+        // final uri = navigationAction.request.url!;
+
+        // log('url ${navigationAction.request.url}');
+        // // if ((uri.toString()).startsWith(
+        // //     'https://dev.andipublisher.com/midtrans/transaksi/finish?')) {
+        // //   Get.offAllNamed(Routes.MAIN);
+        // //   return null;
+        // // } else if ((uri.toString())
+        // //     .startsWith('https://app.midtrans.com')) {
+        // //   return null;
+        // // } else if ((uri.toString())
+        // //     .startsWith('https://app.sandbox.midtrans.com')) {
+        // //   return null;
+        // // }
+        // log('test1' + uri.toString());
+        // if ((uri.toString()).contains('finish')) {
+        //   Get.offAllNamed(Routes.MAIN);
+        //   return null;
+        // } else if ((uri.toString())
+        //     .startsWith('https://app.midtrans.com')) {
+        //   return null;
+        // } else if ((uri.toString())
+        //     .startsWith('https://app.sandbox.midtrans.com')) {
+        //   return null;
+        // }
+        // launchUrl(Uri.parse(uri.toString()),
+        //     mode: LaunchMode.externalApplication);
+        // return NavigationActionPolicy.CANCEL;
+        // }
       ),
     );
   }

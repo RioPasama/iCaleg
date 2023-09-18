@@ -9,7 +9,7 @@ class RegistryVerificationController extends GetxController {
   late TextEditingController otpTextEditingController;
 
   RxInt code = 0.obs;
-  String email = Get.arguments;
+  String indentity = Get.arguments;
   RxInt setSeconds = 0.obs;
   RxString countdownText = '00:00:00'.obs;
 
@@ -63,7 +63,7 @@ class RegistryVerificationController extends GetxController {
       return;
     }
     code.value = await UserService.postVerifikasi(
-        otp: otpTextEditingController.text, email: email);
+        otp: otpTextEditingController.text, indentity: indentity);
 
     if (code.value == 200) {
       Future.delayed(const Duration(seconds: 4), () {

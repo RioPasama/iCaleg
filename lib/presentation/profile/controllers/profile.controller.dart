@@ -1,11 +1,13 @@
 import 'package:get/get.dart';
 import 'package:icaleg/app/controllers/auth_controller.dart';
+import 'package:icaleg/app/controllers/utils_controller.dart';
 import 'package:icaleg/app/data/models/home_model.dart';
 import 'package:icaleg/app/data/services/home_service.dart';
 import 'package:icaleg/infrastructure/navigation/routes.dart';
 
 class ProfileController extends GetxController {
   AuthController authController = Get.put(AuthController());
+  UtilsController utilsController = Get.put(UtilsController());
   Rxn<HomeModel> homeModel = Rxn<HomeModel>();
 
   @override

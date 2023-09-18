@@ -242,7 +242,7 @@ class RegistryController extends GetxController {
       address: addressTextEditingController.text,
       levelPemilihan: selectLevel.value!.status,
       userStatus: int.parse(selectRole.value!.id),
-      gender: (selectGender!.value == 'Perempuan') ? 'female' : 'male',
+      gender: (selectGender!.value == 'Perempuan') ? 'Female' : 'Male',
       religion: selectReligion!.value,
       fkDapil: selectDapil.value!.id,
       birthday: tanggalLahirTextEditingController.text,
@@ -251,8 +251,8 @@ class RegistryController extends GetxController {
       job: selectJob.value!.name,
       tps: tpsTextEditingController.text,
       referalCode: referalCodeTextEditingController.text,
-      photoIdentity: File(identi!.path),
-      photoKTP: File(photo!.path),
+      photoIdentity: File(photo!.path),
+      photoKTP: File(identi!.path),
       statusKawin: (selectStatusPerkawinan.value == 'Belum Kawin')
           ? '1'
           : (selectStatusPerkawinan.value == 'Kawin')

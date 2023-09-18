@@ -89,10 +89,12 @@ class UserService {
   }
 
   static Future<int> postVerifikasi(
-      {required String otp, required String email}) async {
-    Map<String, String> body = {'kode': otp, 'email': email};
+      {required String otp, required String indentity}) async {
+    // Map<String, String> body = {'kode': otp, 'email': indentity};
+    Map<String, String> body = {'kode': otp, 'phone': indentity};
     final result =
-        await MainService().postAPI(url: 'auth/verification', body: body);
+        // await MainService().postAPI(url: 'auth/verification', body: body);
+        await MainService().postAPI(url: 'auth/verificationv2', body: body);
 
     return result['code'];
   }

@@ -246,7 +246,7 @@ class RegistryKoorController extends GetxController {
       // userStatus: int.parse(selectRole.value!.id),
       userStatus: Get.arguments,
       tps: tpsTextEditingController.text,
-      gender: (selectGender!.value == 'Perempuan') ? 'female' : 'male',
+      gender: (selectGender!.value == 'Perempuan') ? 'Female' : 'Male',
       religion: selectReligion!.value,
       fkDapil: selectDapil.value!.id,
       birthday: tanggalLahirTextEditingController.text,
@@ -254,8 +254,8 @@ class RegistryKoorController extends GetxController {
       fkPartai: selectPartai.value!.id,
       job: selectJob.value!.name,
       referalCode: referalCodeTextEditingController.text,
-      photoIdentity: File(identi!.path),
-      photoKTP: File(photo!.path),
+      photoIdentity: File(photo!.path),
+      photoKTP: File(identi!.path),
       statusKawin: (selectStatusPerkawinan.value == 'Belum Kawin')
           ? '1'
           : (selectStatusPerkawinan.value == 'Kawin')

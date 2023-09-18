@@ -33,12 +33,12 @@ class LoginScreen extends GetView<LoginController> {
                     ],
                   ),
                 ),
-                // Obx(
-                //   () => (!controller.loginByWhatsapp.value)
-                //       ? LoginFromView()
-                //       : LoginFormWhatsappView(),
-                // ),
-                (kReleaseMode) ? LoginFormWhatsappView() : LoginFromView(),
+                Obx(
+                  () => (!controller.loginByWhatsapp.value)
+                      ? LoginFromView()
+                      : LoginFormWhatsappView(),
+                ),
+                // (kReleaseMode) ? LoginFormWhatsappView() : LoginFromView(),
                 SizedBox(
                   child: Stack(
                     alignment: Alignment.bottomCenter,

@@ -35,7 +35,7 @@ class RegistryVerificationFormView extends GetView {
               style: TextStyle(color: colorTextGray),
             ),
             TextSpan(
-                text: controller.email,
+                text: controller.indentity,
                 style: TextStyle(color: colorTextPrimary)),
             TextSpan(
               text: ' . Silahkan masukan kode yang telah kami kirimkan.',

@@ -41,11 +41,12 @@ Widget profileCaleg() {
       ),
       listviewTitle(
         title: 'Tempat Tanggal Lahir',
-        subTitle: 'tes',
+        subTitle:
+            '${controller.authController.userModel.born} ${controller.authController.userModel.birthday.toString().split(' ').first}',
       ),
       listviewTitle(
         title: 'Email',
-        subTitle: 'tes',
+        subTitle: controller.authController.userModel.email,
       ),
       listviewTitle(
         title: 'No. Handphone',

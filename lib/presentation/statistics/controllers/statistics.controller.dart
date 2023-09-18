@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:icaleg/app/controllers/utils_controller.dart';
+import 'package:icaleg/app/data/models/dukungan_dpt_model.dart';
 import 'package:icaleg/app/data/models/potensi_dpt_model.dart';
 import 'package:icaleg/app/data/models/statistik_dapil_wilayah_model.dart';
 import 'package:icaleg/app/data/services/statistics_service.dart';
@@ -9,11 +10,13 @@ class StatisticsController extends GetxController {
   Rxn<PotensiDptModel> potensiDptModel = Rxn<PotensiDptModel>();
   RxList<StatistikDapilWilayahModel> statistikDapilWilayahModel =
       RxList<StatistikDapilWilayahModel>();
+  Rxn<DukunganDptModel> dukunganDptModel = Rxn<DukunganDptModel>();
 
   String dateTimeNow = DateTime.now().toString();
 
   @override
   void onInit() {
+    getDataDukunganDpt();
     getDataPotensiDpt();
     getDataDapilPerWilayaht();
     super.onInit();
@@ -29,6 +32,10 @@ class StatisticsController extends GetxController {
   void onClose() {
     //
     super.onClose();
+  }
+
+  Future<void> getDataDukunganDpt() async {
+    dukunganDptModel.value = await StatisticsService.getDukunganiDPT();
   }
 
   Future<void> getDataPotensiDpt() async {

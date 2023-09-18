@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:icaleg/app/views/views/image_network_view.dart';
 import 'package:icaleg/infrastructure/theme/theme_utils.dart';
 import 'package:icaleg/presentation/profile/views/profile_view.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'controllers/profile.controller.dart';
 
@@ -38,6 +39,19 @@ class ProfileScreen extends GetView<ProfileController> {
                 gradient: LinearGradient(
                     colors: [colorPrimary, colorPrimaryGradient]),
                 boxShadow: [boxShadow],
+              ),
+            ),
+            Align(
+              alignment: Alignment.topRight,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: TextButton(
+                  onPressed: () => controller.utilsController.openUrl(
+                      url: 'https://icaleg.com/privacypolicy.html',
+                      mode: LaunchMode.inAppWebView),
+                  style: TextButton.styleFrom(foregroundColor: Colors.white),
+                  child: const Text('Privacy Policy'),
+                ),
               ),
             ),
             Align(
