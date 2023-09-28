@@ -46,16 +46,22 @@ class Dpt {
   final int dptLaki;
   final int dptPerempuan;
   final int totalDpt;
+  final double presentasePerempuan;
+  final double presentaseLaki;
 
   Dpt({
     required this.dptLaki,
     required this.dptPerempuan,
     required this.totalDpt,
+    required this.presentasePerempuan,
+    required this.presentaseLaki,
   });
 
   factory Dpt.fromJson(Map<String, dynamic> json) => Dpt(
         dptLaki: _parseIntValue(json['dpt_laki']),
         dptPerempuan: _parseIntValue(json['dpt_perempuan']),
+        presentasePerempuan: json['presentase_perempuan'].toDouble(),
+        presentaseLaki: json['presentase_laki'].toDouble(),
         totalDpt: _parseIntValue(json['total_dpt']),
       );
 
@@ -63,6 +69,8 @@ class Dpt {
         'dpt_laki': dptLaki,
         'dpt_perempuan': dptPerempuan,
         'total_dpt': totalDpt,
+        'presentase_perempuan': presentasePerempuan,
+        'presentase_laki': presentaseLaki,
       };
 
   static int _parseIntValue(dynamic value) {

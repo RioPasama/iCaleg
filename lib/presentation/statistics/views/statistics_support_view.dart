@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:graphic/graphic.dart';
+import 'package:icaleg/app/data/models/dukungan_data_interval_model.dart';
 import 'package:icaleg/app/views/views/chart_doughnut_view.dart';
 import 'package:icaleg/app/views/views/loading_view.dart';
 import 'package:icaleg/infrastructure/theme/theme_utils.dart';
@@ -21,8 +23,93 @@ class StatisticsSupportView extends GetView {
           ? loadingDefault()
           : ListView(children: [
               _banner(),
+              _grafigChart(
+                  data: controller.dukunganDataIntervalUsia,
+                  labelPrimary: 'Demografi Usia',
+                  labelKey: 'Usia',
+                  labelValue: 'Banyak'),
+              _grafigChart(
+                  data: controller.dukunganDataIntervalAgama,
+                  labelPrimary: 'Demografi Agama',
+                  labelKey: 'Agama',
+                  labelValue: 'Banyak'),
+              _grafigChart(
+                  data: controller.dukunganDataIntervalPekerjaan,
+                  labelPrimary: 'Demografi Pekerjaan',
+                  labelKey: 'Pekerjaan',
+                  labelValue: 'Banyak'),
+              const SizedBox(height: 20)
             ]),
     );
+  }
+
+  Widget _grafigChart({
+    required RxList<DukunganDataIntervalModel> data,
+    required String labelPrimary,
+    required String labelKey,
+    required String labelValue,
+  }) {
+    return (data.isNotEmpty)
+        ? Padding(
+            padding: EdgeInsets.only(
+                left: marginHorizontal, right: marginHorizontal, top: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  labelPrimary,
+                  style: TextStyle(
+                      color: colorTextPrimary, fontWeight: FontWeight.bold),
+                ),
+                Container(
+                  height: 200,
+                  width: Get.width,
+                  margin: const EdgeInsets.only(top: 8),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: borderRadius,
+                    boxShadow: [boxShadow],
+                  ),
+                  child: Chart(
+                    data: data,
+                    variables: {
+                      labelKey: Variable(
+                        accessor: (DukunganDataIntervalModel map) => map.key,
+                      ),
+                      labelValue: Variable(
+                        accessor: (DukunganDataIntervalModel map) => map.value,
+                      ),
+                    },
+                    marks: [
+                      IntervalMark(
+                        label: LabelEncode(
+                            encoder: (tuple) =>
+                                Label(tuple[labelValue].toString())),
+                        elevation: ElevationEncode(value: 0, updaters: {
+                          labelValue: {true: (_) => 5}
+                        }),
+                        color: ColorEncode(
+                            value: Defaults.primaryColor,
+                            updaters: {
+                              labelValue: {
+                                false: (color) => color.withAlpha(100)
+                              }
+                            }),
+                      ),
+                    ],
+                    axes: [
+                      Defaults.horizontalAxis,
+                      Defaults.verticalAxis,
+                    ],
+                    selections: {labelValue: PointSelection(dim: Dim.x)},
+                    tooltip: TooltipGuide(),
+                    crosshair: CrosshairGuide(),
+                  ),
+                ),
+              ],
+            ),
+          )
+        : const SizedBox();
   }
 
   Container _banner() {
@@ -67,7 +154,7 @@ class StatisticsSupportView extends GetView {
             Align(
               alignment: Alignment.topLeft,
               child: Text(
-                '${double.parse(controller.potensiDptModel.value?.dpt.presentaseLaki.toString() ?? '0').toStringAsFixed(0)}%',
+                '${double.parse(controller.dukunganDptModel.value?.dpt.presentaseLaki.toString() ?? '0').toStringAsFixed(0)}%',
                 style: TextStyle(
                   color: Colors.white,
                   shadows: [shadow],
@@ -77,7 +164,7 @@ class StatisticsSupportView extends GetView {
             Align(
               alignment: Alignment.topRight,
               child: Text(
-                '${double.parse(controller.potensiDptModel.value?.dpt.presentasePerempuan.toString() ?? '0').toStringAsFixed(0)}%',
+                '${double.parse(controller.dukunganDptModel.value?.dpt.presentasePerempuan.toString() ?? '0').toStringAsFixed(0)}%',
                 style: TextStyle(
                   color: Colors.white,
                   shadows: [shadow],
@@ -90,11 +177,11 @@ class StatisticsSupportView extends GetView {
               child: Obx(
                 () => CustomPaint(
                   painter: ChartDoughnutView(
-                    data1Value:
-                        (controller.potensiDptModel.value?.dpt.presentaseLaki ??
-                                0) /
-                            100, // Data 1 value (between 0 and 1)
-                    data2Value: (controller.potensiDptModel.value?.dpt
+                    data1Value: (controller
+                                .dukunganDptModel.value?.dpt.presentaseLaki ??
+                            0) /
+                        100, // Data 1 value (between 0 and 1)
+                    data2Value: (controller.dukunganDptModel.value?.dpt
                                 .presentasePerempuan ??
                             100) /
                         100, // Data 2 value (between 0 and 1)
