@@ -4,7 +4,11 @@ import 'package:get/get.dart';
 import 'package:icaleg/gen/assets.gen.dart';
 import 'package:icaleg/infrastructure/theme/theme_utils.dart';
 
-appBarDefault({required String title, bool leadign = false}) {
+appBarDefault({
+  required String title,
+  bool leadign = false,
+  void Function()? onTap,
+}) {
   return PreferredSize(
     preferredSize: Size(Get.width, AppBar().preferredSize.height),
     child: Stack(
@@ -19,7 +23,7 @@ appBarDefault({required String title, bool leadign = false}) {
             child: Row(
               children: [
                 InkWell(
-                  onTap: () => Get.back(),
+                  onTap: onTap ?? () => Get.back(),
                   child: Container(
                       margin: const EdgeInsets.only(right: 8),
                       padding: const EdgeInsets.fromLTRB(18, 6, 8, 6),

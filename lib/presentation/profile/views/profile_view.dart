@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:icaleg/infrastructure/navigation/routes.dart';
 import 'package:icaleg/infrastructure/theme/theme_utils.dart';
 import 'package:icaleg/presentation/profile/controllers/profile.controller.dart';
 import 'package:intl/intl.dart';
@@ -57,12 +58,13 @@ Widget profileCaleg() {
         subTitle: controller.authController.userModel.referalCode,
       ),
       const Divider(thickness: 2),
-      // Padding(
-      //   padding:
-      //       EdgeInsets.symmetric(horizontal: marginHorizontal, vertical: 10),
-      //   child:
-      //       ElevatedButton(onPressed: () {}, child: const Text('Edit Profil')),
-      // ),
+      Padding(
+        padding:
+            EdgeInsets.symmetric(horizontal: marginHorizontal, vertical: 10),
+        child: ElevatedButton(
+            onPressed: () => Get.toNamed(Routes.PROFILE_EDIT),
+            child: const Text('Edit Profil')),
+      ),
       Padding(
         padding:
             EdgeInsets.symmetric(horizontal: marginHorizontal, vertical: 10),
@@ -173,12 +175,13 @@ Widget profileKoor() {
         subTitle: controller.authController.userModel.phone,
       ),
       const Divider(thickness: 2),
-      // Padding(
-      //   padding:
-      //       EdgeInsets.symmetric(horizontal: marginHorizontal, vertical: 10),
-      //   child:
-      //       ElevatedButton(onPressed: () {}, child: const Text('Edit Profil')),
-      // ),
+      Padding(
+        padding:
+            EdgeInsets.symmetric(horizontal: marginHorizontal, vertical: 10),
+        child: ElevatedButton(
+            onPressed: () => Get.toNamed(Routes.PROFILE_EDIT),
+            child: const Text('Edit Profil')),
+      ),
       Padding(
         padding:
             EdgeInsets.symmetric(horizontal: marginHorizontal, vertical: 10),

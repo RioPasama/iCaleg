@@ -6,6 +6,19 @@ import 'package:icaleg/app/data/services/main_service.dart';
 import 'package:http/http.dart' as http;
 
 class UserService {
+  static Future<int> forgetPassword(
+      {String? noPhone, String? kode, String? password}) async {
+    Map<String, String> body = {
+      if (noPhone != null) 'phone': noPhone,
+      if (kode != null) 'kode': kode,
+      if (password != null) 'newpass': password,
+    };
+
+    final result = await MainService().postAPI(url: 'auth/reset', body: body);
+
+    return result['code'];
+  }
+
   static Future<String> postLogin(
       {required String email, required String password}) async {
     Map<String, String> body = {'email': email, 'password': password};

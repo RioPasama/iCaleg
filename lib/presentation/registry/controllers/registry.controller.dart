@@ -261,10 +261,13 @@ class RegistryController extends GetxController {
                   ? '3'
                   : '4',
     );
+    Map<String, String> sendArguments = {
+      'tag': '0',
+      'indentity': '+62${numberPhoneTextEditingController.text}',
+    };
 
     if (code == 200) {
-      Get.toNamed(Routes.REGISTRY_VERIFICATION,
-          arguments: '+62${numberPhoneTextEditingController.text}');
+      Get.toNamed(Routes.VERIFICATION, arguments: sendArguments);
     }
   }
 }

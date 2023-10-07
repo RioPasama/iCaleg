@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:graphic/graphic.dart';
+import 'package:icaleg/app/data/models/statistik_dapil_wilayah_model.dart';
 import 'package:icaleg/app/views/views/chart_doughnut_view.dart';
 import 'package:icaleg/app/views/views/loading_view.dart';
 import 'package:icaleg/infrastructure/theme/theme_utils.dart';
@@ -24,49 +26,55 @@ class StatisticsDptView extends GetView {
                 _banner(),
                 _date(),
                 _koorValue(),
-                Container(
-                  margin: EdgeInsets.symmetric(
-                      horizontal: marginHorizontal, vertical: 20),
-                  padding: EdgeInsets.symmetric(
-                      horizontal: marginHorizontal, vertical: 8),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: borderRadius,
-                      boxShadow: [boxShadow]),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Total Dapil',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: colorTextPrimary),
-                      ),
-                      (controller.statistikDapilWilayahModel.isNotEmpty)
-                          ? ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount:
-                                  controller.statistikDapilWilayahModel.length,
-                              itemBuilder: (context, index) {
-                                return Container(
-                                  decoration: BoxDecoration(
-                                      color: controller.utilsController
-                                          .getRandomColor()),
-                                  child: Text(controller
-                                      .statistikDapilWilayahModel[index]
-                                      .namaWilayah),
-                                );
-                              },
-                            )
-                          : Center(
-                              child: Text(
-                              'Data Wilayah Tidak Ada',
-                              style: TextStyle(color: colorTextGray),
-                            )),
-                    ],
-                  ),
-                ),
+                // Container(
+                //   margin: EdgeInsets.symmetric(
+                //       horizontal: marginHorizontal, vertical: 20),
+                //   padding: EdgeInsets.symmetric(
+                //       horizontal: marginHorizontal, vertical: 8),
+                //   decoration: BoxDecoration(
+                //       color: Colors.white,
+                //       borderRadius: borderRadius,
+                //       boxShadow: [boxShadow]),
+                //   child: Column(
+                //     crossAxisAlignment: CrossAxisAlignment.start,
+                //     children: [
+                //       Text(
+                //         'Total Dapil',
+                //         style: TextStyle(
+                //             fontWeight: FontWeight.bold,
+                //             color: colorTextPrimary),
+                //       ),
+                //       (controller.statistikDapilWilayahModel.isNotEmpty)
+                //           ? ListView.builder(
+                //               shrinkWrap: true,
+                //               physics: const NeverScrollableScrollPhysics(),
+                //               itemCount:
+                //                   controller.statistikDapilWilayahModel.length,
+                //               itemBuilder: (context, index) {
+                //                 return Container(
+                //                   decoration: BoxDecoration(
+                //                       color: controller.utilsController
+                //                           .getRandomColor()),
+                //                   child: Text(controller
+                //                       .statistikDapilWilayahModel[index]
+                //                       .namaWilayah),
+                //                 );
+                //               },
+                //             )
+                //           : Center(
+                //               child: Text(
+                //               'Data Wilayah Tidak Ada',
+                //               style: TextStyle(color: colorTextGray),
+                //             )),
+                //     ],
+                //   ),
+                // ),
+
+                _grafigChart(
+                    data: controller.statistikDapilWilayahModel,
+                    labelPrimary: 'Total Dapil',
+                    labelKey: 'Wilayah',
+                    labelValue: 'Total DPT'),
               ],
             ),
     );
@@ -239,5 +247,76 @@ class StatisticsDptView extends GetView {
             )
           ],
         ));
+  }
+
+  Widget _grafigChart({
+    required RxList<StatistikDapilWilayahModel> data,
+    required String labelPrimary,
+    required String labelKey,
+    required String labelValue,
+  }) {
+    return (data.isNotEmpty)
+        ? Padding(
+            padding: EdgeInsets.only(
+                left: marginHorizontal, right: marginHorizontal, top: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  labelPrimary,
+                  style: TextStyle(
+                      color: colorTextPrimary, fontWeight: FontWeight.bold),
+                ),
+                Container(
+                  height: 300,
+                  width: Get.width,
+                  margin: const EdgeInsets.only(top: 8),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: borderRadius,
+                    boxShadow: [boxShadow],
+                  ),
+                  child: Chart(
+                    data: data,
+                    variables: {
+                      labelKey: Variable(
+                          accessor: (StatistikDapilWilayahModel map) =>
+                              map.namaWilayah),
+                      labelValue: Variable(
+                        accessor: (StatistikDapilWilayahModel map) =>
+                            map.totalDpt,
+                      ),
+                    },
+                    marks: [
+                      IntervalMark(
+                        label: LabelEncode(
+                            encoder: (tuple) => Label(
+                                NumberFormat.decimalPattern('id')
+                                    .format(tuple[labelValue]))),
+                        elevation: ElevationEncode(value: 0, updaters: {
+                          labelValue: {true: (_) => 5}
+                        }),
+                        color: ColorEncode(
+                            value: Defaults.primaryColor,
+                            updaters: {
+                              labelValue: {
+                                false: (color) => color.withAlpha(100)
+                              }
+                            }),
+                      ),
+                    ],
+                    axes: [
+                      Defaults.horizontalAxis,
+                      Defaults.verticalAxis,
+                    ],
+                    selections: {labelValue: PointSelection(dim: Dim.y)},
+                    tooltip: TooltipGuide(),
+                    crosshair: CrosshairGuide(),
+                  ),
+                ),
+              ],
+            ),
+          )
+        : const SizedBox();
   }
 }

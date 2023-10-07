@@ -34,6 +34,10 @@ class SupportDetailPendukungView extends GetView {
                   title: 'Tampat & Tanggal Lahir',
                   subTitle:
                       '${voterDukunganModel.born} ${voterDukunganModel.birthday.toString().split(' ').first}'),
+              // _listTitle(
+              //     title: 'Tampat & Tanggal Lahir',
+              //     subTitle:
+              //         '${voterDukunganModel.born} ${voterDukunganModel.birthday.toString().split(' ').first}'),
               _listTitle(
                   title: 'Usia',
                   subTitle: (DateTime.now()

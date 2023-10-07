@@ -15,7 +15,12 @@ class SupportInputScreen extends GetView<SupportInputController> {
     Get.put(SupportInputController());
 
     return Scaffold(
-      appBar: appBarDefault(title: 'FORMULIR TAMBAH PENDUKUNG'),
+      appBar: appBarDefault(
+        title: 'FORMULIR TAMBAH PENDUKUNG',
+        onTap: () => (controller.isInputTPS.value)
+            ? controller.isInputTPS.toggle()
+            : Get.back(),
+      ),
       body: Obx(
         () => (controller.pathIdenti?.value == '')
             ? SupportInputCamView()

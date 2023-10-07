@@ -7,12 +7,13 @@ import 'package:icaleg/app/data/models/user_model.dart';
 import 'package:icaleg/app/data/services/user_service.dart';
 import 'package:icaleg/infrastructure/navigation/routes.dart';
 
-class LoginVerificationController extends GetxController {
+class VerificationController extends GetxController {
   final AuthController authController = Get.put(AuthController());
   late TextEditingController otpTextEditingController;
 
   RxString code = ''.obs;
-  String nomorWa = Get.arguments ?? '';
+  String indentity = Get.arguments['indentity'] ?? '';
+  String tag = Get.arguments['tag'] ?? '';
   RxInt setSeconds = 0.obs;
   RxString countdownText = '00:00:00'.obs;
 
@@ -62,15 +63,43 @@ class LoginVerificationController extends GetxController {
   }
 
   Future<void> onTapSendOTP() async {
+    switch (tag) {
+      case '0':
+        await onTapSendOTPRegistry();
+        break;
+      case '1':
+        await onTapSendOTPLogin();
+        break;
+      case '2':
+        await onTapSendOTPForgetPassword();
+        break;
+      default:
+    }
+  }
+
+  Future<void> onTapSendOTPForgetPassword() async {
     if (otpTextEditingController.text.length < 6) {
       return;
     }
-    code.value = await UserService.postLoginWhatsappVerifikasi(
-        phone: nomorWa, otp: otpTextEditingController.text);
+    await UserService.forgetPassword(
+            noPhone: indentity, kode: otpTextEditingController.text)
+        .then((value) => code.value = value.toString());
+    if (code.value == '200') {
+      Get.back();
+    }
+  }
+
+  Future<void> onTapSendOTPLogin() async {
+    if (otpTextEditingController.text.length < 6) {
+      return;
+    }
+    await UserService.postLoginWhatsappVerifikasi(
+            phone: indentity, otp: otpTextEditingController.text)
+        .then((value) => code.value = value.toString());
 
     authController.saveToken(token: code.value);
 
-    if (code.isNotEmpty) {
+    if (code.value == '200') {
       UserModel userModel = await UserService.getDataUser();
       authController.saveDataUser(userModel: userModel);
       authController.getDataUser();
@@ -78,6 +107,21 @@ class LoginVerificationController extends GetxController {
       if (userModel.nik.isNotEmpty) {
         Get.offAllNamed(Routes.MAIN);
       }
+    }
+  }
+
+  Future<void> onTapSendOTPRegistry() async {
+    if (otpTextEditingController.text.length < 6) {
+      return;
+    }
+    await UserService.postVerifikasi(
+            otp: otpTextEditingController.text, indentity: indentity)
+        .then((value) => code.value = value.toString());
+
+    if (code.value == '200') {
+      Future.delayed(const Duration(seconds: 4), () {
+        Get.offAllNamed(Routes.LOGIN);
+      });
     }
   }
 

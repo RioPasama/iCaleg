@@ -49,9 +49,13 @@ class LoginController extends GetxController {
     String code = await UserService.postLoginWhatsapp(
         phone: '+62${nomorWhatsappTextEditingController.text}');
 
+    Map<String, String> sendArguments = {
+      'tag': '1',
+      'indentity': '+62${nomorWhatsappTextEditingController.text}',
+    };
+
     if (code == '200') {
-      Get.toNamed(Routes.LOGIN_VERIFICATION,
-          arguments: '+62${nomorWhatsappTextEditingController.text}');
+      Get.toNamed(Routes.VERIFICATION, arguments: sendArguments);
     }
   }
 

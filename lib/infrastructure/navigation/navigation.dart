@@ -62,11 +62,6 @@ class Nav {
       binding: PrivacyPolicyControllerBinding(),
     ),
     GetPage(
-      name: Routes.REGISTRY_VERIFICATION,
-      page: () => const RegistryVerificationScreen(),
-      binding: RegistryVerificationControllerBinding(),
-    ),
-    GetPage(
       name: Routes.SUPPORT,
       page: () => const SupportScreen(),
       binding: SupportControllerBinding(),
@@ -87,11 +82,6 @@ class Nav {
       binding: SupportInputControllerBinding(),
     ),
     GetPage(
-      name: Routes.LOGIN_VERIFICATION,
-      page: () => const LoginVerificationScreen(),
-      binding: LoginVerificationControllerBinding(),
-    ),
-    GetPage(
       name: Routes.REGISTRY_KOOR,
       page: () => const RegistryKoorScreen(),
       binding: RegistryKoorControllerBinding(),
@@ -100,6 +90,16 @@ class Nav {
       name: Routes.SUPPORT_DETAIL,
       page: () => const SupportDetailScreen(),
       binding: SupportDetailControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.VERIFICATION,
+      page: () => const VerificationScreen(),
+      binding: VerificationControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.PROFILE_EDIT,
+      page: () => const ProfileEditScreen(),
+      binding: ProfileEditControllerBinding(),
     ),
   ];
 }

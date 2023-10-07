@@ -1,7 +1,10 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_map/plugin_api.dart';
 import 'package:get/get.dart';
 import 'package:icaleg/app/controllers/utils_controller.dart';
 import 'package:icaleg/app/data/models/dukungan_data_interval_model.dart';
 import 'package:icaleg/app/data/models/dukungan_dpt_model.dart';
+import 'package:icaleg/app/data/models/dukungan_map_model.dart';
 import 'package:icaleg/app/data/models/potensi_dpt_model.dart';
 import 'package:icaleg/app/data/models/statistik_dapil_wilayah_model.dart';
 import 'package:icaleg/app/data/services/statistics_service.dart';
@@ -18,6 +21,9 @@ class StatisticsController extends GetxController {
       RxList<DukunganDataIntervalModel>();
   RxList<DukunganDataIntervalModel> dukunganDataIntervalPekerjaan =
       RxList<DukunganDataIntervalModel>();
+  RxList<DukunganMapModel> dukunganMapModel = RxList<DukunganMapModel>();
+
+  final mapKey = GlobalKey<FlutterMapState>();
 
   String dateTimeNow = DateTime.now().toString();
 
@@ -26,7 +32,7 @@ class StatisticsController extends GetxController {
     getDataDukunganDpt();
     getDataPotensiDpt();
     getDataDapilPerWilayaht();
-
+    getDukunganMap();
     super.onInit();
   }
 
@@ -68,5 +74,9 @@ class StatisticsController extends GetxController {
   Future<void> getDataDapilPerWilayaht() async {
     statistikDapilWilayahModel.value =
         await StatisticsService.getDapilPerWilayah();
+  }
+
+  Future<void> getDukunganMap() async {
+    dukunganMapModel.value = await StatisticsService.getDukunganMap();
   }
 }

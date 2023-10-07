@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:icaleg/infrastructure/theme/theme_utils.dart';
-import 'package:icaleg/presentation/registry_verification/controllers/registry_verification.controller.dart';
+import 'package:icaleg/presentation/verification/controllers/verification.controller.dart';
 import 'package:pinput/pinput.dart';
 
-class RegistryVerificationFormView extends GetView {
-  RegistryVerificationFormView({Key? key}) : super(key: key);
+class VerificationFormView extends GetView {
+  VerificationFormView({Key? key}) : super(key: key);
 
   @override
-  final RegistryVerificationController controller =
-      Get.put(RegistryVerificationController());
+  final VerificationController controller = Get.put(VerificationController());
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +24,13 @@ class RegistryVerificationFormView extends GetView {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const Text(
-            'Verifikasi',
+            'Verifikasi OTP',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           RichText(
               text: TextSpan(children: [
             TextSpan(
-              text: 'Kami telah mengirimkan OTP anda ',
+              text: 'Kami telah mengirimkan OTP ke ',
               style: TextStyle(color: colorTextGray),
             ),
             TextSpan(

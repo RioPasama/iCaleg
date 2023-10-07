@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 
 import 'package:get/get.dart';
 import 'package:graphic/graphic.dart';
@@ -9,6 +10,7 @@ import 'package:icaleg/infrastructure/theme/theme_utils.dart';
 import 'package:icaleg/presentation/statistics/controllers/statistics.controller.dart';
 import 'package:intl/intl.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:latlong2/latlong.dart';
 
 class StatisticsSupportView extends GetView {
   StatisticsSupportView({Key? key}) : super(key: key);
@@ -38,8 +40,48 @@ class StatisticsSupportView extends GetView {
                   labelPrimary: 'Demografi Pekerjaan',
                   labelKey: 'Pekerjaan',
                   labelValue: 'Banyak'),
+              _map(),
               const SizedBox(height: 20)
             ]),
+    );
+  }
+
+  Widget _map() {
+    return Padding(
+      padding: EdgeInsets.only(
+          top: 30, left: marginHorizontal, right: marginHorizontal),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Demografi Pendukung',
+            style:
+                TextStyle(color: colorTextPrimary, fontWeight: FontWeight.bold),
+          ),
+          ClipRRect(
+            borderRadius: borderRadius,
+            child: SizedBox(
+              height: Get.height / 1.4,
+              width: Get.width,
+              child: FlutterMap(
+                key: controller.mapKey,
+                options: MapOptions(
+                  interactiveFlags:
+                      InteractiveFlag.pinchZoom | InteractiveFlag.drag,
+                  center: const LatLng(-7.777762744563174, 110.3640151360516),
+                ),
+                children: [
+                  TileLayer(
+                    urlTemplate:
+                        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                    subdomains: const ['a', 'b', 'c'],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 

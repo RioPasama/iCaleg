@@ -1,15 +1,15 @@
 export 'package:icaleg/presentation/forget_password/forget_password.screen.dart';
 export 'package:icaleg/presentation/home/home.screen.dart';
 export 'package:icaleg/presentation/login/login.screen.dart';
-export 'package:icaleg/presentation/login_verification/login_verification.screen.dart';
 export 'package:icaleg/presentation/main/main.screen.dart';
 export 'package:icaleg/presentation/privacy_policy/privacy_policy.screen.dart';
 export 'package:icaleg/presentation/profile/profile.screen.dart';
+export 'package:icaleg/presentation/profile_edit/profile_edit.screen.dart';
 export 'package:icaleg/presentation/registry/registry.screen.dart';
 export 'package:icaleg/presentation/registry_koor/registry_koor.screen.dart';
-export 'package:icaleg/presentation/registry_verification/registry_verification.screen.dart';
 export 'package:icaleg/presentation/splash/splash.screen.dart';
 export 'package:icaleg/presentation/statistics/statistics.screen.dart';
 export 'package:icaleg/presentation/support/support.screen.dart';
 export 'package:icaleg/presentation/support_detail/support_detail.screen.dart';
 export 'package:icaleg/presentation/support_input/support_input.screen.dart';
+export 'package:icaleg/presentation/verification/verification.screen.dart';

@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:icaleg/app/views/views/utils_view.dart';
 import 'package:icaleg/infrastructure/theme/theme_utils.dart';
 import 'package:icaleg/presentation/login/controllers/login.controller.dart';
-import 'package:icaleg/infrastructure/navigation/routes.dart';
 
 class LoginFormWhatsappView extends GetView {
   LoginFormWhatsappView({Key? key}) : super(key: key);
