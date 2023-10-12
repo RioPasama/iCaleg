@@ -442,17 +442,17 @@ ListTile _listTitle(DataKoordinatorModel data) {
         Visibility(
           visible: data.kordes != null,
           child: Text(
-            'Koor Kecamatan : ${data.korcam}',
+            'Alamat : ${data.address}',
             style: const TextStyle(
               fontSize: 13,
               color: Colors.black,
             ),
           ),
         ),
-        Text(
-          'Koord. ${data.namaAtasan}',
-          style: const TextStyle(fontSize: 13, fontStyle: FontStyle.italic),
-        ),
+        // Text(
+        //   'Koord. ${data.namaAtasan}',
+        //   style: const TextStyle(fontSize: 13, fontStyle: FontStyle.italic),
+        // ),
       ],
     ),
     isThreeLine: true,

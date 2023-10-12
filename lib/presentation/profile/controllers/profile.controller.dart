@@ -39,4 +39,15 @@ class ProfileController extends GetxController {
   Future<void> fetchHome() async {
     homeModel.value = await HomeService.getHome();
   }
+
+  void onTapEditProfile() {
+    Map<String, dynamic> sendArguments = {
+      'foto': authController.userModel.image,
+      'name': authController.userModel.name,
+      'born': authController.userModel.born,
+      'biryhday': authController.userModel.birthday,
+    };
+
+    Get.toNamed(Routes.PROFILE_EDIT, arguments: sendArguments);
+  }
 }

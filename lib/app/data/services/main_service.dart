@@ -133,7 +133,7 @@ class MainService {
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);
       // log('test1' + authController.token.toString());
-      log('Url: ${request.url}\nBody\n${request.fields}\n${request.files[0].filename} ${request.files[1].filename}\n${response.body}');
+      log('Url: ${request.url}\nBody\n${request.fields}\n${request.files[0].filename}}\n${response.body}');
 
       final result = jsonDecode(response.body);
       Get.back();

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:icaleg/infrastructure/navigation/routes.dart';
 import 'package:icaleg/infrastructure/theme/theme_utils.dart';
 import 'package:icaleg/presentation/profile/controllers/profile.controller.dart';
 import 'package:intl/intl.dart';
+import 'package:ionicons/ionicons.dart';
 
 Widget profileCaleg() {
   ProfileController controller = Get.put(ProfileController());
@@ -28,41 +28,42 @@ Widget profileCaleg() {
           ),
         ),
       ]),
-      listviewTitle(
+      _listviewTitle(
         title: 'Partai Politik',
         subTitle: controller.authController.userModel.partai,
       ),
-      listviewTitle(
+      _listviewTitle(
         title: 'Daerah Pemilih',
         subTitle: controller.authController.userModel.labelDusun,
       ),
-      listviewTitle(
+      _listviewTitle(
         title: 'Jenis Kelamin',
         subTitle: controller.authController.userModel.gender,
       ),
-      listviewTitle(
+      _listviewTitle(
         title: 'Tempat Tanggal Lahir',
         subTitle:
             '${controller.authController.userModel.born} ${controller.authController.userModel.birthday.toString().split(' ').first}',
       ),
-      listviewTitle(
+      _listviewTitle(
         title: 'Email',
         subTitle: controller.authController.userModel.email,
       ),
-      listviewTitle(
+      _listviewTitle(
         title: 'No. Handphone',
         subTitle: controller.authController.userModel.phone,
       ),
-      listviewTitle(
+      _listviewTitle(
         title: 'Kode Referral',
         subTitle: controller.authController.userModel.referalCode,
+        activeClipboard: true,
       ),
       const Divider(thickness: 2),
       Padding(
         padding:
             EdgeInsets.symmetric(horizontal: marginHorizontal, vertical: 10),
         child: ElevatedButton(
-            onPressed: () => Get.toNamed(Routes.PROFILE_EDIT),
+            onPressed: () => controller.onTapEditProfile(),
             child: const Text('Edit Profil')),
       ),
       Padding(
@@ -143,34 +144,34 @@ Widget profileKoor() {
           ],
         ),
       ),
-      listviewTitle(
+      _listviewTitle(
         title: 'Partai Politik',
         subTitle: controller.authController.userModel.partai,
       ),
       Obx(
-        () => listviewTitle(
+        () => _listviewTitle(
           title: 'Daerah Pemilih',
           subTitle: controller.homeModel.value?.daerahPemilihan ?? '',
         ),
       ),
-      listviewTitle(
+      _listviewTitle(
         title: 'NIK',
         subTitle: controller.authController.userModel.nik,
       ),
-      listviewTitle(
+      _listviewTitle(
         title: 'Jenis Kelamin',
         subTitle: controller.authController.userModel.gender,
       ),
-      listviewTitle(
+      _listviewTitle(
         title: 'Tempat Tanggal Lahir',
         subTitle:
             '${controller.authController.userModel.born} ${controller.authController.userModel.birthday.toString().split(' ').first}',
       ),
-      listviewTitle(
+      _listviewTitle(
         title: 'Email',
         subTitle: controller.authController.userModel.email,
       ),
-      listviewTitle(
+      _listviewTitle(
         title: 'No. Handphone',
         subTitle: controller.authController.userModel.phone,
       ),
@@ -179,7 +180,7 @@ Widget profileKoor() {
         padding:
             EdgeInsets.symmetric(horizontal: marginHorizontal, vertical: 10),
         child: ElevatedButton(
-            onPressed: () => Get.toNamed(Routes.PROFILE_EDIT),
+            onPressed: () => controller.onTapEditProfile(),
             child: const Text('Edit Profil')),
       ),
       Padding(
@@ -195,7 +196,11 @@ Widget profileKoor() {
   );
 }
 
-Container listviewTitle({required String title, required String subTitle}) {
+Container _listviewTitle(
+    {required String title,
+    required String subTitle,
+    bool activeClipboard = false}) {
+  ProfileController controller = Get.put(ProfileController());
   return Container(
     padding: EdgeInsets.symmetric(horizontal: marginHorizontal, vertical: 8),
     decoration: BoxDecoration(
@@ -207,9 +212,20 @@ Container listviewTitle({required String title, required String subTitle}) {
           title,
           style: TextStyle(color: colorTextPrimary),
         ),
-        Text(
-          subTitle,
-          style: const TextStyle(fontWeight: FontWeight.bold),
+        Row(
+          children: [
+            Text(
+              subTitle,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Visibility(
+              visible: activeClipboard,
+              child: IconButton(
+                  onPressed: () =>
+                      controller.utilsController.onTapClipboard(text: subTitle),
+                  icon: const Icon(Ionicons.copy_outline)),
+            )
+          ],
         ),
       ],
     ),

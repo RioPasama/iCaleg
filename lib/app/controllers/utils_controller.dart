@@ -1,11 +1,16 @@
 import 'dart:math';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:icaleg/app/views/views/dialog_view.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class UtilsController extends GetxController {
+  Future<void> onTapClipboard({required String text}) async {
+    await Clipboard.setData(ClipboardData(text: text));
+  }
+
   Future<void> openUrl({required String url, required LaunchMode mode}) async {
     if (!await launchUrlString(url, mode: mode)) {
       Get.dialog(dialogView(

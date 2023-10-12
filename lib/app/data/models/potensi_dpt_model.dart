@@ -49,8 +49,10 @@ class Dpt {
   factory Dpt.fromJson(Map<String, dynamic> json) => Dpt(
         dptLaki: json['dpt_laki'],
         dptPerempuan: json['dpt_perempuan'],
-        presentasePerempuan: json['presentase_perempuan'].toDouble(),
-        presentaseLaki: json['presentase_laki'].toDouble(),
+        presentasePerempuan:
+            double.tryParse(json['presentase_perempuan'].toString()) ?? 0,
+        presentaseLaki:
+            double.tryParse(json['presentase_laki'].toString()) ?? 0,
         totalDpt: json['total_dpt'],
       );
 

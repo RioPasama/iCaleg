@@ -6,6 +6,30 @@ import 'package:icaleg/app/data/services/main_service.dart';
 import 'package:http/http.dart' as http;
 
 class UserService {
+  static Future<int> changeProfile(
+      {required String name,
+      required String born,
+      required String birthday}) async {
+    Map<String, String> body = {
+      'name': name,
+      'born': born,
+      'birthday': birthday,
+    };
+
+    final result = await MainService().postAPI(url: 'auth/change', body: body);
+    return result['code'];
+  }
+
+  static Future<int> changePhotoProfile({required File photoIdentity}) async {
+    final result = await MainService().postMultipartRequestAPI(
+      url: 'auth/changePhoto.php',
+      files: [
+        await http.MultipartFile.fromPath('photo', photoIdentity.path),
+      ],
+    );
+    return result['code'];
+  }
+
   static Future<int> forgetPassword(
       {String? noPhone, String? kode, String? password}) async {
     Map<String, String> body = {

@@ -56,6 +56,14 @@ class StatisticsController extends GetxController {
     super.onClose();
   }
 
+  bool validLatituddLongitude({
+    required double latitude,
+    required double longitude,
+  }) {
+    return (latitude >= -90.0 && latitude <= 90.0) &&
+        (longitude >= -180.0 && longitude <= 180.0);
+  }
+
   Future<List<DukunganDataIntervalModel>> getDataDukunganInterval(
       {required String tag}) async {
     List<DukunganDataIntervalModel> result =

@@ -290,9 +290,17 @@ class StatisticsDptView extends GetView {
                     marks: [
                       IntervalMark(
                         label: LabelEncode(
-                            encoder: (tuple) => Label(
-                                NumberFormat.decimalPattern('id')
-                                    .format(tuple[labelValue]))),
+                          encoder: (tuple) => Label(
+                            NumberFormat.decimalPattern('id')
+                                .format(tuple[labelValue]),
+                            // LabelStyle(
+                            //     textStyle: TextStyle(
+                            //         fontWeight: FontWeight.bold,
+                            //         fontSize: 18,
+                            //         color: Colors.black)),
+                          ),
+                        ),
+                        tag: (tuple) => tuple[labelKey].toString(),
                         elevation: ElevationEncode(value: 0, updaters: {
                           labelValue: {true: (_) => 5}
                         }),
@@ -309,7 +317,12 @@ class StatisticsDptView extends GetView {
                       Defaults.horizontalAxis,
                       Defaults.verticalAxis,
                     ],
-                    selections: {labelValue: PointSelection(dim: Dim.y)},
+                    selections: {
+                      labelValue: PointSelection(dim: Dim.y),
+                    },
+                    coord: RectCoord(
+                      horizontalRangeUpdater: Defaults.horizontalRangeEvent,
+                    ),
                     tooltip: TooltipGuide(),
                     crosshair: CrosshairGuide(),
                   ),

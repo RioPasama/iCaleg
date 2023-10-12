@@ -28,6 +28,7 @@ class SupportDetailPendukungView extends GetView {
             children: [
               _header(voterDukunganModel),
               const SizedBox(height: 20),
+              _listTitle(title: 'NIK', subTitle: voterDukunganModel.nik),
               _listTitle(
                   title: 'Nama Lengkap', subTitle: voterDukunganModel.name),
               _listTitle(

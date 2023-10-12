@@ -47,42 +47,113 @@ class StatisticsSupportView extends GetView {
   }
 
   Widget _map() {
-    return Padding(
-      padding: EdgeInsets.only(
-          top: 30, left: marginHorizontal, right: marginHorizontal),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Demografi Pendukung',
-            style:
-                TextStyle(color: colorTextPrimary, fontWeight: FontWeight.bold),
-          ),
-          ClipRRect(
-            borderRadius: borderRadius,
-            child: SizedBox(
-              height: Get.height / 1.4,
-              width: Get.width,
-              child: FlutterMap(
-                key: controller.mapKey,
-                options: MapOptions(
-                  interactiveFlags:
-                      InteractiveFlag.pinchZoom | InteractiveFlag.drag,
-                  center: const LatLng(-7.777762744563174, 110.3640151360516),
+    return (controller.dukunganMapModel.isNotEmpty)
+        ? Padding(
+            padding: EdgeInsets.only(
+                top: 30, left: marginHorizontal, right: marginHorizontal),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Demografi Pendukung',
+                  style: TextStyle(
+                      color: colorTextPrimary, fontWeight: FontWeight.bold),
                 ),
-                children: [
-                  TileLayer(
-                    urlTemplate:
-                        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                    subdomains: const ['a', 'b', 'c'],
+                ClipRRect(
+                  borderRadius: borderRadius,
+                  child: SizedBox(
+                    height: Get.height / 1.4,
+                    width: Get.width,
+                    child: FlutterMap(
+                      key: controller.mapKey,
+                      options: MapOptions(
+                        interactiveFlags:
+                            InteractiveFlag.pinchZoom | InteractiveFlag.drag,
+                        center: controller.validLatituddLongitude(
+                                latitude: controller.dukunganMapModel[0].lat,
+                                longitude: controller.dukunganMapModel[0].log)
+                            ? LatLng(controller.dukunganMapModel[0].lat,
+                                controller.dukunganMapModel[0].log)
+                            : const LatLng(
+                                -7.768565099239451, 110.37256774885958),
+                      ),
+                      children: [
+                        TileLayer(
+                          urlTemplate:
+                              "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                          subdomains: const ['a', 'b', 'c'],
+                        ),
+                        MarkerLayer(
+                            markers: controller.dukunganMapModel
+                                .where((data) =>
+                                    controller.validLatituddLongitude(
+                                        latitude: data.lat,
+                                        longitude: data.log))
+                                .map((data) => Marker(
+                                      width: 100.0,
+                                      height: 100.0,
+                                      point: LatLng(data.lat, data.log),
+                                      builder: (ctx) => Column(
+                                        children: [
+                                          Text(
+                                            data.value.toString(),
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                              color: colorPrimary,
+                                            ),
+                                          ),
+                                          Icon(
+                                            Ionicons.location,
+                                            color: colorPrimary,
+                                          ),
+                                          Text(
+                                            data.label,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontSize: 9,
+                                              fontWeight: FontWeight.bold,
+                                              color: colorPrimary,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ))
+                                .toList()
+                            //  [
+                            //   Marker(
+                            //     width: 100.0,
+                            //     height: 100.0,
+                            //     point: const LatLng(
+                            //         -7.768565099239451, 110.37256774885958),
+                            //     builder: (ctx) => Column(
+                            //       children: [
+                            //         Icon(
+                            //           Icons.location_on,
+                            //           color: Colors.red[800],
+                            //         ),
+                            //         const Text(
+                            //           "Lokasi Anda",
+                            //           textAlign: TextAlign.center,
+                            //           style: TextStyle(
+                            //               fontSize: 9,
+                            //               fontWeight: FontWeight.bold,
+                            //               color: Colors.red),
+                            //         ),
+                            //       ],
+                            //     ),
+                            //   ),
+                            // ],
+                            )
+                      ],
+                    ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
-    );
+          )
+        : const SizedBox();
   }
 
   Widget _grafigChart({

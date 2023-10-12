@@ -13,8 +13,8 @@ class DukunganMapModel {
 
   factory DukunganMapModel.fromJson(Map<String, dynamic> json) =>
       DukunganMapModel(
-        lat: json['lat'].toDouble(),
-        log: json['log'].toDouble(),
+        lat: double.parse(json['lat'].toString()),
+        log: double.parse(json['lng'].toString()),
         value: json['value'],
         label: json['label'],
       );

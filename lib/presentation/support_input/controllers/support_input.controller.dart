@@ -165,7 +165,8 @@ class SupportInputController extends GetxController {
 
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
-    position = await Geolocator.getCurrentPosition();
+    position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.medium);
   }
 
   Future<void> showDialogDatePicker(BuildContext context) async {
@@ -420,7 +421,7 @@ class SupportInputController extends GetxController {
       photoKTP: File(pathIdenti!.value),
       job: selectJob.value!.name,
       religion: selectReligion.value!.name,
-      lat: position.altitude,
+      lat: position.latitude,
       lng: position.longitude,
       tps: tpsTextEditingController.text,
       address: alamatTextEditingController.text,
