@@ -97,10 +97,9 @@ class VerificationController extends GetxController {
             phone: indentity, otp: otpTextEditingController.text)
         .then((value) => code.value = value.toString());
 
-    authController.saveToken(token: code.value);
-
-    if (code.value == '200') {
+    if (code.value.isNotEmpty) {
       UserModel userModel = await UserService.getDataUser();
+      authController.saveToken(token: code.value);
       authController.saveDataUser(userModel: userModel);
       authController.getDataUser();
 

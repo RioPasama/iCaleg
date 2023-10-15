@@ -49,6 +49,9 @@ class SupportDetailPendukungView extends GetView {
               // _listTitle(title: 'Agama', subTitle: ''),
               _listTitle(
                   title: 'Status Perkawian',
+                  subTitle: voterDukunganModel.religion),
+              _listTitle(
+                  title: 'Status Perkawian',
                   subTitle: voterDukunganModel.statusKawin),
               _listTitle(title: 'Pekerjaan', subTitle: voterDukunganModel.job),
               _listTitle(title: 'No. Hp', subTitle: voterDukunganModel.phone),

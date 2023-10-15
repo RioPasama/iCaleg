@@ -9,6 +9,7 @@ class VoterDukunganModel {
   final String photo;
   final String ktp;
   final String address;
+  final String religion;
   final String job;
   final String statusKawin;
   final String tps;
@@ -28,6 +29,7 @@ class VoterDukunganModel {
     required this.birthday,
     required this.phone,
     required this.photo,
+    required this.religion,
     required this.ktp,
     required this.address,
     required this.job,
@@ -48,6 +50,7 @@ class VoterDukunganModel {
         nik: json['nik'],
         gender: json['gender'],
         born: json['born'],
+        religion: json['religion'],
         birthday: DateTime.parse(json['birthday']),
         phone: json['phone'],
         photo: json['photo'],
@@ -70,6 +73,7 @@ class VoterDukunganModel {
         'nik': nik,
         'gender': gender,
         'born': born,
+        'religion': religion,
         'birthday':
             '${birthday.year.toString().padLeft(4, '0')}-${birthday.month.toString().padLeft(2, '0')}-${birthday.day.toString().padLeft(2, '0')}',
         'phone': phone,

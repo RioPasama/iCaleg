@@ -280,8 +280,9 @@ class StatisticsDptView extends GetView {
                     data: data,
                     variables: {
                       labelKey: Variable(
-                          accessor: (StatistikDapilWilayahModel map) =>
-                              map.namaWilayah),
+                        accessor: (StatistikDapilWilayahModel map) =>
+                            map.namaWilayah,
+                      ),
                       labelValue: Variable(
                         accessor: (StatistikDapilWilayahModel map) =>
                             map.totalDpt,
@@ -294,37 +295,40 @@ class StatisticsDptView extends GetView {
                             NumberFormat.decimalPattern('id')
                                 .format(tuple[labelValue]),
                             // LabelStyle(
-                            //     textStyle: TextStyle(
-                            //         fontWeight: FontWeight.bold,
-                            //         fontSize: 18,
-                            //         color: Colors.black)),
+                            //   textStyle: TextStyle(
+                            //     fontWeight: FontWeight.bold,
+                            //     fontSize: 18,
+                            //     color: Colors.black,
+                            //   ),
+                            // ),
                           ),
                         ),
-                        tag: (tuple) => tuple[labelKey].toString(),
-                        elevation: ElevationEncode(value: 0, updaters: {
-                          labelValue: {true: (_) => 5}
-                        }),
-                        color: ColorEncode(
-                            value: Defaults.primaryColor,
-                            updaters: {
-                              labelValue: {
-                                false: (color) => color.withAlpha(100)
-                              }
-                            }),
+                        // tag: (tuple) => tuple[labelKey].toString(),
+                        // elevation: ElevationEncode(value: 0, updaters: {
+                        //   labelValue: {true: (_) => 5}
+                        // }),
+                        // color: ColorEncode(
+                        //     value: Defaults.primaryColor,
+                        //     updaters: {
+                        //       labelValue: {
+                        //         false: (color) => color.withAlpha(100)
+                        //       }
+                        //     }),
                       ),
                     ],
                     axes: [
+                      // Defaults.horizontalAxis..tickLine = TickLine(),
                       Defaults.horizontalAxis,
                       Defaults.verticalAxis,
                     ],
-                    selections: {
-                      labelValue: PointSelection(dim: Dim.y),
-                    },
+                    // selections: {
+                    //   // labelValue: PointSelection(dim: Dim.y),
+                    // },
                     coord: RectCoord(
                       horizontalRangeUpdater: Defaults.horizontalRangeEvent,
                     ),
-                    tooltip: TooltipGuide(),
-                    crosshair: CrosshairGuide(),
+                    // tooltip: TooltipGuide(),
+                    // crosshair: CrosshairGuide(),
                   ),
                 ),
               ],

@@ -98,11 +98,24 @@ Obx dukungan() {
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black,
                                     fontSize: 16),
-                                subtitle: Text(
-                                  'Waktu survey ${controller.voterDukunganModel[index].survey.toString().split(':').first}:${controller.voterDukunganModel[index].survey.toString().split(':')[1]}',
-                                  style: const TextStyle(
-                                      fontSize: 13,
-                                      fontStyle: FontStyle.italic),
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'TPS : ${controller.voterDukunganModel[index].tps}',
+                                      style: const TextStyle(fontSize: 13),
+                                    ),
+                                    Text(
+                                      'Survey Oleh ${controller.voterDukunganModel[index].nameSurveyer}',
+                                      style: const TextStyle(fontSize: 13),
+                                    ),
+                                    Text(
+                                      'Waktu survey ${controller.voterDukunganModel[index].survey.toString().split(':').first}:${controller.voterDukunganModel[index].survey.toString().split(':')[1]}',
+                                      style: const TextStyle(
+                                          fontSize: 13,
+                                          fontStyle: FontStyle.italic),
+                                    ),
+                                  ],
                                 ),
                                 isThreeLine: true,
                               );
@@ -186,7 +199,9 @@ Obx koorKorcam() {
                                 controller.dataKoordinatorKorcamModel.length,
                             itemBuilder: (context, index) {
                               return _listTitle(
-                                  controller.dataKoordinatorKorcamModel[index]);
+                                  tag: '2',
+                                  data: controller
+                                      .dataKoordinatorKorcamModel[index]);
                             },
                           ),
                         ),
@@ -242,7 +257,9 @@ Obx koorKoordes() {
                                 controller.dataKoordinatorKordesModel.length,
                             itemBuilder: (context, index) {
                               return _listTitle(
-                                  controller.dataKoordinatorKordesModel[index]);
+                                  tag: '3',
+                                  data: controller
+                                      .dataKoordinatorKordesModel[index]);
                             },
                           ),
                         ),
@@ -298,7 +315,9 @@ Obx koorKoordus() {
                                 controller.dataKoordinatorKordusModel.length,
                             itemBuilder: (context, index) {
                               return _listTitle(
-                                  controller.dataKoordinatorKordusModel[index]);
+                                  tag: '4',
+                                  data: controller
+                                      .dataKoordinatorKordusModel[index]);
                             },
                           ),
                         ),
@@ -354,7 +373,9 @@ Obx koorKoortes() {
                                 controller.dataKoordinatorKortepModel.length,
                             itemBuilder: (context, index) {
                               return _listTitle(
-                                  controller.dataKoordinatorKortepModel[index]);
+                                  tag: '5',
+                                  data: controller
+                                      .dataKoordinatorKortepModel[index]);
                             },
                           ),
                         ),
@@ -386,7 +407,7 @@ Obx koorKoortes() {
   );
 }
 
-ListTile _listTitle(DataKoordinatorModel data) {
+ListTile _listTitle({required String tag, required DataKoordinatorModel data}) {
   return ListTile(
     onTap: () => Get.toNamed(Routes.SUPPORT_DETAIL,
         arguments: {'isDukungan': false, 'id': data.id}),
@@ -402,6 +423,16 @@ ListTile _listTitle(DataKoordinatorModel data) {
     subtitle: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Visibility(
+          visible: tag == '5',
+          child: Text(
+            'TPS : ${data.duty}',
+            style: const TextStyle(
+              fontSize: 13,
+              color: Colors.black,
+            ),
+          ),
+        ),
         Text(
           'Total Dukungan : ${data.jumlahPendukung}',
           style: const TextStyle(
@@ -439,20 +470,20 @@ ListTile _listTitle(DataKoordinatorModel data) {
             ),
           ),
         ),
-        Visibility(
-          visible: data.kordes != null,
-          child: Text(
-            'Alamat : ${data.address}',
-            style: const TextStyle(
-              fontSize: 13,
-              color: Colors.black,
-            ),
+        Text(
+          'Alamat : ${data.address}',
+          style: const TextStyle(
+            fontSize: 13,
+            color: Colors.black,
           ),
         ),
-        // Text(
-        //   'Koord. ${data.namaAtasan}',
-        //   style: const TextStyle(fontSize: 13, fontStyle: FontStyle.italic),
-        // ),
+        Visibility(
+          visible: tag != '2',
+          child: Text(
+            'Koord. ${data.namaAtasan}',
+            style: const TextStyle(fontSize: 13, fontStyle: FontStyle.italic),
+          ),
+        ),
       ],
     ),
     isThreeLine: true,
