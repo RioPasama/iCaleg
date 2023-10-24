@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:icaleg/app/views/views/dialog_view.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -19,6 +18,33 @@ class UtilsController extends GetxController {
         onTapOke: () => Get.back(),
       ));
     }
+  }
+
+  String convertStringColorHex({required String hex}) {
+    return hex.split('x').last;
+  }
+
+  bool isHexStringValid(String hex) {
+    if (hex.length != 6 && hex.length != 8) {
+      return false;
+    }
+
+    // if (!hex.startsWith('#')) {
+    //   return false;
+    // }
+
+    for (int i = 1; i < hex.length; i++) {
+      if (!RegExp(r'[0-9a-fA-F]').hasMatch(hex[i])) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  Color colorFromHex({required String hex}) {
+    final int value = int.parse(hex.substring(1), radix: 16);
+    return Color(value);
   }
 
   Color getRandomColor() {

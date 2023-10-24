@@ -50,7 +50,7 @@ class VoterDukunganModel {
         nik: json['nik'],
         gender: json['gender'],
         born: json['born'],
-        religion: json['religion'],
+        religion: json['religion'] ?? '',
         birthday: DateTime.parse(json['birthday']),
         phone: json['phone'],
         photo: json['photo'],
