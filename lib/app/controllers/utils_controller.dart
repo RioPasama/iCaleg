@@ -25,13 +25,13 @@ class UtilsController extends GetxController {
   }
 
   bool isHexStringValid(String hex) {
-    if (hex.length != 6 && hex.length != 8) {
+    if (hex.length < 2 && hex.length > 8) {
       return false;
     }
 
-    // if (!hex.startsWith('#')) {
-    //   return false;
-    // }
+    if (!hex.startsWith('#')) {
+      return false;
+    }
 
     for (int i = 1; i < hex.length; i++) {
       if (!RegExp(r'[0-9a-fA-F]').hasMatch(hex[i])) {
@@ -43,8 +43,11 @@ class UtilsController extends GetxController {
   }
 
   Color colorFromHex({required String hex}) {
-    final int value = int.parse(hex.substring(1), radix: 16);
-    return Color(value);
+    final buffer = StringBuffer();
+    buffer.write('ff');
+    buffer.write(hex.replaceFirst('#', ''));
+
+    return Color(int.parse(buffer.toString(), radix: 16));
   }
 
   Color getRandomColor() {

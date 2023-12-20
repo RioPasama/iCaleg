@@ -66,8 +66,12 @@ class PemiluService {
   //           .map((e) => DataKoordinatorModel.fromJson(e)));
   // }
   static Future<List<DataKoordinatorModel>> getDataKoorlap(
-      {required String filter, required String q}) async {
-    Map<String, String> body = {'filter': filter, 'q': q};
+      {required String filter, required String q, int page = 1}) async {
+    Map<String, String> body = {
+      'filter': filter,
+      'q': q,
+      'page': '$page',
+    };
     final result =
         await MainService().getAPI(url: 'koordinator/table', body: body);
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:icaleg/app/controllers/app_setting_controller.dart';
 import 'package:icaleg/app/controllers/auth_controller.dart';
 import 'package:icaleg/app/controllers/text_input_validator_controller.dart';
 import 'package:icaleg/app/data/models/user_model.dart';
@@ -7,6 +8,7 @@ import 'package:icaleg/app/data/services/user_service.dart';
 import 'package:icaleg/infrastructure/navigation/routes.dart';
 
 class LoginController extends GetxController {
+  AppSettingController appSettingController = Get.put(AppSettingController());
   final AuthController authController = Get.put(AuthController());
   final TextInputValidatorController textInputValidatorController =
       Get.put(TextInputValidatorController());
@@ -76,6 +78,8 @@ class LoginController extends GetxController {
       authController.getDataUser();
 
       if (userModel.nik.isNotEmpty) {
+        await appSettingController.initColor();
+        await Get.forceAppUpdate();
         Get.offAllNamed(Routes.MAIN);
       }
     }

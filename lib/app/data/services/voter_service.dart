@@ -6,9 +6,11 @@ import 'package:http/http.dart' as http;
 
 class VoterService {
   static Future<List<VoterDukunganModel>> getVoterDukungan(
-      {required String q}) async {
-    final result =
-        await MainService().getAPI(url: 'vote/getVoter', body: {'q': q});
+      {required String q, int page = 1}) async {
+    final result = await MainService().getAPI(url: 'vote/getVoter', body: {
+      'q': q,
+      'page': '$page',
+    });
 
     return List<VoterDukunganModel>.from(
         ((result != null) ? result['data']['list'] : [])
